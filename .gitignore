@@ -3,3 +3,6 @@
 ################################################################################
 
 /szalkszop/.vs
+/szalkszop/packages
+/szalkszop/szalkszop/bin
+/szalkszop/szalkszop/obj/Debug
