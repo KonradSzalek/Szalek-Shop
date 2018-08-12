@@ -151,6 +151,8 @@ namespace szalkszop.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Tworzenie nowego usera
+
                 var user = new ApplicationUser {
                     UserName = model.Email,
                     Email = model.Email,
@@ -160,15 +162,21 @@ namespace szalkszop.Controllers
                     PostalCode = model.PostalCode,
                     City = model.City };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
+                // dodanie roli 'user' dla kazdego nowego uzytkownika
+
+                
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    UserManager.AddToRole(user.Id, "User");
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -399,7 +407,7 @@ namespace szalkszop.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login","Account");
         }
 
         //
@@ -429,7 +437,6 @@ namespace szalkszop.Controllers
 
             base.Dispose(disposing);
         }
-
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

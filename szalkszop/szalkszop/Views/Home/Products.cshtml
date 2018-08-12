@@ -1,0 +1,19 @@
+﻿@model szalkszop.ViewModels.ProductViewModel
+@{
+    ViewBag.Title = "Products";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Adding a product</p>
+
+@foreach (var produdct in Model.Products)
+{
+	<li>@produdct.Name</li>
+	<li>@produdct.ProductCategoryId</li>
+	<li>@produdct.ProductCategory.Name</li>
+	<li>@produdct.DateOfAdding</li>
+	<li>@Html.ActionLink("Edit a product", "EditProduct", new { id = produdct.Id })</li>
+}
+
+<li>@Html.ActionLink("Add a product", "NewProduct")</li>

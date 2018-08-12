@@ -1,0 +1,22 @@
+﻿@model szalkszop.ViewModels.ProductViewModel
+@{
+    ViewBag.Title = "EditProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Heading</h2>
+
+@using (Html.BeginForm(Model.Action, "Home"))
+{
+	@Html.AntiForgeryToken()
+	@Html.HiddenFor(m => m.Id)
+	<div class="form-group">
+		@Html.LabelFor(m => m.Name)
+		@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.ProductCategory)
+		@Html.DropDownListFor(m => m.ProductCategory, new SelectList(Model.ProductCategories, "Id", "Name", Model.ProductCategory), "", new { @class = "form-control" })
+	</div>
+	<button type="submit" value="Save" class="btn btn-primary">@Model.Heading</button>
+}

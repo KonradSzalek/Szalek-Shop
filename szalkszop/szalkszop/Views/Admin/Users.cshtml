@@ -1,0 +1,34 @@
+﻿@model szalkszop.ViewModels.UsersViewModel
+@{
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View</h2>
+<p>Here some day will be administrator panel</p>
+
+@using (Html.BeginForm("Search", "Admin"))
+{
+	<div class="form-group">
+		<div class="input-group" style="width: 300px">
+			@Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control" })
+			<span class="input-group-addon">
+				<i class="glyphicon glyphicon-search"></i>
+			</span>
+		</div>
+	</div>
+}
+
+@foreach (var ApplicationUser in Model.Users)
+{
+	if (User.IsInRole("Admin"))
+	{
+		<li>@ApplicationUser.Id </li>
+		<li>@ApplicationUser.Email</li>
+		<li>@ApplicationUser.Name</li>
+		<li>@ApplicationUser.Surname </li>
+		<li>@Html.ActionLink("Edit a User", "EditUser", new { id = ApplicationUser.Id })</li>
+	}
+}
+<li>@Html.ActionLink("Add a new user", "AddUser", "Admin")</li>
+

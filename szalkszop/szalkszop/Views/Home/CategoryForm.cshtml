@@ -1,0 +1,18 @@
+﻿@model szalkszop.ViewModels.ProductViewModel
+@{
+    ViewBag.Title = "CategoryForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Heading</h2>
+
+@using (Html.BeginForm("NewCategory", "Home"))
+{
+	<p class="alert alert-info">All fields are <strong>required</strong>.</p>
+
+	<div class="form-group">
+		@Html.LabelFor(m => m.Name)
+		@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+	</div>
+	<button type="submit" class="btn-primary btn-lg">@Model.Heading</button>
+}

@@ -1,0 +1,19 @@
+﻿@model szalkszop.ViewModels.ProductViewModel
+@{
+    ViewBag.Title = "ProductCategories";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>List of all product categories</p>
+@foreach (var category in Model.ProductCategories)
+{
+	<li>@category.Id</li>
+	<li>@category.Name</li>
+	<li>@Html.ActionLink("Delete Category", "RemoveCategory", new { id = category.Id })</li>
+}
+
+<li>@Html.ActionLink("Add a category", "NewCategory")</li>
+
+
+   

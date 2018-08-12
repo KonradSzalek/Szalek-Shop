@@ -1,7 +1,8 @@
 namespace szalkszop.Migrations
 {
-    using System;
-    using System.Data.Entity;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Models;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
@@ -14,19 +15,39 @@ namespace szalkszop.Migrations
         }
 
         protected override void Seed(szalkszop.Models.ApplicationDbContext context)
-        {
-            //  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+        {
+            //  Dodawanie roli admina
+
+            if (context.Roles.Count() == 0) 
+            {
+                context.Roles.Add(new IdentityRole { Name = "admin" });
+                context.Roles.Add(new IdentityRole { Name = "user" });
+                context.SaveChanges();
+            }
+
+            if (!context.Users.Any())
+            {
+                var adminEmail = "superuser@email.com";
+                var adminPassword = "test00";
+
+                var user = new ApplicationUser()
+                {
+                    UserName = adminEmail,
+                    Email = adminEmail,
+                    Name = "Adminuser"
+                };
+
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                userManager.AddToRole("e0fe297a - 597d - 4886 - 8433 - 871c127c40e5", "admin");
+                var result = userManager.Create(user, adminPassword);
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRole(user.Id, "Admin");
+                }
+            }
+            
         }
     }
 }
