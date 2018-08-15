@@ -1,30 +1,29 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
-using szalkszop.Models;
+using szalkszop.Core.Models;
+using szalkszop.Persistance;
 using szalkszop.ViewModels;
-using System.Data.Entity;
 
 namespace szalkszop.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly ApplicationDbContext _context;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public HomeController()
+		public HomeController(IUnitOfWork unitOfWork)
 
 		{
-			_context = new ApplicationDbContext();
+			_unitOfWork = unitOfWork;
 		}
 
 		public ActionResult Index()
 		{
 			var viewModel = new ProductViewModel
 			{
-				Products = _context.Products.OrderByDescending(d => d.DateOfAdding).Take(3).ToList(),
-				ProductCategories = _context.ProductsCategories.ToList(),
+				Products = _unitOfWork.Products.GetThreeNewestProducts(),
+				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories(),
 			};
-			
+
 			return View(viewModel);
 		}
 
@@ -32,9 +31,9 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductViewModel
 			{
-				Products = _context.Products.Include(x => x.ProductCategory).ToList(),
+				Products = _unitOfWork.Products.GetProductsWithCategory(),
 			};
-			
+
 			return View(viewModel);
 		}
 
@@ -43,7 +42,7 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductViewModel
 			{
-				ProductCategories = _context.ProductsCategories.ToList(),
+				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories(),
 				Heading = "Add a product",
 			};
 
@@ -60,8 +59,10 @@ namespace szalkszop.Controllers
 				Name = viewModel.Name,
 				DateOfAdding = DateTime.Now,
 			};
-			_context.Products.Add(product);
-			_context.SaveChanges();
+
+			_unitOfWork.Products.Add(product);
+
+			_unitOfWork.Complete();
 
 			return RedirectToAction("Index", "Home");
 		}
@@ -70,22 +71,22 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductViewModel
 			{
-				ProductCategories = _context.ProductsCategories.ToList(),
+				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories(),
 			};
-	
+
 			return View(viewModel);
 		}
 
 		[Authorize]
 		public ActionResult EditProduct(int id)
 		{
-			var product = _context.Products.Single(u => u.Id == id);
+			var product = _unitOfWork.Products.GetEditingProduct(id);
 
 			var viewModel = new ProductViewModel
 			{
 				Id = product.Id,
 				Name = product.Name,
-				ProductCategories = _context.ProductsCategories.ToList(),
+				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories(),
 				ProductCategory = product.ProductCategoryId,
 				Heading = "Edit a product",
 			};
@@ -98,13 +99,14 @@ namespace szalkszop.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult UpdateProduct(ProductViewModel viewModel)
 		{
-			var product = _context.Products.Single(u => u.Id == viewModel.Id);
+			var product = _unitOfWork.Products.GetEditingProduct(viewModel.Id);
 
-			product.Name = viewModel.Name;
-			product.ProductCategoryId = viewModel.ProductCategory;
+			{
+				product.Name = viewModel.Name;
+				product.ProductCategoryId = viewModel.ProductCategory;
+			}
 
-
-			_context.SaveChanges();
+			_unitOfWork.Complete();
 
 			return RedirectToAction("Index", "Home");
 		}
@@ -132,8 +134,9 @@ namespace szalkszop.Controllers
 			{
 				Name = viewModel.Name
 			};
-			_context.ProductsCategories.Add(category);
-			_context.SaveChanges();
+
+			_unitOfWork.ProductCategories.Add(category);
+			_unitOfWork.Complete();
 
 			return RedirectToAction("Index", "Home");
 		}
@@ -141,12 +144,12 @@ namespace szalkszop.Controllers
 		[Authorize]
 		public ActionResult RemoveCategory(int id)
 		{
-			var category = _context.ProductsCategories.Single(u => u.Id == id);
-			_context.ProductsCategories.Remove(category);
-			_context.SaveChanges();
+			var category = _unitOfWork.ProductCategories.GetEditingProductCategory(id);
+
+			_unitOfWork.ProductCategories.Remove(category);
+			_unitOfWork.Complete();
 
 			return RedirectToAction("Index", "Home");
 		}
-
 	}
 }

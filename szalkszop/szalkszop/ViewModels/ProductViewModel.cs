@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using szalkszop.Controllers;
-using szalkszop.Models;
+using szalkszop.Core.Models;
 
 namespace szalkszop.ViewModels
 {
@@ -37,8 +37,6 @@ namespace szalkszop.ViewModels
 				return (action.Body as MethodCallExpression).Method.Name;
 			}
 		}
-
-		
 
 		public IEnumerable<ProductCategory> ProductCategories { get; set; }
 

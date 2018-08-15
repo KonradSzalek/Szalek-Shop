@@ -1,12 +1,13 @@
+using szalkszop.Core.Models;
+
 namespace szalkszop.Migrations
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using Models;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<szalkszop.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
@@ -14,7 +15,7 @@ namespace szalkszop.Migrations
             ContextKey = "szalkszop.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(szalkszop.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
 
         {
             //  Dodawanie roli admina

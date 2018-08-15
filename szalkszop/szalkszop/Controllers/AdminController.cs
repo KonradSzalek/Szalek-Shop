@@ -1,43 +1,40 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
-using System.Linq;
 using System.Web.Mvc;
-using szalkszop.Models;
+using szalkszop.Core.Models;
+using szalkszop.Persistance;
 using szalkszop.ViewModels;
 
 namespace szalkszop.Controllers
 {
 	public class AdminController : Controller
 	{
-		public ApplicationDbContext _context;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public AdminController()
-
+		public AdminController(IUnitOfWork unitOfWork)
 		{
-			_context = new ApplicationDbContext();
+			_unitOfWork = unitOfWork;
 		}
-		
 
 		public ActionResult Users(string query = null)
 		{
-				var viewModel = new UsersViewModel
+			var viewModel = new UsersViewModel
 			{
 				SearchTerm = query,
-				Users = _context.Users.ToList()
+				Users = _unitOfWork.UserRepository.GetUsersWithUserRole(),
 			};
 
 			if (!String.IsNullOrWhiteSpace(query))
 			{
-				viewModel.Users = _context.Users.Where(u => u.Surname.Contains(query) || u.Email.Contains(query)).ToList();
+				viewModel.Users = _unitOfWork.UserRepository.GetQueriedUsersWithUserRole(query);
 			}
+
 
 			if (User.IsInRole("Admin"))
 			{
-
 				return View(viewModel);
 			}
-
 			else
 			{
 				return RedirectToAction("Index", "Home");
@@ -57,6 +54,7 @@ namespace szalkszop.Controllers
 			{
 				Heading = "Add a new user"
 			};
+
 			return View("UserForm", viewModel);
 		}
 
@@ -66,7 +64,7 @@ namespace szalkszop.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return View("NewUser", viewModel);
+				return View("UserForm", viewModel);
 			}
 
 			var user = new ApplicationUser
@@ -77,11 +75,9 @@ namespace szalkszop.Controllers
 				Surname = viewModel.Surname,
 			};
 
-			string password = "secret";
-
-			using (var db = new ApplicationDbContext())
 			{
-				var store = new UserStore<ApplicationUser>(db);
+				string password = "secret";
+				var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
 				var manager = new UserManager<ApplicationUser, string>(store);
 
 				var result = manager.Create(user, password);
@@ -97,13 +93,15 @@ namespace szalkszop.Controllers
 					throw new ApplicationException("Unable to add user to a role.");
 				}
 			}
+
 			return RedirectToAction("Users", "Admin");
 		}
 
 		[Authorize(Roles = "Admin")]
 		public ActionResult EditUser(string id)
 		{
-			var user = _context.Users.Single(u => u.Id == id);
+			var user = _unitOfWork.UserRepository.GetEditingUser(id);
+
 			var viewModel = new UsersViewModel
 			{
 				Heading = "Edit a user",
@@ -112,6 +110,7 @@ namespace szalkszop.Controllers
 				Surname = user.Surname,
 				Email = user.Email
 			};
+
 			return View("UserForm", viewModel);
 		}
 
@@ -119,14 +118,16 @@ namespace szalkszop.Controllers
 		[Authorize(Roles = "Admin")]
 		public ActionResult UpdateUser(UsersViewModel viewModel)
 		{
-			var user = _context.Users.Single(u => u.Id == viewModel.Id);
+			var user = _unitOfWork.UserRepository.GetEditingUser(viewModel.Id);
 
-			user.UserName = viewModel.Email;
-			user.Email = viewModel.Email;
-			user.Name = viewModel.Name;
-			user.Surname = viewModel.Surname;
+			{
+				user.UserName = viewModel.Email;
+				user.Email = viewModel.Email;
+				user.Name = viewModel.Name;
+				user.Surname = viewModel.Surname;
+			}
 
-			_context.SaveChanges();
+			_unitOfWork.Complete();
 
 			return RedirectToAction("Users", "Admin");
 		}
