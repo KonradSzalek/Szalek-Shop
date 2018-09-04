@@ -1,19 +1,54 @@
 ﻿@model szalkszop.ViewModels.ProductViewModel
 @{
-    ViewBag.Title = "Products";
+    ViewBag.Title = "Product List";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h2>@Model.Heading</h2>
 
-<p>Adding a product</p>
+@Html.ActionLink("Search for a product","ProductSearch", "Home")
 
-@foreach (var produdct in Model.Products)
+<table cellpadding="10">
+	<thead>
+		<tr>
+			<th>Product Name</th>
+			<th>Product category</th>
+			<th>Amount in stock</th>
+			<th>Date of adding</th>
+			<th>Price</th>
+			<th>Description</th>
+			@if (User.IsInRole("Admin"))
+			{
+				<th>Action</th>
+			}	
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var product in Model.Products)
+		{
+			<tr>
+				<td>@product.Name</td>
+				<td>@product.ProductCategory.Name</td>
+				<td>@product.AmountInStock</td>
+				<td>@product.DateOfAdding</td>
+				<td>@product.Price</td>
+				<td>@product.Description</td>
+				@if (User.IsInRole("Admin"))
+				{
+					<td>
+						@Html.ActionLink("Edit", "EditProduct", new { id = product.Id })
+						<br/>
+						@Html.ActionLink("Delete", "RemoveProduct", new { id = product.Id })
+					</td>
+				}			
+			</tr>
+		}
+	</tbody>
+</table>
+
+<br/>
+@if (User.IsInRole("Admin"))
 {
-	<li>@produdct.Name</li>
-	<li>@produdct.ProductCategoryId</li>
-	<li>@produdct.ProductCategory.Name</li>
-	<li>@produdct.DateOfAdding</li>
-	<li>@Html.ActionLink("Edit a product", "EditProduct", new { id = produdct.Id })</li>
+	@Html.ActionLink("Add a product", "NewProduct")
 }
 
-<li>@Html.ActionLink("Add a product", "NewProduct")</li>
+

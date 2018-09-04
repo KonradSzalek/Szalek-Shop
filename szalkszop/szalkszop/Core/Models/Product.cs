@@ -17,6 +17,19 @@ namespace szalkszop.Core.Models
 		public ProductCategory ProductCategory { get; set; }
 
 		[Required]
+		[Range(0, int.MaxValue)]
 		public int ProductCategoryId { get; set; }
+
+		[Required]
+		[Range(0, int.MaxValue)]
+		public int AmountInStock { get; set; }
+
+		[Required]
+		[Range(0, double.MaxValue)]
+		public double Price { get; set; }
+
+		[Required]
+		[StringLength(255)]
+		public string Description { get; set; }
 	}
 }

@@ -255,10 +255,6 @@
     <Compile Include="Migrations\201707080917522_ExtendedAccountModel.Designer.cs">
       <DependentUpon>201707080917522_ExtendedAccountModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201804231849310_adminroleaddedtouser1.cs" />
-    <Compile Include="Migrations\201804231849310_adminroleaddedtouser1.Designer.cs">
-      <DependentUpon>201804231849310_adminroleaddedtouser1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201807301751484_AddingProductAndProductCategory.cs" />
     <Compile Include="Migrations\201807301751484_AddingProductAndProductCategory.Designer.cs">
       <DependentUpon>201807301751484_AddingProductAndProductCategory.cs</DependentUpon>
@@ -287,6 +283,22 @@
     <Compile Include="Migrations\201808140743175_DeletingUserRolesFromApplicationUser.Designer.cs">
       <DependentUpon>201808140743175_DeletingUserRolesFromApplicationUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808241017504_AddingRegistrationDateTimeToApplicationUser.cs" />
+    <Compile Include="Migrations\201808241017504_AddingRegistrationDateTimeToApplicationUser.Designer.cs">
+      <DependentUpon>201808241017504_AddingRegistrationDateTimeToApplicationUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808241144163_AddingAmountInStockForProducts.cs" />
+    <Compile Include="Migrations\201808241144163_AddingAmountInStockForProducts.Designer.cs">
+      <DependentUpon>201808241144163_AddingAmountInStockForProducts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808251126434_AddingAmountOfProductsForProductCategory.cs" />
+    <Compile Include="Migrations\201808251126434_AddingAmountOfProductsForProductCategory.Designer.cs">
+      <DependentUpon>201808251126434_AddingAmountOfProductsForProductCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808270801293_AddingPriceAndDescriptionToProduct.cs" />
+    <Compile Include="Migrations\201808270801293_AddingPriceAndDescriptionToProduct.Designer.cs">
+      <DependentUpon>201808270801293_AddingPriceAndDescriptionToProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Core\Models\AccountViewModels.cs" />
     <Compile Include="Core\Models\IdentityModels.cs" />
@@ -296,13 +308,18 @@
     <Compile Include="Persistance\IUnitOfWork.cs" />
     <Compile Include="Persistance\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DTO\UserDto.cs" />
     <Compile Include="Repositories\IProductCategoryRepository.cs" />
     <Compile Include="Repositories\IProductRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="DTO\ProductCategoryDto.cs" />
     <Compile Include="Repositories\ProductCategoryRepository.cs" />
+    <Compile Include="DTO\ProductDto.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ProductCategoryViewModel.cs" />
+    <Compile Include="ViewModels\ProductSearchModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
   </ItemGroup>
@@ -365,15 +382,17 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\UserForm.cshtml" />
     <Content Include="Views\Home\ProductForm.cshtml" />
     <Content Include="Views\Home\CategoryForm.cshtml" />
+    <Content Include="Views\Home\LeftPanel.cshtml" />
+    <Content Include="Views\Home\ProductSearch.cshtml" />
+    <Content Include="Views\Home\TopThreeProductsPartial.cshtml" />
+    <Content Include="Views\Home\PartialCategories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Product\" />
-    <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -389,9 +408,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707080917522_ExtendedAccountModel.resx">
       <DependentUpon>201707080917522_ExtendedAccountModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201804231849310_adminroleaddedtouser1.resx">
-      <DependentUpon>201804231849310_adminroleaddedtouser1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807301751484_AddingProductAndProductCategory.resx">
       <DependentUpon>201807301751484_AddingProductAndProductCategory.cs</DependentUpon>
@@ -413,6 +429,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808140743175_DeletingUserRolesFromApplicationUser.resx">
       <DependentUpon>201808140743175_DeletingUserRolesFromApplicationUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808241017504_AddingRegistrationDateTimeToApplicationUser.resx">
+      <DependentUpon>201808241017504_AddingRegistrationDateTimeToApplicationUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808241144163_AddingAmountInStockForProducts.resx">
+      <DependentUpon>201808241144163_AddingAmountInStockForProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808251126434_AddingAmountOfProductsForProductCategory.resx">
+      <DependentUpon>201808251126434_AddingAmountOfProductsForProductCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808270801293_AddingPriceAndDescriptionToProduct.resx">
+      <DependentUpon>201808270801293_AddingPriceAndDescriptionToProduct.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

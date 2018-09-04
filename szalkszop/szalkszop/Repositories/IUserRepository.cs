@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using szalkszop.Core.Models;
+using szalkszop.DTO;
 
 namespace szalkszop.Repositories
 {
 	public interface IUserRepository
 	{
-		List<ApplicationUser> GetUserList();
+		IEnumerable<UserDto> GetUserList();
 		ApplicationUser GetEditingUser(string id);
-		IEnumerable<ApplicationUser> GetQueriedUsersWithUserRole(string query);
-		IEnumerable<ApplicationUser> GetUsersWithUserRole();
+		IEnumerable<UserDto> GetQueriedUsersWithUserRole(string query);
+		IEnumerable<UserDto> GetUsersWithUserRole();
+		void Remove(ApplicationUser user);
+		void AddNewUser(ApplicationUser user);
 	}
 }

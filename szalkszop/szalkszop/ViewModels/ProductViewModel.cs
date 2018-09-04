@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using szalkszop.Controllers;
-using szalkszop.Core.Models;
+using szalkszop.DTO;
+using szalkszop.Repositories;
 
 namespace szalkszop.ViewModels
 {
@@ -22,6 +23,16 @@ namespace szalkszop.ViewModels
 		[Required]
 		public int ProductCategory { get; set; }
 
+		[Required]
+		public int AmountInStock { get; set; }
+
+		[Required]
+		public double Price { get; set; }
+
+		[Required]
+		[StringLength(255)]
+		public string Description { get; set; }
+
 		public string Heading { get; set; }
 
 		public string Action
@@ -33,13 +44,13 @@ namespace szalkszop.ViewModels
 				Expression<Func<HomeController,
 					ActionResult>> create = (c => c.NewProduct(this));
 
-				var action =  (Id != 0) ? update : create;
+				var action = (Id != 0) ? update : create;
 				return (action.Body as MethodCallExpression).Method.Name;
 			}
 		}
 
-		public IEnumerable<ProductCategory> ProductCategories { get; set; }
+		public IEnumerable<ProductCategoryDto> ProductCategories { get; set; }
 
-		public IEnumerable<Product> Products { get; set; }
+		public IEnumerable<ProductDto> Products { get; set; }
 	}
 }

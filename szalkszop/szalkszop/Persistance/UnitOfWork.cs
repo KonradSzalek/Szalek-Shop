@@ -11,7 +11,6 @@ namespace szalkszop.Persistance
 		public IProductCategoryRepository ProductCategories { get; private set; }
 		public IUserRepository UserRepository { get; private set; }
 
-
 		public UnitOfWork(ApplicationDbContext context)
 		{
 			_context = context;

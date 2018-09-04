@@ -1,0 +1,27 @@
+﻿@{
+	Layout = null;
+}
+
+<h3>Our product categories</h3>
+<table cellpadding="10">
+	<thead>
+	<tr>
+		<th>Category Id</th>
+		<th>Category Name</th>
+		<th>Amount of Products</th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var category in Model.ProductCategories)
+	{
+		<tr>
+			<td>@category.Id</td>
+			<td>@category.Name</td>
+			<th>@category.AmountOfProducts</th>
+		</tr>
+	}
+	</tbody>
+</table>
+<br/>
+
+

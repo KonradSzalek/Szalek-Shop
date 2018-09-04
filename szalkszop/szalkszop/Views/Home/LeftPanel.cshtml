@@ -1,0 +1,30 @@
+﻿@model szalkszop.ViewModels.ProductCategoryViewModel
+@{
+    Layout = null;
+}
+
+<body>
+<div>
+	<table cellpadding="10">
+		<thead>
+		<tr>
+			<th>Category Name</th>
+		</tr>
+		</thead>
+		<tbody>
+	
+		@foreach (var category in Model.ProductCategories)
+		{
+			<tr>
+				<td>@Html.ActionLink(@category.Name, "ShowProductInCategory", new
+			   {
+				   id = category.Id
+				})
+					</td>
+			</tr>
+		}
+
+		</tbody>
+	</table>
+</div>
+</body>

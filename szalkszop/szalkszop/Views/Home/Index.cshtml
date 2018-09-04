@@ -1,20 +1,12 @@
-﻿@model szalkszop.ViewModels.ProductViewModel
-@{
-    ViewBag.Title = "Home Page";
+﻿@{
+	ViewBag.Title = "Home Page";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<h2>Our products and categories</h2>
 
-@foreach (var product in Model.Products)
-{
-	<li>@product.Id</li>
-	<li>@product.Name</li>
-	<li>@product.DateOfAdding</li>
-}
+@{ Html.RenderAction("PartialCategories", "Home");}
 
-<li>........................</li>
+@{ Html.RenderAction("TopThreeProducts", "Home");}
 
 
-@foreach (var category in Model.ProductCategories)
-{
-	<li>@category.Id</li>
-	<li>@category.Name</li>
-}
+

@@ -1,19 +1,50 @@
-﻿@model szalkszop.ViewModels.ProductViewModel
+﻿@model szalkszop.ViewModels.ProductCategoryViewModel
 @{
-    ViewBag.Title = "ProductCategories";
+    ViewBag.Title = "Product Category List";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>List of all product categories</p>
-@foreach (var category in Model.ProductCategories)
+<h2>@Model.Heading</h2>
+
+<table cellpadding="10">
+	<thead>
+	<tr>
+		<th>Category Id</th>
+		<th>Category Name</th>
+		<th>Amount of Products</th>
+		@if (User.IsInRole("Admin"))
+		{
+			<th>Action</th>
+		}
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var category in Model.ProductCategories)
+	{
+		<tr>
+			<td>@category.Id</td>
+			<td>@category.Name</td>
+			<td>@category.AmountOfProducts</td>
+			@if (User.IsInRole("Admin"))
+			{
+			<td>
+				
+				@Html.ActionLink("Edit", "EditCategory", new {id = category.Id})
+				<br/>
+				@Html.ActionLink("Delete", "RemoveCategory", new {id = category.Id})
+			</td>
+			}
+		</tr>
+	}
+	</tbody>
+</table>
+<br/>
+
+@if (User.IsInRole("Admin"))
 {
-	<li>@category.Id</li>
-	<li>@category.Name</li>
-	<li>@Html.ActionLink("Delete Category", "RemoveCategory", new { id = category.Id })</li>
+	@Html.ActionLink("Add a category", "NewCategory")
 }
 
-<li>@Html.ActionLink("Add a category", "NewCategory")</li>
 
 
    

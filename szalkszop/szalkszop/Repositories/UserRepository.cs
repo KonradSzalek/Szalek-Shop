@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using szalkszop.Core.Models;
+using szalkszop.DTO;
 
 namespace szalkszop.Repositories
 {
@@ -20,9 +20,20 @@ namespace szalkszop.Repositories
 			userManager = new UserManager<ApplicationUser>(userStore);
 
 		}
-		public List<ApplicationUser> GetUserList()
+		public IEnumerable<UserDto> GetUserList()
 		{
-			return _context.Users.ToList();
+			var users = _context.Users.ToList();
+
+			return users.Select(n => new UserDto()
+			{
+				Id = n.Id,
+				Name = n.Name,
+				Surname = n.Surname,
+				Address = n.Address,
+				PostalCode = n.PostalCode,
+				City = n.City,
+				Email = n.Email,
+			});
 		}
 
 		public ApplicationUser GetEditingUser(string id)
@@ -30,14 +41,61 @@ namespace szalkszop.Repositories
 			return _context.Users.Single(u => u.Id == id);
 		}
 
-		public IEnumerable<ApplicationUser> GetQueriedUsersWithUserRole(string query)
+		public IEnumerable<UserDto> GetQueriedUsersWithUserRole(string query)
 		{
-			return GetUsersWithUserRole().Where(u => (u.Surname.Contains(query) || u.Email.Contains(query)));
+			var users = GetUsersWithUserRole().Where(u => (u.Surname.Contains(query) || u.Email.Contains(query)));
+
+			return users.Select(n => new UserDto()
+			{
+				Id = n.Id,
+				Name = n.Name,
+				Surname = n.Surname,
+				Address = n.Address,
+				PostalCode = n.PostalCode,
+				City = n.City,
+				Email = n.Email,
+			});
 		}
 
-		public IEnumerable<ApplicationUser> GetUsersWithUserRole()
+		public IEnumerable<UserDto> GetUsersWithUserRole()
 		{
-			return _context.Users.ToList().Where((u => userManager.IsInRole(u.Id, "User")));
+			var users = _context.Users.ToList().Where((u => userManager.IsInRole(u.Id, "User")));
+
+			return users.Select(n => new UserDto()
+			{
+				Id = n.Id,
+				Name = n.Name,
+				Surname = n.Surname,
+				Address = n.Address,
+				PostalCode = n.PostalCode,
+				City = n.City,
+				Email = n.Email,
+			});
+		}
+
+		public void AddNewUser(ApplicationUser user)
+		{
+			string password = "secret";
+			var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+			var manager = new UserManager<ApplicationUser, string>(store);
+
+			var result = manager.Create(user, password);
+
+			if (!result.Succeeded)
+			{
+				throw new ApplicationException("Unable to create a user.");
+			}
+			result = manager.AddToRole(user.Id, "User");
+
+			if (!result.Succeeded)
+			{
+				throw new ApplicationException("Unable to add user to a role.");
+			}
+		}
+
+		public void Remove(ApplicationUser user)
+		{
+			_context.Users.Remove(user);
 		}
 	}
 }

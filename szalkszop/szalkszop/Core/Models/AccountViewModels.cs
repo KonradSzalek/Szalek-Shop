@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace szalkszop.Core.Models
@@ -89,7 +90,10 @@ namespace szalkszop.Core.Models
         [Display(Name = "City")]
         public string City { get; set; }
 
-        [Required]
+	    [Required]
+	    public DateTime RegistrationDateTime { get; set; }
+
+		[Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using szalkszop.Core.Models;
+using szalkszop.DTO;
 
 namespace szalkszop.Repositories
 {
@@ -15,9 +15,16 @@ namespace szalkszop.Repositories
 			_context = context;
 		}
 
-		public IEnumerable<ProductCategory> GetProductCategories()
+		public IEnumerable<ProductCategoryDto> GetProductCategories()
 		{
-			return _context.ProductsCategories.ToList();
+			var categories = _context.ProductsCategories.ToList();
+
+			return categories.Select(n => new ProductCategoryDto()
+			{
+				Id = n.Id,
+				Name = n.Name,
+				AmountOfProducts = n.AmountOfProducts,
+			});
 		}
 
 		public ProductCategory GetEditingProductCategory(int id)
@@ -33,6 +40,17 @@ namespace szalkszop.Repositories
 		public void Remove(ProductCategory category)
 		{
 			_context.ProductsCategories.Remove(category);
+		}
+
+		public IEnumerable<ProductCategoryDto> GetCategoriesWithAmountOfProducts(List<ProductDto> products)
+		{
+			var categories = GetProductCategories().ToList();
+
+			foreach (var category in categories)
+			{
+				category.AmountOfProducts = products.Count(p => p.ProductCategory.Id == category.Id);
+			}
+			return categories;
 		}
 	}
 }

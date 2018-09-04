@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -27,7 +29,25 @@ namespace szalkszop.Core.Models
 		[StringLength(100)]
 		public string City { get; set; }
 
-      public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
+		[Required]
+	    public DateTime RegistrationDateTime { get; set; }
+
+	    public class AuthorizeRedirectToHomePage : AuthorizeAttribute
+	    {
+		    public override void OnAuthorization(AuthorizationContext filterContext)
+		    {
+			    if (this.AuthorizeCore(filterContext.HttpContext))
+			    {
+				    base.OnAuthorization(filterContext);
+			    }
+			    else
+			    {
+				    filterContext.Result = new RedirectResult("~/Home/Index");
+			    }
+		    }
+	    }
+
+		public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
@@ -47,7 +67,8 @@ namespace szalkszop.Core.Models
         }
 
         public static ApplicationDbContext Create()
-        {
+
+		{
             return new ApplicationDbContext();
         }
     }

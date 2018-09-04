@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using szalkszop.Controllers;
 using szalkszop.Core.Models;
+using szalkszop.DTO;
+using szalkszop.Repositories;
 
 namespace szalkszop.ViewModels
 {
@@ -42,8 +44,9 @@ namespace szalkszop.ViewModels
 			}
 		}
 
+		[StringLength(100)]
 		public string SearchTerm { get; set; }
 
-		public IEnumerable<ApplicationUser> Users { get; set; }
+		public IEnumerable<UserDto> Users { get; set; }
 	}
 }

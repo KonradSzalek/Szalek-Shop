@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using szalkszop.Core.Models;
 using szalkszop.Persistance;
@@ -18,38 +19,90 @@ namespace szalkszop.Controllers
 
 		public ActionResult Index()
 		{
+			return View();
+		}
+
+		public ActionResult TopThreeProducts()
+		{
 			var viewModel = new ProductViewModel
 			{
 				Products = _unitOfWork.Products.GetThreeNewestProducts(),
-				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories(),
 			};
 
-			return View(viewModel);
+			return View("TopThreeProductsPartial", viewModel);
+		}
+
+		public ActionResult PartialCategories()
+		{
+			var products = _unitOfWork.Products.GetProductsWithCategory().ToList();
+
+			var viewModel = new ProductViewModel
+			{
+				ProductCategories = _unitOfWork.ProductCategories.GetCategoriesWithAmountOfProducts(products),
+			};
+
+			return View("PartialCategories", viewModel);
+		}
+
+		public ActionResult ProductSearch()
+		{
+			var viewModel = new ProductSearchModel
+			{
+				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories()
+			};
+
+			return View("ProductSearch", viewModel);
+		}
+
+		[HttpPost]
+		public ActionResult ProductSearch(ProductSearchModel searchModel)
+		{
+			var viewModel = new ProductViewModel
+			{
+				Products = _unitOfWork.Products.
+					GetQueriedProducts(searchModel, _unitOfWork.Products.GetProductsWithCategory()),
+			};
+
+			return View("Products", viewModel);
 		}
 
 		public ActionResult Products()
 		{
 			var viewModel = new ProductViewModel
 			{
+				Heading = "Products",
 				Products = _unitOfWork.Products.GetProductsWithCategory(),
 			};
 
 			return View(viewModel);
 		}
 
-		[Authorize]
+		public ActionResult ProductCategories()
+		{
+			var products = _unitOfWork.Products.GetProductsWithCategory().ToList();
+
+			var viewModel = new ProductCategoryViewModel
+			{
+				Heading = "Product Categories",
+				ProductCategories = _unitOfWork.ProductCategories.GetCategoriesWithAmountOfProducts(products),
+			};
+
+			return View(viewModel);
+		}
+
+		[Authorize(Roles = "Admin")]
 		public ActionResult NewProduct()
 		{
 			var viewModel = new ProductViewModel
 			{
-				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories(),
 				Heading = "Add a product",
+				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories(),
 			};
 
 			return View("ProductForm", viewModel);
 		}
 
-		[Authorize]
+		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		public ActionResult NewProduct(ProductViewModel viewModel)
 		{
@@ -57,6 +110,9 @@ namespace szalkszop.Controllers
 			{
 				ProductCategoryId = viewModel.ProductCategory,
 				Name = viewModel.Name,
+				AmountInStock = viewModel.AmountInStock,
+				Price = viewModel.Price,
+				Description = viewModel.Description,
 				DateOfAdding = DateTime.Now,
 			};
 
@@ -67,17 +123,7 @@ namespace szalkszop.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-		public ActionResult ProductCategories()
-		{
-			var viewModel = new ProductViewModel
-			{
-				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories(),
-			};
-
-			return View(viewModel);
-		}
-
-		[Authorize]
+		[Authorize(Roles = "Admin")]
 		public ActionResult EditProduct(int id)
 		{
 			var product = _unitOfWork.Products.GetEditingProduct(id);
@@ -88,13 +134,16 @@ namespace szalkszop.Controllers
 				Name = product.Name,
 				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories(),
 				ProductCategory = product.ProductCategoryId,
+				AmountInStock = product.AmountInStock,
+				Price = product.Price,
+				Description = product.Description,
 				Heading = "Edit a product",
 			};
 
 			return View("ProductForm", viewModel);
 		}
 
-		[Authorize]
+		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult UpdateProduct(ProductViewModel viewModel)
@@ -104,6 +153,9 @@ namespace szalkszop.Controllers
 			{
 				product.Name = viewModel.Name;
 				product.ProductCategoryId = viewModel.ProductCategory;
+				product.AmountInStock = viewModel.AmountInStock;
+				product.Price = viewModel.Price;
+				product.Description = viewModel.Description;
 			}
 
 			_unitOfWork.Complete();
@@ -111,24 +163,30 @@ namespace szalkszop.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-		public ActionResult NewProductCategory()
+		[Authorize(Roles = "Admin")]
+		public ActionResult RemoveProduct(int id)
 		{
-			return View();
+			var product = _unitOfWork.Products.GetEditingProduct(id);
+
+			_unitOfWork.Products.Remove(product);
+			_unitOfWork.Complete();
+
+			return RedirectToAction("Index", "Home");
 		}
 
-		[Authorize]
+		[Authorize(Roles = "Admin")]
 		public ActionResult NewCategory()
 		{
-			var viewModel = new ProductViewModel
+			var viewModel = new ProductCategoryViewModel
 			{
 				Heading = "Add a new category",
 			};
 			return View("CategoryForm", viewModel);
 		}
 
-		[Authorize]
+		[Authorize(Roles = "Admin")]
 		[HttpPost]
-		public ActionResult NewCategory(ProductViewModel viewModel)
+		public ActionResult NewCategory(ProductCategoryViewModel viewModel)
 		{
 			var category = new ProductCategory
 			{
@@ -141,7 +199,7 @@ namespace szalkszop.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-		[Authorize]
+		[Authorize(Roles = "Admin")]
 		public ActionResult RemoveCategory(int id)
 		{
 			var category = _unitOfWork.ProductCategories.GetEditingProductCategory(id);
@@ -150,6 +208,56 @@ namespace szalkszop.Controllers
 			_unitOfWork.Complete();
 
 			return RedirectToAction("Index", "Home");
+		}
+
+		[Authorize(Roles = "Admin")]
+		public ActionResult EditCategory(int id)
+		{
+			var category = _unitOfWork.ProductCategories.GetEditingProductCategory(id);
+
+			var viewModel = new ProductCategoryViewModel
+			{
+				Name = category.Name,
+			};
+
+			return View("CategoryForm", viewModel);
+		}
+
+		[Authorize(Roles = "Admin")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult UpdateCategory(ProductCategoryViewModel viewModel)
+		{
+			var category = _unitOfWork.ProductCategories.GetEditingProductCategory(viewModel.Id);
+
+			{
+				category.Name = viewModel.Name;
+			}
+
+			_unitOfWork.Complete();
+
+			return RedirectToAction("Index", "Home");
+		}
+
+		public ActionResult ShowCategories()
+		{
+			var viewModel = new ProductCategoryViewModel
+			{
+				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories(),
+			};
+
+			return View("LeftPanel", viewModel);
+		}
+
+
+		public ActionResult ShowProductInCategory(int id)
+		{
+			var viewModel = new ProductViewModel
+			{
+				Products = _unitOfWork.Products.GetProductInCategory(id)
+			};
+
+			return View("Products", viewModel);
 		}
 	}
 }

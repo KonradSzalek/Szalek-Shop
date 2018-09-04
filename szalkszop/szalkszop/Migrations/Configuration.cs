@@ -20,10 +20,10 @@ namespace szalkszop.Migrations
         {
             //  Dodawanie roli admina
 
-            if (context.Roles.Count() == 0) 
+            if (!context.Roles.Any()) 
             {
-                context.Roles.Add(new IdentityRole { Name = "admin" });
-                context.Roles.Add(new IdentityRole { Name = "user" });
+                context.Roles.Add(new IdentityRole { Name = "Admin" });
+                context.Roles.Add(new IdentityRole { Name = "User" });
                 context.SaveChanges();
             }
 
@@ -40,7 +40,7 @@ namespace szalkszop.Migrations
                 };
 
                 var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                userManager.AddToRole("e0fe297a - 597d - 4886 - 8433 - 871c127c40e5", "admin");
+                userManager.AddToRole("e0fe297a - 597d - 4886 - 8433 - 871c127c40e5", "Admin");
                 var result = userManager.Create(user, adminPassword);
 
                 if (result.Succeeded)
