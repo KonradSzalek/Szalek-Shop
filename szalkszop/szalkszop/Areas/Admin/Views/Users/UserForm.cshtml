@@ -1,0 +1,34 @@
+﻿@model szalkszop.ViewModels.UsersViewModel
+@{
+    ViewBag.Title = "NewUser";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@Model.Heading</h2>
+
+@using (Html.BeginForm(Model.Action, "Admin"))
+{
+	@Html.AntiForgeryToken()
+	@Html.HiddenFor(m => m.Id)
+	<div class="form-group">
+		@Html.LabelFor(m => m.Name)
+		@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.Name)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.Surname)
+		@Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.Surname)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.Email)
+		@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.Email	)
+	</div>
+	<button type="submit" value="Save" class="btn btn-primary">@Model.Heading</button>
+}
+
+@section scripts
+{
+	@Scripts.Render("~/bundles/jqueryval")
+}

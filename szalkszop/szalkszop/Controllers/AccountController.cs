@@ -160,7 +160,7 @@ namespace szalkszop.Controllers
 					Address = model.Address,
 					PostalCode = model.PostalCode,
 					City = model.City,
-					RegistrationDateTime = DateTime.Now
+
 				};
 
 				// dodanie roli 'user' dla kazdego nowego uzytkownika

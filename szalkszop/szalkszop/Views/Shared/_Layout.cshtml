@@ -26,9 +26,8 @@
 				<li>@Html.ActionLink("Categories", "ProductCategories", "Home")</li>
 				@if (User.IsInRole("Admin"))
 				{
-					<li>@Html.ActionLink("Admin Panel", "Index", "Admin")</li>
+					<li>@Html.ActionLink("Admin Panel", "Index", "Admin", new { area = "Admin" }, null)</li>
 				}
-				
 			</ul>
 			@Html.Partial("_LoginPartial")
 		</div>

@@ -1,7 +1,7 @@
 ﻿@model szalkszop.ViewModels.ProductCategoryViewModel
 @{
     ViewBag.Title = "Product Category List";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+	Layout = "~/Views/Shared/_Layoutadmin.cshtml";
 }
 
 <h2>@Model.Heading</h2>
@@ -12,10 +12,6 @@
 		<th>Category Id</th>
 		<th>Category Name</th>
 		<th>Amount of Products</th>
-		@if (User.IsInRole("Admin"))
-		{
-			<th>Action</th>
-		}
 	</tr>
 	</thead>
 	<tbody>
@@ -25,25 +21,12 @@
 			<td>@category.Id</td>
 			<td>@category.Name</td>
 			<td>@category.AmountOfProducts</td>
-			@if (User.IsInRole("Admin"))
-			{
-			<td>
-				
-				@Html.ActionLink("Edit", "EditCategory", new {id = category.Id})
-				<br/>
-				@Html.ActionLink("Delete", "RemoveCategory", new {id = category.Id})
-			</td>
-			}
 		</tr>
 	}
 	</tbody>
 </table>
-<br/>
 
-@if (User.IsInRole("Admin"))
-{
-	@Html.ActionLink("Add a category", "NewCategory")
-}
+
 
 
 

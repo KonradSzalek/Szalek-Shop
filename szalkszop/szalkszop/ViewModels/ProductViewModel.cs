@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using szalkszop.Areas.Admin.Controllers;
 using szalkszop.Controllers;
 using szalkszop.DTO;
 using szalkszop.Repositories;
@@ -39,9 +40,9 @@ namespace szalkszop.ViewModels
 		{
 			get
 			{
-				Expression<Func<HomeController,
+				Expression<Func<ProductsController,
 					ActionResult>> update = (c => c.UpdateProduct(this));
-				Expression<Func<HomeController,
+				Expression<Func<ProductsController,
 					ActionResult>> create = (c => c.NewProduct(this));
 
 				var action = (Id != 0) ? update : create;

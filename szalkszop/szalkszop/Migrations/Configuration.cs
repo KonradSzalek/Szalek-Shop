@@ -1,54 +1,54 @@
+using System;
 using szalkszop.Core.Models;
 
 namespace szalkszop.Migrations
 {
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+	using Microsoft.AspNet.Identity;
+	using Microsoft.AspNet.Identity.EntityFramework;
+	using System.Data.Entity.Migrations;
+	using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
-    {
-        public Configuration()
-        {
-            AutomaticMigrationsEnabled = false;
-            ContextKey = "szalkszop.Models.ApplicationDbContext";
-        }
+	internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
+	{
+		public Configuration()
+		{
+			AutomaticMigrationsEnabled = false;
+			ContextKey = "szalkszop.Models.ApplicationDbContext";
+		}
 
-        protected override void Seed(ApplicationDbContext context)
+		protected override void Seed(ApplicationDbContext context)
 
-        {
-            //  Dodawanie roli admina
+		{
+			//  Dodawanie roli admina
 
-            if (!context.Roles.Any()) 
-            {
-                context.Roles.Add(new IdentityRole { Name = "Admin" });
-                context.Roles.Add(new IdentityRole { Name = "User" });
-                context.SaveChanges();
-            }
+			if (!context.Roles.Any())
+			{
+				context.Roles.Add(new IdentityRole { Name = "Admin" });
+				context.Roles.Add(new IdentityRole { Name = "User" });
+				context.SaveChanges();
+			}
 
-            if (!context.Users.Any())
-            {
-                var adminEmail = "superuser@email.com";
-                var adminPassword = "test00";
+			if (!context.Users.Any())
+			{
+				var adminPassword = "Admin123#";
 
-                var user = new ApplicationUser()
-                {
-                    UserName = adminEmail,
-                    Email = adminEmail,
-                    Name = "Adminuser"
-                };
+				var user = new ApplicationUser
+				{
+					UserName = "superuser@email.com",
+					Email = "superuser@email.com",
+					Name = "Admin",
+					Surname = "Admin",
+					Address = "Address",
+					PostalCode = "1111",
+					City = "City",
+					RegistrationDateTime = DateTime.Now,
+				};
+				var store = new UserStore<ApplicationUser>(context);
+				var userManager = new UserManager<ApplicationUser>(store);
 
-                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-                userManager.AddToRole("e0fe297a - 597d - 4886 - 8433 - 871c127c40e5", "Admin");
-                var result = userManager.Create(user, adminPassword);
-
-                if (result.Succeeded)
-                {
-                    userManager.AddToRole(user.Id, "Admin");
-                }
-            }
-            
-        }
-    }
+				userManager.Create(user, adminPassword);
+				userManager.AddToRole(user.Id, "Admin");
+			}
+		}
+	}
 }

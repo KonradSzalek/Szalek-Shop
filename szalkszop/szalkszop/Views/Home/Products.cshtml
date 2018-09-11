@@ -16,10 +16,6 @@
 			<th>Date of adding</th>
 			<th>Price</th>
 			<th>Description</th>
-			@if (User.IsInRole("Admin"))
-			{
-				<th>Action</th>
-			}	
 		</tr>
 	</thead>
 	<tbody>
@@ -31,24 +27,13 @@
 				<td>@product.AmountInStock</td>
 				<td>@product.DateOfAdding</td>
 				<td>@product.Price</td>
-				<td>@product.Description</td>
-				@if (User.IsInRole("Admin"))
-				{
-					<td>
-						@Html.ActionLink("Edit", "EditProduct", new { id = product.Id })
-						<br/>
-						@Html.ActionLink("Delete", "RemoveProduct", new { id = product.Id })
-					</td>
-				}			
+				<td>@product.Description</td>	
 			</tr>
 		}
 	</tbody>
 </table>
 
-<br/>
-@if (User.IsInRole("Admin"))
-{
-	@Html.ActionLink("Add a product", "NewProduct")
-}
+
+
 
 

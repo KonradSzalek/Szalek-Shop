@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using szalkszop.Controllers;
-using szalkszop.Core.Models;
+using szalkszop.Areas.Admin.Controllers;
 using szalkszop.DTO;
-using szalkszop.Repositories;
 
 namespace szalkszop.ViewModels
 {
@@ -34,9 +31,9 @@ namespace szalkszop.ViewModels
 		{
 			get
 			{
-				Expression<Func<AdminController,
+				Expression<Func<UsersController,
 					ActionResult>> update = (c => c.UpdateUser(this));
-				Expression<Func<AdminController,
+				Expression<Func<UsersController,
 					ActionResult>> create = (c => c.NewUser(this));
 
 				var action = (Id != null) ? update : create;
