@@ -2,6 +2,7 @@
 
 namespace szalkszop.Persistance
 {
+    // cr1: do wywalenia
 	public interface IUnitOfWork
 	{
 		IProductRepository Products { get; }

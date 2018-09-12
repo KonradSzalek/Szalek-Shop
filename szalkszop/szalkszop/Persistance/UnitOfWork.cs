@@ -3,6 +3,7 @@ using szalkszop.Repositories;
 
 namespace szalkszop.Persistance
 {
+    // cr1: Wywal unit of work z projektu, do kontrolerow injectuj jedynie repozytoria ktorych tam uzywasz. W metodach repozytoriow ktore modyfikuja rekordy wywoluj "savechanges"
 	public class UnitOfWork : IUnitOfWork
 	{
 		private readonly ApplicationDbContext _context;
