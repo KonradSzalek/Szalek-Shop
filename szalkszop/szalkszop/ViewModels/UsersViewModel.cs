@@ -1,5 +1,6 @@
 ﻿using Antlr.Runtime.Misc;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Web.Mvc;
@@ -14,6 +15,7 @@ namespace szalkszop.ViewModels
 
 		[Required]
 		[StringLength(100)]
+		[DisplayName("First Name")]
 		public string Name { get; set; }
 
 		[Required]
@@ -34,7 +36,7 @@ namespace szalkszop.ViewModels
 				Expression<Func<UsersController,
 					ActionResult>> update = (c => c.UpdateUser(this));
 				Expression<Func<UsersController,
-					ActionResult>> create = (c => c.NewUser(this));
+					ActionResult>> create = (c => c.CreateUser(this));
 
 				var action = (Id != null) ? update : create;
 				return (action.Body as MethodCallExpression).Method.Name;

@@ -12,5 +12,6 @@ namespace szalkszop.Repositories
 		IEnumerable<UserDto> GetUsersWithUserRole();
 		void Remove(ApplicationUser user);
 		void AddNewUser(ApplicationUser user);
+		void Complete();
 	}
 }

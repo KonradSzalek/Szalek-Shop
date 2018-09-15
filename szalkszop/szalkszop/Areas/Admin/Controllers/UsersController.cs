@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using szalkszop.Core.Models;
-using szalkszop.Persistance;
+using szalkszop.Repositories;
 using szalkszop.ViewModels;
 
 namespace szalkszop.Areas.Admin.Controllers
@@ -10,11 +10,12 @@ namespace szalkszop.Areas.Admin.Controllers
 	[ApplicationUser.AuthorizeRedirectToHomePage(Roles = "Admin")]
 	public class UsersController : Controller
 	{
-		private readonly IUnitOfWork _unitOfWork;
+		private readonly IUserRepository _usersRepository;
 
-		public UsersController(IUnitOfWork unitOfWork)
+		public UsersController(IUserRepository usersRepository)
+
 		{
-			_unitOfWork = unitOfWork;
+			_usersRepository = usersRepository;
 		}
 
 		public ActionResult Index(string query = null)
@@ -23,12 +24,12 @@ namespace szalkszop.Areas.Admin.Controllers
 			{
 				Heading = "Manage users",
 				SearchTerm = query,
-				Users = _unitOfWork.UserRepository.GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime),
+				Users = _usersRepository.GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime),
 			};
 
 			if (!String.IsNullOrWhiteSpace(query))
 			{
-				viewModel.Users = _unitOfWork.UserRepository.GetQueriedUsersWithUserRole(query);
+				viewModel.Users = _usersRepository.GetQueriedUsersWithUserRole(query);
 			}
 
 			return View(viewModel);
@@ -37,10 +38,10 @@ namespace szalkszop.Areas.Admin.Controllers
 		[HttpPost]
 		public ActionResult Search(UsersViewModel viewModel)
 		{
-			return RedirectToAction("Index", "Admin", new { query = viewModel.SearchTerm });
+			return RedirectToAction("Index", "Users", new { query = viewModel.SearchTerm });
 		}
 
-		public ActionResult AddUser()
+		public ActionResult CreateUser()
 		{
 			var viewModel = new UsersViewModel
 			{
@@ -51,7 +52,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult NewUser(UsersViewModel viewModel)
+		public ActionResult CreateUser(UsersViewModel viewModel)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -67,24 +68,24 @@ namespace szalkszop.Areas.Admin.Controllers
 				RegistrationDateTime = DateTime.Now,
 			};
 
-			_unitOfWork.UserRepository.AddNewUser(user);
+			_usersRepository.AddNewUser(user);
 
-			return RedirectToAction("Index", "Admin");
+			return RedirectToAction("Index", "Users");
 		}
 
-		public ActionResult RemoveUser(string id)
+		public ActionResult DeleteUser(string id)
 		{
-			var user = _unitOfWork.UserRepository.GetEditingUser(id);
+			var user = _usersRepository.GetEditingUser(id);
 
-			_unitOfWork.UserRepository.Remove(user);
-			_unitOfWork.Complete();
+			_usersRepository.Remove(user);
+			_usersRepository.Complete();
 
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Index", "Users");
 		}
 
 		public ActionResult EditUser(string id)
 		{
-			var user = _unitOfWork.UserRepository.GetEditingUser(id);
+			var user = _usersRepository.GetEditingUser(id);
 
 			var viewModel = new UsersViewModel
 			{
@@ -102,7 +103,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult UpdateUser(UsersViewModel viewModel)
 		{
-			var user = _unitOfWork.UserRepository.GetEditingUser(viewModel.Id);
+			var user = _usersRepository.GetEditingUser(viewModel.Id);
 
 			{
 				user.UserName = viewModel.Email;
@@ -111,9 +112,9 @@ namespace szalkszop.Areas.Admin.Controllers
 				user.Surname = viewModel.Surname;
 			}
 
-			_unitOfWork.Complete();
+			_usersRepository.Complete();
 
-			return RedirectToAction("Index", "Admin");
+			return RedirectToAction("Index", "Users");
 		}
 	}
 }

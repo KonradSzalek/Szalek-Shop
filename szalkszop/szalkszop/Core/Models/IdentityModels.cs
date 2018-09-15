@@ -23,7 +23,7 @@ namespace szalkszop.Core.Models
 		[StringLength(255)]
 		public string Address { get; set; }
 
-		[DataType(DataType.PostalCode)]
+		[StringLength(100)]
 		public string PostalCode { get; set; }
 
 		[StringLength(100)]

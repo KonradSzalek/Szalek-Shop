@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace szalkszop.Core.Models
 {
@@ -17,15 +18,10 @@ namespace szalkszop.Core.Models
 		public ProductCategory ProductCategory { get; set; }
 
 		[Required]
-		[Range(0, int.MaxValue)]
 		public int ProductCategoryId { get; set; }
 
-		[Required]
-		[Range(0, int.MaxValue)]
 		public int AmountInStock { get; set; }
 
-		[Required]
-		[Range(0, double.MaxValue)]
 		public double Price { get; set; }
 
 		[Required]

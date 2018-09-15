@@ -14,5 +14,6 @@ namespace szalkszop.Repositories
 		void Remove(Product product);
 		IEnumerable<ProductDto> GetProductInCategory(int id);
 		IEnumerable<ProductDto> GetQueriedProducts(ProductSearchModel searchModel, IEnumerable<ProductDto> products);
+		void Complete();
 	}
 }

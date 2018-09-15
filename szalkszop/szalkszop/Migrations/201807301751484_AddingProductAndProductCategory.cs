@@ -14,7 +14,7 @@ namespace szalkszop.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         DateOfAdding = c.DateTime(nullable: false),
                         MyProperty = c.Int(nullable: false),
-                        ProductCategory_Id = c.Byte(),
+                        ProductCategory_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.ProductCategories", t => t.ProductCategory_Id)
@@ -24,7 +24,7 @@ namespace szalkszop.Migrations
                 "dbo.ProductCategories",
                 c => new
                     {
-                        Id = c.Byte(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                     })
                 .PrimaryKey(t => t.Id);

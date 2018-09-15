@@ -11,5 +11,6 @@ namespace szalkszop.Repositories
 		IEnumerable<ProductCategoryDto> GetCategoriesWithAmountOfProducts(List<ProductDto> products);
 		void Add(ProductCategory category);
 		void Remove(ProductCategory category);
+		void Complete();
 	}
 }

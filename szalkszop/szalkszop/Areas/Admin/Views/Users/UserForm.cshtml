@@ -1,12 +1,12 @@
 ﻿@model szalkszop.ViewModels.UsersViewModel
 @{
-    ViewBag.Title = "NewUser";
+    ViewBag.Title = "Create User";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h2>@Model.Heading</h2>
 
-@using (Html.BeginForm(Model.Action, "Admin"))
+@using (Html.BeginForm(Model.Action, "Users"))
 {
 	@Html.AntiForgeryToken()
 	@Html.HiddenFor(m => m.Id)

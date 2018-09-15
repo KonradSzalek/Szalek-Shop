@@ -15,6 +15,7 @@ namespace szalkszop.ViewModels
 		public int Id { get; set; }
 
 		[Required]
+		[DataType(DataType.DateTime)]
 		public DateTime DateOfAdding { get; set; }
 
 		[Required]
@@ -22,12 +23,15 @@ namespace szalkszop.ViewModels
 		public string Name { get; set; }
 
 		[Required]
+		[Range(0, int.MaxValue)]
 		public int ProductCategory { get; set; }
 
 		[Required]
+		[Range(0, int.MaxValue)]
 		public int AmountInStock { get; set; }
 
 		[Required]
+		[Range(0, double.MaxValue)]
 		public double Price { get; set; }
 
 		[Required]
@@ -43,7 +47,7 @@ namespace szalkszop.ViewModels
 				Expression<Func<ProductsController,
 					ActionResult>> update = (c => c.UpdateProduct(this));
 				Expression<Func<ProductsController,
-					ActionResult>> create = (c => c.NewProduct(this));
+					ActionResult>> create = (c => c.CreateProduct(this));
 
 				var action = (Id != 0) ? update : create;
 				return (action.Body as MethodCallExpression).Method.Name;

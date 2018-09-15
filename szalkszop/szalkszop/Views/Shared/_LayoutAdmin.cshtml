@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+	<meta name="description" content="Sklep internetowy" />
 </head>
 <body>
 
@@ -42,8 +43,8 @@
 			<h3>Admin Panel</h3>
 			<ul>
 				<li>@Html.ActionLink("Manage Users", "Index", "Users")</li>
-				<li>@Html.ActionLink("Manage Products", "Products", "Products")</li>
-				<li>@Html.ActionLink("Manage Categories", "ProductCategories", "ProductCategory")</li>
+				<li>@Html.ActionLink("Manage Products", "Index", "Products")</li>
+				<li>@Html.ActionLink("Manage Categories", "Index", "ProductCategory")</li>
 			</ul>	
 		</div>
 		<div class="col-lg-10">

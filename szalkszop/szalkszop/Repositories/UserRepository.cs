@@ -11,29 +11,21 @@ namespace szalkszop.Repositories
 	public class UserRepository : IUserRepository
 	{
 		private readonly ApplicationDbContext _context;
+		private readonly UserMapper _userMapper;
 		public UserManager<ApplicationUser> userManager;
 
-		public UserRepository(ApplicationDbContext context)
+		public UserRepository(ApplicationDbContext context, UserMapper userMapper)
 		{
 			_context = context;
+			_userMapper = userMapper;
 			var userStore = new UserStore<ApplicationUser>(_context);
 			userManager = new UserManager<ApplicationUser>(userStore);
-
 		}
 		public IEnumerable<UserDto> GetUserList()
 		{
 			var users = _context.Users.ToList();
 
-			return users.Select(n => new UserDto()
-			{
-				Id = n.Id,
-				Name = n.Name,
-				Surname = n.Surname,
-				Address = n.Address,
-				PostalCode = n.PostalCode,
-				City = n.City,
-				Email = n.Email,
-			});
+			return _userMapper.MapToDto(users);
 		}
 
 		public ApplicationUser GetEditingUser(string id)
@@ -43,34 +35,14 @@ namespace szalkszop.Repositories
 
 		public IEnumerable<UserDto> GetQueriedUsersWithUserRole(string query)
 		{
-			var users = GetUsersWithUserRole().Where(u => (u.Surname.Contains(query) || u.Email.Contains(query)));
-
-			return users.Select(n => new UserDto()
-			{
-				Id = n.Id,
-				Name = n.Name,
-				Surname = n.Surname,
-				Address = n.Address,
-				PostalCode = n.PostalCode,
-				City = n.City,
-				Email = n.Email,
-			});
+			return GetUsersWithUserRole().Where(u => (u.Surname.Contains(query) || u.Email.Contains(query)));
 		}
 
 		public IEnumerable<UserDto> GetUsersWithUserRole()
 		{
-			var users = _context.Users.ToList().Where((u => userManager.IsInRole(u.Id, "User")));
+			var users = _context.Users.ToList().Where((u => userManager.IsInRole(u.Id, "User"))).ToList();
 
-			return users.Select(n => new UserDto()
-			{
-				Id = n.Id,
-				Name = n.Name,
-				Surname = n.Surname,
-				Address = n.Address,
-				PostalCode = n.PostalCode,
-				City = n.City,
-				Email = n.Email,
-			});
+			return _userMapper.MapToDto(users);
 		}
 
 		public void AddNewUser(ApplicationUser user)
@@ -96,6 +68,11 @@ namespace szalkszop.Repositories
 		public void Remove(ApplicationUser user)
 		{
 			_context.Users.Remove(user);
+		}
+
+		public void Complete()
+		{
+			_context.SaveChanges();
 		}
 	}
 }

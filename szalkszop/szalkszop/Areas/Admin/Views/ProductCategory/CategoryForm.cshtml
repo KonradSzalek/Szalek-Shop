@@ -6,13 +6,14 @@
 
 <h2>@Model.Heading</h2>
 
-@using (Html.BeginForm("NewCategory", "ProductCategory"))
+@using (Html.BeginForm(Model.Action, "ProductCategory"))
 {
 	@Html.AntiForgeryToken()
 
 	<div class="form-group">
 		@Html.LabelFor(m => m.Name)
 		@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.Name)
 	</div>
 	<button type="submit" class="btn-primary btn-lg">@Model.Heading</button>
 }

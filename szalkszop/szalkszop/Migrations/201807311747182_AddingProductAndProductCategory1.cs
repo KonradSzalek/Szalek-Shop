@@ -14,7 +14,7 @@ namespace szalkszop.Migrations
             DropIndex("dbo.Products", new[] { "Product_Id" });
             DropIndex("dbo.ProductCategories", new[] { "ProductCategory_Id" });
             RenameColumn(table: "dbo.Products", name: "ProductCategory_Id", newName: "ProductCategoryId");
-            AlterColumn("dbo.Products", "ProductCategoryId", c => c.Byte(nullable: false));
+            AlterColumn("dbo.Products", "ProductCategoryId", c => c.Int(nullable: false));
             CreateIndex("dbo.Products", "ProductCategoryId");
             AddForeignKey("dbo.Products", "ProductCategoryId", "dbo.ProductCategories", "Id", cascadeDelete: true);
             DropColumn("dbo.Products", "Product_Id");

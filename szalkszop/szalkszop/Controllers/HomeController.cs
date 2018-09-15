@@ -1,18 +1,20 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using szalkszop.Persistance;
+using szalkszop.Repositories;
 using szalkszop.ViewModels;
 
 namespace szalkszop.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly IUnitOfWork _unitOfWork;
+		private readonly IProductCategoryRepository _productCategoryRepository;
+		private readonly IProductRepository _productRepository;
 
-		public HomeController(IUnitOfWork unitOfWork)
+		public HomeController(IProductCategoryRepository productCategoryRepository, IProductRepository productRepository)
 
 		{
-			_unitOfWork = unitOfWork;
+			_productCategoryRepository = productCategoryRepository;
+			_productRepository = productRepository;
 		}
 
 		public ActionResult Index()
@@ -24,7 +26,7 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductViewModel
 			{
-				Products = _unitOfWork.Products.GetThreeNewestProducts(),
+				Products = _productRepository.GetThreeNewestProducts(),
 			};
 
 			return View("TopThreeProductsPartial", viewModel);
@@ -32,11 +34,11 @@ namespace szalkszop.Controllers
 
 		public ActionResult PartialCategories()
 		{
-			var products = _unitOfWork.Products.GetProductsWithCategory().ToList();
+			var products = _productRepository.GetProductsWithCategory().ToList();
 
 			var viewModel = new ProductViewModel
 			{
-				ProductCategories = _unitOfWork.ProductCategories.GetCategoriesWithAmountOfProducts(products),
+				ProductCategories = _productCategoryRepository.GetCategoriesWithAmountOfProducts(products),
 			};
 
 			return View("PartialCategories", viewModel);
@@ -46,7 +48,7 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductSearchModel
 			{
-				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories()
+				ProductCategories = _productCategoryRepository.GetProductCategories()
 			};
 
 			return View("ProductSearch", viewModel);
@@ -57,8 +59,8 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductViewModel
 			{
-				Products = _unitOfWork.Products.
-					GetQueriedProducts(searchModel, _unitOfWork.Products.GetProductsWithCategory()),
+				Products = _productRepository.
+					GetQueriedProducts(searchModel, _productRepository.GetProductsWithCategory()),
 			};
 
 			return View("Products", viewModel);
@@ -69,7 +71,7 @@ namespace szalkszop.Controllers
 			var viewModel = new ProductViewModel
 			{
 				Heading = "Products",
-				Products = _unitOfWork.Products.GetProductsWithCategory(),
+				Products = _productRepository.GetProductsWithCategory(),
 			};
 
 			return View(viewModel);
@@ -77,12 +79,12 @@ namespace szalkszop.Controllers
 
 		public ActionResult ProductCategories()
 		{
-			var products = _unitOfWork.Products.GetProductsWithCategory().ToList();
+			var products = _productRepository.GetProductsWithCategory().ToList();
 
 			var viewModel = new ProductCategoryViewModel
 			{
 				Heading = "Product Categories",
-				ProductCategories = _unitOfWork.ProductCategories.GetCategoriesWithAmountOfProducts(products),
+				ProductCategories = _productCategoryRepository.GetCategoriesWithAmountOfProducts(products),
 			};
 
 			return View(viewModel);
@@ -92,7 +94,7 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductCategoryViewModel
 			{
-				ProductCategories = _unitOfWork.ProductCategories.GetProductCategories(),
+				ProductCategories = _productCategoryRepository.GetProductCategories(),
 			};
 
 			return View("LeftPanel", viewModel);
@@ -102,7 +104,7 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductViewModel
 			{
-				Products = _unitOfWork.Products.GetProductInCategory(id)
+				Products = _productRepository.GetProductInCategory(id)
 			};
 
 			return View("Products", viewModel);
