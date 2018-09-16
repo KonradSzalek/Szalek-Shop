@@ -8,6 +8,7 @@ using szalkszop.ViewModels;
 
 namespace szalkszop.Services
 {
+    // cr2 stworz interfejs pod te klase i injectuj go w kontrolerze przy pomocy interfejsu 
 	public class ProductService
 	{
 		private readonly IProductRepository _productRepository;
@@ -26,6 +27,7 @@ namespace szalkszop.Services
 			return _productMapper.MapToDto(product);
 		}
 
+        // cr2 nie eksponuj Modelu do kontrolera, service ma zwracac jedynie DTO
 		public Product GetEditingProduct(int id)
 		{
 			return  _productRepository.GetProduct(id);	
@@ -33,6 +35,13 @@ namespace szalkszop.Services
 
 		public IEnumerable<ProductDto> GetThreeNewestProducts()
 		{
+            // cr2 nie uwazasz ze bardziej czytelne bedzie jak kazda metode na osobna linijke jebniesz? np.:
+            //_productRepository.GetProductList()
+            //    .Include(p => p.ProductCategory)
+            //    .OrderByDescending(d => d.DateOfAdding)
+            //    .Take(3)
+            //    .ToList();
+
 			var products = _productRepository.GetProductList().Include(p => p.ProductCategory).OrderByDescending(d => d.DateOfAdding).Take(3).ToList();
 
 			return _productMapper.MapToDto(products);
@@ -47,6 +56,7 @@ namespace szalkszop.Services
 
 		public IEnumerable<ProductDto> GetProductInCategory(int id)
 		{
+            // cr2 to samo co wyzej ja bym dal metode linq per linijka w takim skomplikowanym przypadku
 			var products = _productRepository.GetProductList().Include(p => p.ProductCategory).Where(p => p.ProductCategoryId == id).ToList();
 
 			return _productMapper.MapToDto(products);
@@ -77,13 +87,16 @@ namespace szalkszop.Services
 		public void Add(Product product)
 		{
 			_productRepository.Add(product);
+            // cr2 uzyj complete
 		}
 
 		public void Remove(Product product)
 		{
 			_productRepository.Remove(product);
+            // cr2 uzyj complete
 		}
 
+        // cr2 nie eksponuj metody complete na zewnatrz
 		public void Complete()
 		{
 			_productRepository.Complete();

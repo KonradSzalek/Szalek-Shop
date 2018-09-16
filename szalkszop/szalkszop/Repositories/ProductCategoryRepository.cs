@@ -33,6 +33,9 @@ namespace szalkszop.Repositories
 
 		public void Remove(ProductCategory category)
 		{
+            // cr2 niech repozytorium przyjmuje Id a nie obiekt kategorii
+            // usuwanie wtedy wyglada tak
+            // _context.ProductsCategories.Remove(new ProductCategory { Id = id })
 			_context.ProductsCategories.Remove(category);
 		}
 

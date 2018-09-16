@@ -8,6 +8,7 @@ using szalkszop.Repositories;
 
 namespace szalkszop.Services
 {
+    // cr2 stworz interfejs pod te klase i injectuj go w kontrolerze przy pomocy interfejsu 
 	public class UserService
 	{
 		private readonly IUserRepository _userRepository;

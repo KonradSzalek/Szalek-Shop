@@ -9,6 +9,9 @@ namespace szalkszop.Repositories
 	{
 		public IEnumerable<ProductDto> MapToDto(List<Product> products)
 		{
+            // cr2 tak bardzo walczysz o to DRY a znowu nie uzywasz juz zdefiniowanego mapowania
+            // ten mapping moglby wygladac tak:
+            //  products.Select(n => MapToDto(n))
 			return products.Select(n => new ProductDto()
 			{
 				Id = n.Id,
