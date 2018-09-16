@@ -1,20 +1,21 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using szalkszop.Repositories;
+using szalkszop.Services;
 using szalkszop.ViewModels;
 
 namespace szalkszop.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly IProductCategoryRepository _productCategoryRepository;
-		private readonly IProductRepository _productRepository;
+		private readonly ProductCategoryService _productCategoryService;
+		private readonly ProductService _productService;
 
-		public HomeController(IProductCategoryRepository productCategoryRepository, IProductRepository productRepository)
+		public HomeController(ProductCategoryService productCategoryService, ProductService productService)
 
 		{
-			_productCategoryRepository = productCategoryRepository;
-			_productRepository = productRepository;
+			_productCategoryService = productCategoryService;
+			_productService = productService;
 		}
 
 		public ActionResult Index()
@@ -26,7 +27,7 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductViewModel
 			{
-				Products = _productRepository.GetThreeNewestProducts(),
+				Products = _productService.GetThreeNewestProducts(),
 			};
 
 			return View("TopThreeProductsPartial", viewModel);
@@ -34,11 +35,11 @@ namespace szalkszop.Controllers
 
 		public ActionResult PartialCategories()
 		{
-			var products = _productRepository.GetProductsWithCategory().ToList();
+			var products = _productService.GetProductsWithCategory().ToList();
 
 			var viewModel = new ProductViewModel
 			{
-				ProductCategories = _productCategoryRepository.GetCategoriesWithAmountOfProducts(products),
+				ProductCategories = _productCategoryService.GetCategoriesWithAmountOfProducts(products),
 			};
 
 			return View("PartialCategories", viewModel);
@@ -48,7 +49,7 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductSearchModel
 			{
-				ProductCategories = _productCategoryRepository.GetProductCategories()
+				ProductCategories = _productCategoryService.GetProductCategories()
 			};
 
 			return View("ProductSearch", viewModel);
@@ -59,8 +60,8 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductViewModel
 			{
-				Products = _productRepository.
-					GetQueriedProducts(searchModel, _productRepository.GetProductsWithCategory()),
+				Products = _productService.
+					GetQueriedProducts(searchModel, _productService.GetProductsWithCategory()),
 			};
 
 			return View("Products", viewModel);
@@ -71,7 +72,7 @@ namespace szalkszop.Controllers
 			var viewModel = new ProductViewModel
 			{
 				Heading = "Products",
-				Products = _productRepository.GetProductsWithCategory(),
+				Products = _productService.GetProductsWithCategory(),
 			};
 
 			return View(viewModel);
@@ -79,12 +80,12 @@ namespace szalkszop.Controllers
 
 		public ActionResult ProductCategories()
 		{
-			var products = _productRepository.GetProductsWithCategory().ToList();
+			var products = _productService.GetProductsWithCategory().ToList();
 
 			var viewModel = new ProductCategoryViewModel
 			{
 				Heading = "Product Categories",
-				ProductCategories = _productCategoryRepository.GetCategoriesWithAmountOfProducts(products),
+				ProductCategories = _productCategoryService.GetCategoriesWithAmountOfProducts(products),
 			};
 
 			return View(viewModel);
@@ -94,7 +95,7 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductCategoryViewModel
 			{
-				ProductCategories = _productCategoryRepository.GetProductCategories(),
+				ProductCategories = _productCategoryService.GetProductCategories(),
 			};
 
 			return View("LeftPanel", viewModel);
@@ -104,7 +105,7 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductViewModel
 			{
-				Products = _productRepository.GetProductInCategory(id)
+				Products = _productService.GetProductInCategory(id)
 			};
 
 			return View("Products", viewModel);

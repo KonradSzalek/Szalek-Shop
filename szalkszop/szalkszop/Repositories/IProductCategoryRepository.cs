@@ -6,9 +6,8 @@ namespace szalkszop.Repositories
 {
 	public interface IProductCategoryRepository
 	{
-		IEnumerable<ProductCategoryDto> GetProductCategories();
-		ProductCategory GetEditingProductCategory(int id);
-		IEnumerable<ProductCategoryDto> GetCategoriesWithAmountOfProducts(List<ProductDto> products);
+		IEnumerable<ProductCategory> GetProductCategoryList();
+		ProductCategory GetProductCategory(int id);
 		void Add(ProductCategory category);
 		void Remove(ProductCategory category);
 		void Complete();

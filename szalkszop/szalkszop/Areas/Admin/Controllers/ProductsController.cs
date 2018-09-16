@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using szalkszop.Core.Models;
 using szalkszop.Repositories;
+using szalkszop.Services;
 using szalkszop.ViewModels;
 
 namespace szalkszop.Areas.Admin.Controllers
@@ -9,21 +10,21 @@ namespace szalkszop.Areas.Admin.Controllers
 	[ApplicationUser.AuthorizeRedirectToHomePage(Roles = "Admin")]
 	public class ProductsController : Controller
 	{
-		private readonly IProductCategoryRepository _productCategoryRepository;
-		private readonly IProductRepository _productRepository;
+		private readonly ProductCategoryService _productCategoryService;
+		private readonly ProductService _productService;
 
-		public ProductsController(IProductCategoryRepository productCategoryRepository, IProductRepository productRepository)
+		public ProductsController(ProductCategoryService productCategoryService, ProductService productService)
 
 		{
-			_productCategoryRepository = productCategoryRepository;
-			_productRepository = productRepository;
+			_productCategoryService = productCategoryService;
+			_productService = productService;
 		}
 
 		public ActionResult Search()
 		{
 			var viewModel = new ProductSearchModel
 			{
-				ProductCategories = _productCategoryRepository.GetProductCategories()
+				ProductCategories = _productCategoryService.GetProductCategories()
 			};
 
 			return View("ProductSearch", viewModel);
@@ -34,8 +35,8 @@ namespace szalkszop.Areas.Admin.Controllers
 		{
 			var viewModel = new ProductViewModel
 			{
-				Products = _productRepository.
-					GetQueriedProducts(searchModel, _productRepository.GetProductsWithCategory()),
+				Products = _productService.
+					GetQueriedProducts(searchModel, _productService.GetProductsWithCategory()),
 			};
 
 			return View("Index", viewModel);
@@ -46,7 +47,7 @@ namespace szalkszop.Areas.Admin.Controllers
 			var viewModel = new ProductViewModel
 			{
 				Heading = "Products",
-				Products = _productRepository.GetProductsWithCategory(),
+				Products = _productService.GetProductsWithCategory(),
 			};
 
 			return View(viewModel);
@@ -57,7 +58,7 @@ namespace szalkszop.Areas.Admin.Controllers
 			var viewModel = new ProductViewModel
 			{
 				Heading = "Add a product",
-				ProductCategories = _productCategoryRepository.GetProductCategories(),
+				ProductCategories = _productCategoryService.GetProductCategories(),
 			};
 
 			return View("ProductForm", viewModel);
@@ -76,22 +77,22 @@ namespace szalkszop.Areas.Admin.Controllers
 				DateOfAdding = DateTime.Now,
 			};
 
-			_productRepository.Add(product);
+			_productService.Add(product);
 
-			_productRepository.Complete();
+			_productService.Complete();
 
 			return RedirectToAction("Index", "Products");
 		}
 
 		public ActionResult EditProduct(int id)
 		{
-			var product = _productRepository.GetEditingProduct(id);
+			var product = _productService.GetEditingProductDto(id);
 
 			var viewModel = new ProductViewModel
 			{
 				Id = product.Id,
 				Name = product.Name,
-				ProductCategories = _productCategoryRepository.GetProductCategories(),
+				ProductCategories = _productCategoryService.GetProductCategories(),
 				ProductCategory = product.ProductCategoryId,
 				AmountInStock = product.AmountInStock,
 				Price = product.Price,
@@ -106,7 +107,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult UpdateProduct(ProductViewModel viewModel)
 		{
-			var product = _productRepository.GetEditingProduct(viewModel.Id);
+			var product = _productService.GetEditingProduct(viewModel.Id);
 
 			{
 				product.Name = viewModel.Name;
@@ -116,17 +117,17 @@ namespace szalkszop.Areas.Admin.Controllers
 				product.Description = viewModel.Description;
 			}
 
-			_productRepository.Complete();
+			_productService.Complete();
 
 			return RedirectToAction("Index", "Products");
 		}
 
 		public ActionResult DeleteProduct(int id)
 		{
-			var product = _productRepository.GetEditingProduct(id);
+			var product = _productService.GetEditingProduct(id);
 
-			_productRepository.Remove(product);
-			_productRepository.Complete();
+			_productService.Remove(product);
+			_productService.Complete();
 
 			return RedirectToAction("Index", "Products");
 		}

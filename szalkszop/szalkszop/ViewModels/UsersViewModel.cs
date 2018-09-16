@@ -20,6 +20,7 @@ namespace szalkszop.ViewModels
 
 		[Required]
 		[StringLength(100)]
+		[DisplayName("Last Name")]
 		public string Surname { get; set; }
 
 		[Required]

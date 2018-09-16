@@ -10,8 +10,5 @@ namespace szalkszop.Core.Models
 		[Required]
 		[StringLength(100)]
 		public string Name { get; set; }
-
-		// cr1: do wyjebania
-		public int AmountOfProducts { get; set; }
 	}
 }

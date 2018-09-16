@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using szalkszop.Core.Models;
 using szalkszop.Repositories;
+using szalkszop.Services;
 using szalkszop.ViewModels;
 
 namespace szalkszop.Areas.Admin.Controllers
@@ -10,12 +11,12 @@ namespace szalkszop.Areas.Admin.Controllers
 	[ApplicationUser.AuthorizeRedirectToHomePage(Roles = "Admin")]
 	public class UsersController : Controller
 	{
-		private readonly IUserRepository _usersRepository;
+		private readonly UserService _userService;
 
-		public UsersController(IUserRepository usersRepository)
+		public UsersController(UserService userService)
 
 		{
-			_usersRepository = usersRepository;
+			_userService = userService;
 		}
 
 		public ActionResult Index(string query = null)
@@ -24,12 +25,12 @@ namespace szalkszop.Areas.Admin.Controllers
 			{
 				Heading = "Manage users",
 				SearchTerm = query,
-				Users = _usersRepository.GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime),
+				Users = _userService.GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime),
 			};
 
 			if (!String.IsNullOrWhiteSpace(query))
 			{
-				viewModel.Users = _usersRepository.GetQueriedUsersWithUserRole(query);
+				viewModel.Users = _userService.GetQueriedUsersWithUserRole(query);
 			}
 
 			return View(viewModel);
@@ -68,24 +69,24 @@ namespace szalkszop.Areas.Admin.Controllers
 				RegistrationDateTime = DateTime.Now,
 			};
 
-			_usersRepository.AddNewUser(user);
+			_userService.AddNewUser(user);
 
 			return RedirectToAction("Index", "Users");
 		}
 
 		public ActionResult DeleteUser(string id)
 		{
-			var user = _usersRepository.GetEditingUser(id);
+			var user = _userService.GetEditingUser(id);
 
-			_usersRepository.Remove(user);
-			_usersRepository.Complete();
+			_userService.Remove(user);
+			_userService.Complete();
 
 			return RedirectToAction("Index", "Users");
 		}
 
 		public ActionResult EditUser(string id)
 		{
-			var user = _usersRepository.GetEditingUser(id);
+			var user = _userService.GetEditingUserDto(id);
 
 			var viewModel = new UsersViewModel
 			{
@@ -103,7 +104,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult UpdateUser(UsersViewModel viewModel)
 		{
-			var user = _usersRepository.GetEditingUser(viewModel.Id);
+			var user = _userService.GetEditingUser(viewModel.Id);
 
 			{
 				user.UserName = viewModel.Email;
@@ -112,7 +113,7 @@ namespace szalkszop.Areas.Admin.Controllers
 				user.Surname = viewModel.Surname;
 			}
 
-			_usersRepository.Complete();
+			_userService.Complete();
 
 			return RedirectToAction("Index", "Users");
 		}

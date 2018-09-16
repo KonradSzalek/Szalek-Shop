@@ -312,13 +312,13 @@
     <Compile Include="Migrations\201808270801293_AddingPriceAndDescriptionToProduct.Designer.cs">
       <DependentUpon>201808270801293_AddingPriceAndDescriptionToProduct.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809131758271_test.cs" />
-    <Compile Include="Migrations\201809131758271_test.Designer.cs">
-      <DependentUpon>201809131758271_test.cs</DependentUpon>
+    <Compile Include="Migrations\201809161407532_wtf.cs" />
+    <Compile Include="Migrations\201809161407532_wtf.Designer.cs">
+      <DependentUpon>201809161407532_wtf.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809131857595_test1.cs" />
-    <Compile Include="Migrations\201809131857595_test1.Designer.cs">
-      <DependentUpon>201809131857595_test1.cs</DependentUpon>
+    <Compile Include="Migrations\201809161457339_wtf1.cs" />
+    <Compile Include="Migrations\201809161457339_wtf1.Designer.cs">
+      <DependentUpon>201809161457339_wtf1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Core\Models\AccountViewModels.cs" />
@@ -332,13 +332,16 @@
     <Compile Include="Repositories\IProductRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="DTO\ProductCategoryDto.cs" />
-    <Compile Include="Repositories\ProductCategoryMapper.cs" />
+    <Compile Include="Mappers\ProductCategoryMapper.cs" />
     <Compile Include="Repositories\ProductCategoryRepository.cs" />
     <Compile Include="DTO\ProductDto.cs" />
-    <Compile Include="Repositories\ProductMapper.cs" />
+    <Compile Include="Mappers\ProductMapper.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
-    <Compile Include="Repositories\UserMapper.cs" />
+    <Compile Include="Mappers\UserMapper.cs" />
+    <Compile Include="Services\ProductCategoryService.cs" />
+    <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ProductCategoryViewModel.cs" />
     <Compile Include="ViewModels\ProductSearchModel.cs" />
@@ -473,11 +476,11 @@
     <EmbeddedResource Include="Migrations\201808270801293_AddingPriceAndDescriptionToProduct.resx">
       <DependentUpon>201808270801293_AddingPriceAndDescriptionToProduct.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809131758271_test.resx">
-      <DependentUpon>201809131758271_test.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809161407532_wtf.resx">
+      <DependentUpon>201809161407532_wtf.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809131857595_test1.resx">
-      <DependentUpon>201809131857595_test1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809161457339_wtf1.resx">
+      <DependentUpon>201809161457339_wtf1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

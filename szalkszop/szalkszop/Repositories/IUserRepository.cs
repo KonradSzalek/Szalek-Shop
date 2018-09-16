@@ -6,12 +6,10 @@ namespace szalkszop.Repositories
 {
 	public interface IUserRepository
 	{
-		IEnumerable<UserDto> GetUserList();
-		ApplicationUser GetEditingUser(string id);
-		IEnumerable<UserDto> GetQueriedUsersWithUserRole(string query);
-		IEnumerable<UserDto> GetUsersWithUserRole();
+		IEnumerable<ApplicationUser> GetUserList();
+		ApplicationUser GetUser(string id);
+		void Add(ApplicationUser user);
 		void Remove(ApplicationUser user);
-		void AddNewUser(ApplicationUser user);
 		void Complete();
 	}
 }
