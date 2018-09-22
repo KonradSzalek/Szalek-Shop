@@ -2,30 +2,15 @@
 using System.Linq;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
+using szalkszop.Mappers;
 
 namespace szalkszop.Repositories
 {
-	public class ProductMapper
+	public class ProductMapper : IProductMapper
 	{
-		public IEnumerable<ProductDto> MapToDto(List<Product> products)
+		public IEnumerable<ProductDto> MapToDto(IEnumerable<Product> products)
 		{
-            // cr2 tak bardzo walczysz o to DRY a znowu nie uzywasz juz zdefiniowanego mapowania
-            // ten mapping moglby wygladac tak:
-            //  products.Select(n => MapToDto(n))
-			return products.Select(n => new ProductDto()
-			{
-				Id = n.Id,
-				Name = n.Name,
-				DateOfAdding = n.DateOfAdding,
-				AmountInStock = n.AmountInStock,
-				Price = n.Price,
-				Description = n.Description,
-				ProductCategory = new ProductCategoryDto
-				{
-					Id = n.ProductCategory.Id,
-					Name = n.ProductCategory.Name,
-				}
-			});
+			return products.Select(n => MapToDto(n));
 		}
 
 		public ProductDto MapToDto(Product product)
@@ -45,6 +30,7 @@ namespace szalkszop.Repositories
 					Name = product.ProductCategory.Name
 				}
 			};
+
 			return productDto;
 		}
 	}

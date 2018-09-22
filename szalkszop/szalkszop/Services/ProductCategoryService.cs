@@ -3,28 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
+using szalkszop.Mappers;
 using szalkszop.Repositories;
+using szalkszop.ViewModels;
 
 namespace szalkszop.Services
 {
-    // cr2 stworz interfejs pod te klase i injectuj go w kontrolerze przy pomocy interfejsu 
-	public class ProductCategoryService
+	public class ProductCategoryService : IProductCategoryService
 	{
-        // cr2 injectuj przez interfejsy a nie konkretne klasy
-		private readonly ProductCategoryRepository _productCategoryRepository;
-		private readonly ProductCategoryMapper _productCategoryMapper;
+		private readonly IProductCategoryRepository _productCategoryRepository;
+		private readonly IProductRepository _productRepository;
+		private readonly IProductCategoryMapper _productCategoryMapper;
 
-		public ProductCategoryService(ProductCategoryRepository productCategoryRepository, ProductCategoryMapper productCategoryMapper)
+		public ProductCategoryService(ProductCategoryRepository productCategoryRepository, ProductCategoryMapper productCategoryMapper, ProductRepository productRepository)
 		{
 			_productCategoryRepository = productCategoryRepository;
 			_productCategoryMapper = productCategoryMapper;
+			_productRepository = productRepository;
 		}
 
-		public IEnumerable<ProductCategoryDto> GetProductCategories()
+		public IEnumerable<ProductCategory> GetProductCategories()
 		{
 			var categories = _productCategoryRepository.GetProductCategoryList().ToList();
 
-			return _productCategoryMapper.MapToDto(categories);
+			return categories;
 		}
 
 		public ProductCategoryDto GetEditingProductCategoryDto(int id)
@@ -34,45 +36,101 @@ namespace szalkszop.Services
 			return _productCategoryMapper.MapToDto(productCategory);
 		}
 
-        // cr2 nie eksponuj na kontrolerowi modelu, jedynie DTOsy, wywal te metode
-		public ProductCategory GetEditingProductCategory(int id)
-		{
-			return _productCategoryRepository.GetProductCategory(id);
-		}
-
-        // cr2 nie pobieraj produktow jako parametr tylko uzyj productRepository, na pobranych produktach nie uzywaj ToList tylko przekaz jako ienumerable
-		public IEnumerable<ProductCategoryDto> GetCategoriesWithAmountOfProducts(List<ProductDto> products)
-		{
+		public IEnumerable<ProductCategorySearchResultDto> GetCategoriesWithAmountOfProducts()
+		{		
+			var products = _productRepository.GetProductList();
 			var categories = _productCategoryRepository.GetProductCategoryList();
 
-            // cr2 to sie da zrobic jeszcze lepiej bez udzialu mappera
-            // trzeba uzyc linq query syntax i zrobic joina jak na bazie danych
-            // obawiam sie ze bez wczesniejszej zabawy z baza danych tego nie ogarniesz wiec poki co zobacz sobie w googlach
-            // Linq query syntax
+			// cr2 to sie da zrobic jeszcze lepiej bez udzialu mappera
+			// trzeba uzyc linq query syntax i zrobic joina jak na bazie danych
+			// obawiam sie ze bez wczesniejszej zabawy z baza danych tego nie ogarniesz wiec poki co zobacz sobie w googlach
+			// Linq query syntax
 			return _productCategoryMapper.MapToDtoWithAmountOfProducts(products, categories);
 		}
 
-		public void Add(ProductCategory category)
+		public void AddProductCategory(ProductCategoryViewModel viewModel)
 		{
-			_productCategoryRepository.Add((category));
-
-            // cr2 dodaj uzycie Complete
+			var category = new ProductCategory
+			{
+				Name = viewModel.Name
+			};
+			_productCategoryRepository.Add(category);
+			_productCategoryRepository.SaveChanges();
 		}
 
-		public void Remove(ProductCategory category)
+		public void EditProductCategory(ProductCategoryViewModel viewModel)
 		{
-            // cr2 nie musisz pobierac kategorii zeby ja usunac
-            // zmien te metode zeby przyjmowala Id i usuwala po Id
-            // repozytorium niech tez przyjmie id zamiast obiektu konkretnego
-			_productCategoryRepository.Remove(category);
+			var category = _productCategoryRepository.GetProductCategory(viewModel.Id);
 
-            // cr2 dodaj uzycie Complete
+			category.Name = viewModel.Name;
+
+			_productCategoryRepository.SaveChanges();
 		}
 
-        // cr2 wywal te metode stad, niech serwis sam wywoluje ja na repozytorium
-		public void Complete()
+		public void DeleteProductCategory(int id)
 		{
-			_productCategoryRepository.Complete();
+			_productCategoryRepository.Remove(id);
+			_productCategoryRepository.SaveChanges();
+		}
+
+		public bool IsProductCategoryExist(int id)
+		{
+			return _productCategoryRepository.IsCategoryExist(id);
+		}
+
+
+		public ProductCategoryViewModel GetPartialCategoryView()
+		{
+			var viewModel = new ProductCategoryViewModel
+			{
+				ProductCategoriesSearchResultDto = GetCategoriesWithAmountOfProducts(),
+			};
+
+			return viewModel;
+		}
+
+		public ProductCategoryViewModel GetProductCategorySearchResultViewModel()
+		{
+			var viewModel = new ProductCategoryViewModel
+			{
+				Heading = "Product Categories",
+				ProductCategoriesSearchResultDto = GetCategoriesWithAmountOfProducts(),
+			};
+
+			return viewModel;
+		}
+
+		public ProductCategoryViewModel GetProductCategoryViewModel()
+		{
+			var viewModel = new ProductCategoryViewModel
+			{
+				ProductCategoriesSearchResultDto = GetCategoriesWithAmountOfProducts(),
+			};
+
+			return viewModel;
+		}
+
+		public ProductCategoryViewModel AddProductCategoryViewModel()
+		{
+			var viewModel = new ProductCategoryViewModel
+			{
+				Heading = "Add a new category",
+			};
+
+			return viewModel;
+		}
+
+		public ProductCategoryViewModel EditProductCategoryViewModel(int id)
+		{
+			var category = GetEditingProductCategoryDto(id);
+
+			var viewModel = new ProductCategoryViewModel
+			{
+				Heading = "Update Category",
+				Name = category.Name,
+			};
+
+			return viewModel;
 		}
 	}
 }

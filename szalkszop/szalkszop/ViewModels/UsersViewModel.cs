@@ -35,7 +35,7 @@ namespace szalkszop.ViewModels
 			get
 			{
 				Expression<Func<UsersController,
-					ActionResult>> update = (c => c.UpdateUser(this));
+					ActionResult>> update = (c => c.EditUser(this));
 				Expression<Func<UsersController,
 					ActionResult>> create = (c => c.CreateUser(this));
 

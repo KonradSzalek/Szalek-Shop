@@ -9,9 +9,10 @@ namespace szalkszop.Repositories
 	public interface IProductRepository
 	{
 		void Add(Product product);
-		void Remove(Product product);
+		void Remove(int id);
 		Product GetProduct(int id);
 		DbSet<Product> GetProductList();
-		void Complete();
+		void SaveChanges();
+		bool IsProductExist(int id);
 	}
 }

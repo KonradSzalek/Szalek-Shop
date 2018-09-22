@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using szalkszop.Core.Models;
 
@@ -29,12 +28,17 @@ namespace szalkszop.Repositories
 			_context.Products.Add(product);
 		}
 
-		public void Remove(Product product)
+		public void Remove(int id)
 		{
-			_context.Products.Remove(product);
+			_context.Products.Remove(_context.Products.Single(p => p.Id == id));
 		}
 
-		public void Complete()
+		public bool IsProductExist(int id)
+		{
+			return _context.Products.Any(p => p.Id == id);
+		}
+
+		public void SaveChanges()
 		{
 			_context.SaveChanges();
 		}

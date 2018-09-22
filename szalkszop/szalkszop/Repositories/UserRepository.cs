@@ -50,12 +50,17 @@ namespace szalkszop.Repositories
 			}
 		}
 
-		public void Remove(ApplicationUser user)
+		public void Remove(string id)
 		{
-			_context.Users.Remove(user);
+			_context.Users.Remove(_context.Users.Single(u => u.Id == id));
 		}
 
-		public void Complete()
+		public bool IsUserExist(string id)
+		{
+			return _context.Users.Any(u => u.Id == id);
+		}
+
+		public void SaveChanges()
 		{
 			_context.SaveChanges();
 		}	

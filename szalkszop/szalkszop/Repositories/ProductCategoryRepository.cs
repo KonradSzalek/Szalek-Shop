@@ -31,17 +31,19 @@ namespace szalkszop.Repositories
 			_context.ProductsCategories.Add((category));
 		}
 
-		public void Remove(ProductCategory category)
-		{
-            // cr2 niech repozytorium przyjmuje Id a nie obiekt kategorii
-            // usuwanie wtedy wyglada tak
-            // _context.ProductsCategories.Remove(new ProductCategory { Id = id })
-			_context.ProductsCategories.Remove(category);
+		public void Remove(int id)
+		{	
+			_context.ProductsCategories.Remove(_context.ProductsCategories.Single(p => p.Id == id));
 		}
 
-		public void Complete()
+		public void SaveChanges()
 		{
 			_context.SaveChanges();
+		}
+
+		public bool IsCategoryExist(int id)
+		{
+			return _context.ProductsCategories.Any(p => p.Id == id);
 		}
 	}
 }

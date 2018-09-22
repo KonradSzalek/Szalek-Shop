@@ -9,7 +9,8 @@ namespace szalkszop.Repositories
 		IEnumerable<ApplicationUser> GetUserList();
 		ApplicationUser GetUser(string id);
 		void Add(ApplicationUser user);
-		void Remove(ApplicationUser user);
-		void Complete();
+		void Remove(string id);
+		bool IsUserExist(string id);
+		void SaveChanges();
 	}
 }

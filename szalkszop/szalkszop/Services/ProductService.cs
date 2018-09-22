@@ -1,22 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
+using szalkszop.Mappers;
 using szalkszop.Repositories;
 using szalkszop.ViewModels;
 
 namespace szalkszop.Services
 {
-    // cr2 stworz interfejs pod te klase i injectuj go w kontrolerze przy pomocy interfejsu 
-	public class ProductService
+	public class ProductService : IProductService
 	{
 		private readonly IProductRepository _productRepository;
-		private readonly ProductMapper _productMapper;
+		private readonly IProductCategoryRepository _productCategoryRepository;
+		private readonly IProductMapper _productMapper;
 
-		public ProductService(IProductRepository productRepository, ProductMapper productMapper)
+		public ProductService(IProductRepository productRepository, IProductCategoryRepository productCategoryRepository, ProductMapper productMapper)
 		{
 			_productRepository = productRepository;
+			_productCategoryRepository = productCategoryRepository;
 			_productMapper = productMapper;
 		}
 
@@ -27,42 +30,33 @@ namespace szalkszop.Services
 			return _productMapper.MapToDto(product);
 		}
 
-        // cr2 nie eksponuj Modelu do kontrolera, service ma zwracac jedynie DTO
 		public Product GetEditingProduct(int id)
 		{
-			return  _productRepository.GetProduct(id);	
+			var product = _productRepository.GetProduct(id);
+
+			return product;
 		}
 
-		public IEnumerable<ProductDto> GetThreeNewestProducts()
+		public IEnumerable<Product> GetProductsWithCategory()
 		{
-            // cr2 nie uwazasz ze bardziej czytelne bedzie jak kazda metode na osobna linijke jebniesz? np.:
-            //_productRepository.GetProductList()
-            //    .Include(p => p.ProductCategory)
-            //    .OrderByDescending(d => d.DateOfAdding)
-            //    .Take(3)
-            //    .ToList();
+			var products = _productRepository.GetProductList()
+				.Include(p => p.ProductCategory)
+				.ToList();
 
-			var products = _productRepository.GetProductList().Include(p => p.ProductCategory).OrderByDescending(d => d.DateOfAdding).Take(3).ToList();
-
-			return _productMapper.MapToDto(products);
+			return products;
 		}
 
-		public IEnumerable<ProductDto> GetProductsWithCategory()
+		public IEnumerable<Product> GetProductInCategory(int id)
 		{
-			var products = _productRepository.GetProductList().Include(p => p.ProductCategory).ToList();
+			var products = _productRepository.GetProductList()
+				.Include(p => p.ProductCategory)
+				.Where(p => p.ProductCategoryId == id)
+				.ToList();
 
-			return _productMapper.MapToDto(products);
+			return products;
 		}
 
-		public IEnumerable<ProductDto> GetProductInCategory(int id)
-		{
-            // cr2 to samo co wyzej ja bym dal metode linq per linijka w takim skomplikowanym przypadku
-			var products = _productRepository.GetProductList().Include(p => p.ProductCategory).Where(p => p.ProductCategoryId == id).ToList();
-
-			return _productMapper.MapToDto(products);
-		}
-
-		public IEnumerable<ProductDto> GetQueriedProducts(ProductSearchModel searchModel, IEnumerable<ProductDto> products)
+		public IEnumerable<Product> GetQueriedProducts(ProductSearchModel searchModel, IEnumerable<Product> products)
 		{
 			if (searchModel != null)
 			{
@@ -84,23 +78,130 @@ namespace szalkszop.Services
 			return products;
 		}
 
-		public void Add(Product product)
+		public ProductViewModel GetThreeNewestProductsViewModel()
 		{
+			var products = _productRepository.GetProductList()
+				.Include(p => p.ProductCategory)
+				.OrderByDescending(d => d.DateOfAdding)
+				.Take(3)
+				.ToList();
+
+			var viewModel = new ProductViewModel
+			{
+				Products = products,
+			};
+
+			return viewModel;
+		}
+
+		public ProductViewModel GetShowProductInCategoryViewModel(int id)
+		{
+			var viewModel = new ProductViewModel
+			{
+				Products = GetProductInCategory(id)
+			};
+			return viewModel;
+		}
+
+		public ProductSearchModel GetProductSearchViewModel()
+		{
+			var viewModel = new ProductSearchModel
+			{
+				ProductCategories = _productCategoryRepository.GetProductCategoryList(),
+			};
+
+			return viewModel;
+		}
+
+		public ProductViewModel GetQueriedProductSearchViewModel(ProductSearchModel searchModel)
+		{
+			var viewModel = new ProductViewModel
+			{
+				Products = GetQueriedProducts(searchModel, GetProductsWithCategory()),
+			};
+
+			return viewModel;
+		}
+
+		public ProductViewModel GetProductViewModel()
+		{
+			var viewModel = new ProductViewModel
+			{
+				Heading = "Products",
+				Products = GetProductsWithCategory(),
+			};
+
+			return viewModel;
+		}
+
+		public ProductViewModel AddProductViewModel()
+		{
+			var viewModel = new ProductViewModel
+			{
+				Heading = "Add a product",
+				ProductCategories = _productCategoryRepository.GetProductCategoryList(),
+			};
+
+			return viewModel;
+		}
+
+		public ProductViewModel EditProductViewModel(int id)
+		{
+			var product = GetEditingProductDto(id);
+
+			var viewModel = new ProductViewModel
+			{
+				Id = product.Id,
+				Name = product.Name,
+				ProductCategories = _productCategoryRepository.GetProductCategoryList(),
+				ProductCategory = product.ProductCategoryId,
+				AmountInStock = product.AmountInStock,
+				Price = product.Price,
+				Description = product.Description,
+				Heading = "Edit a product",
+			};
+
+			return viewModel;
+		}
+
+		public void AddProduct(ProductViewModel viewModel)
+		{
+			var product = new Product
+			{
+				ProductCategoryId = viewModel.ProductCategory,
+				Name = viewModel.Name,
+				AmountInStock = viewModel.AmountInStock,
+				Price = viewModel.Price,
+				Description = viewModel.Description,
+				DateOfAdding = DateTime.Now,
+			};
+
 			_productRepository.Add(product);
-            // cr2 uzyj complete
+			_productRepository.SaveChanges();
 		}
 
-		public void Remove(Product product)
+		public void EditProduct(ProductViewModel viewModel)
 		{
-			_productRepository.Remove(product);
-            // cr2 uzyj complete
+			var product = GetEditingProduct(viewModel.Id);
+
+			product.Name = viewModel.Name;
+			product.ProductCategoryId = viewModel.ProductCategory;
+			product.AmountInStock = viewModel.AmountInStock;
+			product.Price = viewModel.Price;
+			product.Description = viewModel.Description;
+
+			_productRepository.SaveChanges();
 		}
 
-        // cr2 nie eksponuj metody complete na zewnatrz
-		public void Complete()
+		public void DeleteProduct(int id)
 		{
-			_productRepository.Complete();
+			_productRepository.Remove(id);
+			_productRepository.SaveChanges();
 		}
 
+		public bool IsProductExist(int id)
+		{
+			return _productRepository.IsProductExist(id);
+		}
 	}
 }

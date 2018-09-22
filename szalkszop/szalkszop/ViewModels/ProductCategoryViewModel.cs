@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using szalkszop.Areas.Admin.Controllers;
+using szalkszop.Core.Models;
 using szalkszop.DTO;
 
 namespace szalkszop.ViewModels
@@ -16,16 +17,19 @@ namespace szalkszop.ViewModels
 		[StringLength(100)]
 		public string Name { get; set; }
 
+		public int AmountOfProducts { get; set; }
+
 		public string Heading { get; set; }
 
-		public IEnumerable<ProductCategoryDto> ProductCategories { get; set; }
+		public IEnumerable<ProductCategorySearchResultDto> ProductCategoriesSearchResultDto { get; set; }
+		public IEnumerable<ProductCategory> ProductCategories { get; set; }
 
 		public string Action
 		{
 			get
 			{
 				Expression<Func<ProductCategoryController,
-					ActionResult>> update = (c => c.UpdateCategory(this));
+					ActionResult>> update = (c => c.EditCategory(this));
 				Expression<Func<ProductCategoryController,
 					ActionResult>> create = (c => c.CreateCategory(this));
 

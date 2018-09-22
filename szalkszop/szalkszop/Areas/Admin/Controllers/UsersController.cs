@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using szalkszop.Core.Models;
-using szalkszop.Repositories;
 using szalkszop.Services;
 using szalkszop.ViewModels;
 
@@ -11,27 +8,16 @@ namespace szalkszop.Areas.Admin.Controllers
 	[ApplicationUser.AuthorizeRedirectToHomePage(Roles = "Admin")]
 	public class UsersController : Controller
 	{
-		private readonly UserService _userService;
+		private readonly IUserService _userService;
 
-		public UsersController(UserService userService)
-
+		public UsersController(IUserService userService)
 		{
 			_userService = userService;
 		}
 
 		public ActionResult Index(string query = null)
 		{
-			var viewModel = new UsersViewModel
-			{
-				Heading = "Manage users",
-				SearchTerm = query,
-				Users = _userService.GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime),
-			};
-
-			if (!String.IsNullOrWhiteSpace(query))
-			{
-				viewModel.Users = _userService.GetQueriedUsersWithUserRole(query);
-			}
+			var viewModel = _userService.GetUsersViewModel(query);
 
 			return View(viewModel);
 		}
@@ -44,10 +30,7 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult CreateUser()
 		{
-			var viewModel = new UsersViewModel
-			{
-				Heading = "Add a new user"
-			};
+			var viewModel = _userService.AddUserViewModel();
 
 			return View("UserForm", viewModel);
 		}
@@ -60,60 +43,39 @@ namespace szalkszop.Areas.Admin.Controllers
 				return View("UserForm", viewModel);
 			}
 
-			var user = new ApplicationUser
-			{
-				UserName = viewModel.Email,
-				Email = viewModel.Email,
-				Name = viewModel.Name,
-				Surname = viewModel.Surname,
-				RegistrationDateTime = DateTime.Now,
-			};
-
-			_userService.AddNewUser(user);
+			_userService.AddUser(viewModel);
 
 			return RedirectToAction("Index", "Users");
 		}
 
 		public ActionResult DeleteUser(string id)
 		{
-			var user = _userService.GetEditingUser(id);
+			if (!_userService.IsUserExist(id))
+				return HttpNotFound();
 
-			_userService.Remove(user);
-			_userService.Complete();
+			_userService.DeleteUser(id);
 
 			return RedirectToAction("Index", "Users");
 		}
 
 		public ActionResult EditUser(string id)
 		{
-			var user = _userService.GetEditingUserDto(id);
+			if (!_userService.IsUserExist(id))
+				return HttpNotFound();
 
-			var viewModel = new UsersViewModel
-			{
-				Heading = "Edit a user",
-				Id = user.Id,
-				Name = user.Name,
-				Surname = user.Surname,
-				Email = user.Email
-			};
+			var viewModel = _userService.EditUserViewModel(id);
 
 			return View("UserForm", viewModel);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult UpdateUser(UsersViewModel viewModel)
+		public ActionResult EditUser(UsersViewModel viewModel)
 		{
-			var user = _userService.GetEditingUser(viewModel.Id);
+			if (!_userService.IsUserExist(viewModel.Id))
+				return HttpNotFound();
 
-			{
-				user.UserName = viewModel.Email;
-				user.Email = viewModel.Email;
-				user.Name = viewModel.Name;
-				user.Surname = viewModel.Surname;
-			}
-
-			_userService.Complete();
+			_userService.EditUser(viewModel);
 
 			return RedirectToAction("Index", "Users");
 		}

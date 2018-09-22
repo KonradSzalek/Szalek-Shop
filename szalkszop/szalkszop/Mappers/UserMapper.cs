@@ -4,24 +4,15 @@ using System.Linq;
 using System.Web;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
+using szalkszop.Mappers;
 
 namespace szalkszop.Repositories
 {
-	public class UserMapper
+	public class UserMapper : IUserMapper
 	{
-		public IEnumerable<UserDto> MapToDto(List<ApplicationUser> users)
+		public IEnumerable<UserDto> MapToDto(IEnumerable<ApplicationUser> users)
 		{
-			return users.Select(n => new UserDto()
-			{
-				Id = n.Id,
-				Name = n.Name,
-				Surname = n.Surname,
-				Address = n.Address,
-				PostalCode = n.PostalCode,
-				City = n.City,
-				Email = n.Email,
-				RegistrationDateTime = n.RegistrationDateTime,
-			});
+			return users.Select(n => MapToDto(n));
 		}
 
 		public UserDto MapToDto(ApplicationUser user)

@@ -9,7 +9,8 @@ namespace szalkszop.Repositories
 		IEnumerable<ProductCategory> GetProductCategoryList();
 		ProductCategory GetProductCategory(int id);
 		void Add(ProductCategory category);
-		void Remove(ProductCategory category);
-		void Complete();
+		void Remove(int id);
+		void SaveChanges();
+		bool IsCategoryExist(int id);
 	}
 }
