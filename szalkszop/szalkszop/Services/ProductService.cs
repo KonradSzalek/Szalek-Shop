@@ -23,6 +23,7 @@ namespace szalkszop.Services
 			_productMapper = productMapper;
 		}
 
+        // cr3 po co ta metoda? Jest uzyta tylko raz w tym serwisie
 		public ProductDto GetEditingProductDto(int id)
 		{
 			var product = _productRepository.GetProduct(id);
@@ -30,6 +31,8 @@ namespace szalkszop.Services
 			return _productMapper.MapToDto(product);
 		}
 
+        // cr3 GetProduct, zwracasz product po id, do czego on bedzie uzyty nie jest wazne na tym etapie
+        // tez jest uzyte tylko raz wiec po co w osobnej metodzie
 		public Product GetEditingProduct(int id)
 		{
 			var product = _productRepository.GetProduct(id);
@@ -37,6 +40,7 @@ namespace szalkszop.Services
 			return product;
 		}
 
+        // cr3 PRYWATNE
 		public IEnumerable<Product> GetProductsWithCategory()
 		{
 			var products = _productRepository.GetProductList()
@@ -46,6 +50,9 @@ namespace szalkszop.Services
 			return products;
 		}
 
+        // cr3 zla nazwa GetProductByCategory(int categoryId)
+        // uzywasz tego raz wiec po co metoda?
+        // PRYWATNA
 		public IEnumerable<Product> GetProductInCategory(int id)
 		{
 			var products = _productRepository.GetProductList()
@@ -56,6 +63,9 @@ namespace szalkszop.Services
 			return products;
 		}
 
+        // cr3 znowu uzywasz raz ale metoda jest na tyle duza i robi na tyle oddzielna rzecz ze wyrzucenie tego kodu tutja jest ok
+        // TYLKO PRYWATNA ma byc, pisalem na messengerze 2x
+        // Nazwa to powinien byc zwykly Search
 		public IEnumerable<Product> GetQueriedProducts(ProductSearchModel searchModel, IEnumerable<Product> products)
 		{
 			if (searchModel != null)
@@ -86,6 +96,7 @@ namespace szalkszop.Services
 				.Take(3)
 				.ToList();
 
+            // to nie jest viewModel ktorego powinienes uzyc tutaj
 			var viewModel = new ProductViewModel
 			{
 				Products = products,

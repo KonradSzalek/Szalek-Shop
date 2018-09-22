@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace szalkszop.ViewModels
 {
+    // cr3 nazwa: ProductSearchViewModel
 	public class ProductSearchModel
 	{
 		// Walidacja nie działa, nie wiem czemu

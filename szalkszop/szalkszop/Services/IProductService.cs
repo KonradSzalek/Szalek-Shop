@@ -5,6 +5,7 @@ using szalkszop.ViewModels;
 
 namespace szalkszop.Services
 {
+    // cr3 wywal wszystkie komentarze
 	public interface IProductService
 	{
 

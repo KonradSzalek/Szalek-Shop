@@ -21,8 +21,8 @@ namespace szalkszop.ViewModels
 
 		public string Heading { get; set; }
 
-		public IEnumerable<ProductCategorySearchResultDto> ProductCategoriesSearchResultDto { get; set; }
-		public IEnumerable<ProductCategory> ProductCategories { get; set; }
+		public IEnumerable<ProductCategorySearchResultDto> ProductCategoriesSearchResultDto { get; set; } // to nie powinno byc w tym viewmodelu
+		public IEnumerable<ProductCategory> ProductCategories { get; set; } // to nie powinno byc w tym viewmodelu
 
 		public string Action
 		{

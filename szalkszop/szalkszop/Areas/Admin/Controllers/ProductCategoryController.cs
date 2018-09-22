@@ -8,6 +8,10 @@ namespace szalkszop.Areas.Admin.Controllers
 	[ApplicationUser.AuthorizeRedirectToHomePage(Roles = "Admin")]
 	public class ProductCategoryController : Controller
 	{
+
+        // cr1 kompletnie zle rozdzielasz viewmodele -> wiecej powiem na zywo
+        // kazdy widok ma miec wlasny viewmodel
+        // nie mozesz reuzywasz viewmodeli do roznych widokow ktore robia co innego
 		private readonly IProductCategoryService _productCategoryService;
 
 		public ProductCategoryController(IProductCategoryService productCategoryService)
@@ -24,7 +28,7 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult CreateCategory()
 		{
-			var viewModel = _productCategoryService.AddProductCategoryViewModel();
+			var viewModel = _productCategoryService.AddProductCategoryViewModel(); // cr3 sam powinienes tworzyc ten viewmodel w kontrolerze
 
 			return View("CategoryForm", viewModel);
 		}
@@ -49,11 +53,6 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult EditCategory(int id)
 		{
-			// cr2 w tej metodzie powinienes najpierw sprawdzic czy taka kategoria w ogole istnieje i jezeli nie to
-			// najlepiej redirectowac do strony glownej edycji kategorii i wyswietlic blad gdzies u gory ze nie znaleziono takiej kategorii
-			// polecam wyswietlic cos takiego jak bootstrap alert
-			// zeby decydowac kiedy go wyswietlic na stronie mozesz uzyc czegos takiego Jak TempData
-			// tempdata jest dostepne z poziomu kontrolera i widoku i mozesz tam wrzucac pewne dane, np. czy pokazac jakis error
 
 			if (!_productCategoryService.IsProductCategoryExist(id))
 				return HttpNotFound();

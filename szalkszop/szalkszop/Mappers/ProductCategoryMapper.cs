@@ -7,6 +7,10 @@ using szalkszop.Mappers;
 
 namespace szalkszop.Repositories
 {
+    // cr3 zastosowales bardzo dobra praktyke tutaj - nie injectujesz do mappera ani repozytorium ani serwisu tylko przyjmujesz w parametrach
+    // gotowe do zmapowania dane dzieki temu mapper ten moze byc statyczna klasa
+    // zmodyfikuj mapper zeby byl statyczna klasa ze statycznymi metodami
+    // tym samym nie bedziesz musial go rejestrowac w DI i mozesz wywalic interfejs
 	public class ProductCategoryMapper : IProductCategoryMapper
 	{
 		public IEnumerable<ProductCategoryDto> MapToDto(IEnumerable<ProductCategory> categories)

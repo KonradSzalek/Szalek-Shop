@@ -21,7 +21,7 @@ namespace szalkszop.Areas.Admin.Controllers
 
 			return View("ProductSearch", viewModel);
 		}
-
+        
 		[HttpPost]
 		public ActionResult Search(ProductSearchModel searchModel)
 		{
