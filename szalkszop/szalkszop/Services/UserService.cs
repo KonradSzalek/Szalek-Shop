@@ -27,25 +27,6 @@ namespace szalkszop.Services
 			userManager = new UserManager<ApplicationUser>(userStore);
 		}
 
-		public IEnumerable<UserDto> GetUserList()
-		{
-			var users = _userRepository.GetUserList();
-
-			return _userMapper.MapToDto(users);
-		}
-
-		public UserDto GetEditingUserDto(string id)
-		{
-			var user = _userRepository.GetUser(id);
-
-			return _userMapper.MapToDto(user);
-		}
-
-		public ApplicationUser GetEditingUser(string id)
-		{
-			return _userRepository.GetUser(id);
-		}
-
 		public IEnumerable<UserDto> GetUsersWithUserRole()
 		{
 			var users = _userRepository.GetUserList().ToList().Where((u => userManager.IsInRole(u.Id, "User"))).ToList();
@@ -53,12 +34,39 @@ namespace szalkszop.Services
 			return _userMapper.MapToDto(users);
 		}
 
-		public IEnumerable<UserDto> GetQueriedUsersWithUserRole(string query)
+		public UsersViewModel GetUsersViewModel(string query)
 		{
-			return GetUsersWithUserRole().Where(u => (u.Surname.Contains(query) || u.Email.Contains(query)));
+			var viewModel = new UsersViewModel
+			{
+				SearchTerm = query,
+				Users = GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime),
+			};
+
+			if (!String.IsNullOrWhiteSpace(query))
+			{
+				viewModel.Users = GetUsersWithUserRole().Where(u => (u.Surname.Contains(query) || u.Email.Contains(query))); ;
+			}
+
+			return viewModel;
 		}
 
-		public void AddUser(UsersViewModel viewModel)
+		public UserViewModel EditUserViewModel(string id)
+		{
+			var user = _userRepository.GetUser(id);
+
+			var viewModel = new UserViewModel
+			{
+				Heading = "Edit a user",
+				Id = user.Id,
+				Name = user.Name,
+				Surname = user.Surname,
+				Email = user.Email
+			};
+
+			return viewModel;
+		}
+
+		public void AddUser(UserViewModel viewModel)
 		{
 			var user = new ApplicationUser
 			{
@@ -75,70 +83,25 @@ namespace szalkszop.Services
 
 		public void DeleteUser(string id)
 		{
-			_userRepository.Remove(id);
+			_userRepository.DeleteUser(id);
 			_userRepository.SaveChanges();
 		}
 
-		public void EditUser(UsersViewModel viewModel)
+		public void EditUser(UserViewModel viewModel)
 		{
-			var user = GetEditingUser(viewModel.Id);
+			var user = _userRepository.GetUser(viewModel.Id);
 
-			{
-				user.UserName = viewModel.Email;
-				user.Email = viewModel.Email;
-				user.Name = viewModel.Name;
-				user.Surname = viewModel.Surname;
-			}
-
+			user.UserName = viewModel.Email;
+			user.Email = viewModel.Email;
+			user.Name = viewModel.Name;
+			user.Surname = viewModel.Surname;
+			
 			_userRepository.SaveChanges();
 		}
 
-		public bool IsUserExist(string id)
+		public bool UserExist(string id)
 		{
 			return _userRepository.IsUserExist(id);
-		}
-
-		public UsersViewModel GetUsersViewModel(string query)
-		{
-			var viewModel = new UsersViewModel
-			{
-				Heading = "Manage users",
-				SearchTerm = query,
-				Users = GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime),
-			};
-
-			if (!String.IsNullOrWhiteSpace(query))
-			{
-				viewModel.Users = GetQueriedUsersWithUserRole(query);
-			}
-
-			return viewModel;
-		}
-
-		public UsersViewModel AddUserViewModel()
-		{
-			var viewModel = new UsersViewModel
-			{
-				Heading = "Add a new user"
-			};
-
-			return viewModel;
-		}
-
-		public UsersViewModel EditUserViewModel(string id)
-		{
-			var user = GetEditingUserDto(id);
-
-			var viewModel = new UsersViewModel
-			{
-				Heading = "Edit a user",
-				Id = user.Id,
-				Name = user.Name,
-				Surname = user.Surname,
-				Email = user.Email
-			};
-
-			return viewModel;
 		}
 	}
 }

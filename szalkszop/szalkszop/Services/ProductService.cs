@@ -13,35 +13,17 @@ namespace szalkszop.Services
 	public class ProductService : IProductService
 	{
 		private readonly IProductRepository _productRepository;
-		private readonly IProductCategoryRepository _productCategoryRepository;
+		private readonly IProductCategoryService _productCategoryService;
 		private readonly IProductMapper _productMapper;
 
-		public ProductService(IProductRepository productRepository, IProductCategoryRepository productCategoryRepository, ProductMapper productMapper)
+		public ProductService(IProductRepository productRepository, IProductCategoryService productCategoryRepository, ProductMapper productMapper)
 		{
 			_productRepository = productRepository;
-			_productCategoryRepository = productCategoryRepository;
+			_productCategoryService = productCategoryRepository;
 			_productMapper = productMapper;
 		}
 
-        // cr3 po co ta metoda? Jest uzyta tylko raz w tym serwisie
-		public ProductDto GetEditingProductDto(int id)
-		{
-			var product = _productRepository.GetProduct(id);
-
-			return _productMapper.MapToDto(product);
-		}
-
-        // cr3 GetProduct, zwracasz product po id, do czego on bedzie uzyty nie jest wazne na tym etapie
-        // tez jest uzyte tylko raz wiec po co w osobnej metodzie
-		public Product GetEditingProduct(int id)
-		{
-			var product = _productRepository.GetProduct(id);
-
-			return product;
-		}
-
-        // cr3 PRYWATNE
-		public IEnumerable<Product> GetProductsWithCategory()
+		private IEnumerable<Product> GetProductsWithCategory()
 		{
 			var products = _productRepository.GetProductList()
 				.Include(p => p.ProductCategory)
@@ -50,23 +32,7 @@ namespace szalkszop.Services
 			return products;
 		}
 
-        // cr3 zla nazwa GetProductByCategory(int categoryId)
-        // uzywasz tego raz wiec po co metoda?
-        // PRYWATNA
-		public IEnumerable<Product> GetProductInCategory(int id)
-		{
-			var products = _productRepository.GetProductList()
-				.Include(p => p.ProductCategory)
-				.Where(p => p.ProductCategoryId == id)
-				.ToList();
-
-			return products;
-		}
-
-        // cr3 znowu uzywasz raz ale metoda jest na tyle duza i robi na tyle oddzielna rzecz ze wyrzucenie tego kodu tutja jest ok
-        // TYLKO PRYWATNA ma byc, pisalem na messengerze 2x
-        // Nazwa to powinien byc zwykly Search
-		public IEnumerable<Product> GetQueriedProducts(ProductSearchModel searchModel, IEnumerable<Product> products)
+		private IEnumerable<Product> GetQueriedProducts(ProductSearchViewModel searchModel, IEnumerable<Product> products)
 		{
 			if (searchModel != null)
 			{
@@ -85,10 +51,11 @@ namespace szalkszop.Services
 				if (searchModel.ProductCategory.Id != 0)
 					products = products.Where(p => p.ProductCategory.Id == searchModel.ProductCategory.Id);
 			}
+
 			return products;
 		}
 
-		public ProductViewModel GetThreeNewestProductsViewModel()
+		public ProductsViewModel GetThreeNewestProductsViewModel()
 		{
 			var products = _productRepository.GetProductList()
 				.Include(p => p.ProductCategory)
@@ -96,50 +63,66 @@ namespace szalkszop.Services
 				.Take(3)
 				.ToList();
 
-            // to nie jest viewModel ktorego powinienes uzyc tutaj
-			var viewModel = new ProductViewModel
+			var productsDto = _productMapper.MapToDto(products);
+
+			var viewModel = new ProductsViewModel
 			{
-				Products = products,
+				ProductsDto = productsDto,
 			};
 
 			return viewModel;
 		}
 
-		public ProductViewModel GetShowProductInCategoryViewModel(int id)
+		public ProductsViewModel GetProductsByCategoryViewModel(int categoryId)
 		{
-			var viewModel = new ProductViewModel
-			{
-				Products = GetProductInCategory(id)
-			};
-			return viewModel;
-		}
+			var products = _productRepository.GetProductList()
+				.Include(p => p.ProductCategory)
+				.Where(p => p.ProductCategoryId == categoryId)
+				.ToList();
 
-		public ProductSearchModel GetProductSearchViewModel()
-		{
-			var viewModel = new ProductSearchModel
+			var productsDto = _productMapper.MapToDto(products);
+
+			var viewModel = new ProductsViewModel
 			{
-				ProductCategories = _productCategoryRepository.GetProductCategoryList(),
+				ProductsDto = productsDto,
 			};
 
 			return viewModel;
 		}
 
-		public ProductViewModel GetQueriedProductSearchViewModel(ProductSearchModel searchModel)
+		public ProductSearchViewModel GetProductSearchViewModel()
 		{
-			var viewModel = new ProductViewModel
+			var viewModel = new ProductSearchViewModel
 			{
-				Products = GetQueriedProducts(searchModel, GetProductsWithCategory()),
+				ProductCategories = _productCategoryService.GetProductCategoriesList(),
 			};
 
 			return viewModel;
 		}
 
-		public ProductViewModel GetProductViewModel()
+		public ProductsViewModel GetQueriedProductSearchViewModel(ProductSearchViewModel searchModel)
 		{
-			var viewModel = new ProductViewModel
+			var products = GetQueriedProducts(searchModel, GetProductsWithCategory());
+
+			var productsDto = _productMapper.MapToDto(products);
+
+			var viewModel = new ProductsViewModel
 			{
-				Heading = "Products",
-				Products = GetProductsWithCategory(),
+				ProductsDto = productsDto,
+			};
+
+			return viewModel;
+		}
+
+		public ProductsViewModel GetProductsViewModel()
+		{
+			var products = GetProductsWithCategory();
+
+			var productsDto = _productMapper.MapToDto(products);
+
+			var viewModel = new ProductsViewModel
+			{
+				ProductsDto = productsDto,
 			};
 
 			return viewModel;
@@ -150,7 +133,7 @@ namespace szalkszop.Services
 			var viewModel = new ProductViewModel
 			{
 				Heading = "Add a product",
-				ProductCategories = _productCategoryRepository.GetProductCategoryList(),
+				ProductCategoriesDto = _productCategoryService.GetProductCategoriesList(),
 			};
 
 			return viewModel;
@@ -158,17 +141,19 @@ namespace szalkszop.Services
 
 		public ProductViewModel EditProductViewModel(int id)
 		{
-			var product = GetEditingProductDto(id);
+			var product = _productRepository.GetProduct(id);
+
+			var productDto = _productMapper.MapToDto(product);
 
 			var viewModel = new ProductViewModel
 			{
-				Id = product.Id,
-				Name = product.Name,
-				ProductCategories = _productCategoryRepository.GetProductCategoryList(),
-				ProductCategory = product.ProductCategoryId,
-				AmountInStock = product.AmountInStock,
-				Price = product.Price,
-				Description = product.Description,
+				Id = productDto.Id,
+				Name = productDto.Name,
+				ProductCategoriesDto = _productCategoryService.GetProductCategoriesList(),
+				ProductCategory = productDto.ProductCategoryId,
+				AmountInStock = productDto.AmountInStock,
+				Price = productDto.Price,
+				Description = productDto.Description,
 				Heading = "Edit a product",
 			};
 
@@ -193,7 +178,7 @@ namespace szalkszop.Services
 
 		public void EditProduct(ProductViewModel viewModel)
 		{
-			var product = GetEditingProduct(viewModel.Id);
+			var product = _productRepository.GetProduct(viewModel.Id);
 
 			product.Name = viewModel.Name;
 			product.ProductCategoryId = viewModel.ProductCategory;
@@ -210,9 +195,9 @@ namespace szalkszop.Services
 			_productRepository.SaveChanges();
 		}
 
-		public bool IsProductExist(int id)
+		public bool ProductExist(int id)
 		{
-			return _productRepository.IsProductExist(id);
+			return _productRepository.DoesProductExist(id);
 		}
 	}
 }

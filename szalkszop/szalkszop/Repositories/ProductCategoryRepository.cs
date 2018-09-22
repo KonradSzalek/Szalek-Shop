@@ -17,7 +17,7 @@ namespace szalkszop.Repositories
 		}
 
         // cr3 po co ProductCategory jest w nazwie? przeciez to jest productCategory repository wiec chyba jasne
-		public IEnumerable<ProductCategory> GetProductCategoryList()
+		public IEnumerable<ProductCategory> GetProductCategories()
 		{
 			return _context.ProductsCategories;
 		}
@@ -33,7 +33,7 @@ namespace szalkszop.Repositories
 			_context.ProductsCategories.Add((category));
 		}
 
-		public void Remove(int id)
+		public void DeleteProductCategory(int id)
 		{	
 			_context.ProductsCategories.Remove(_context.ProductsCategories.Single(p => p.Id == id));
 		}
@@ -46,7 +46,7 @@ namespace szalkszop.Repositories
         // cr3 super ze umiesciles te metode w repozytorium, nazwa jednak jest tragiczna
         // kazda nazwa jaka zapiszesz musi byc zapisana gramatycznie, mimo ze moze ci sie wydawac inaczej
         // wystarczy samo Exists()
-		public bool IsCategoryExist(int id)
+		public bool DoesProductCategoryExist(int id)
 		{
 			return _context.ProductsCategories.Any(p => p.Id == id);
 		}

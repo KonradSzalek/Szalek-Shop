@@ -8,10 +8,6 @@ namespace szalkszop.Areas.Admin.Controllers
 	[ApplicationUser.AuthorizeRedirectToHomePage(Roles = "Admin")]
 	public class ProductCategoryController : Controller
 	{
-
-        // cr1 kompletnie zle rozdzielasz viewmodele -> wiecej powiem na zywo
-        // kazdy widok ma miec wlasny viewmodel
-        // nie mozesz reuzywasz viewmodeli do roznych widokow ktore robia co innego
 		private readonly IProductCategoryService _productCategoryService;
 
 		public ProductCategoryController(IProductCategoryService productCategoryService)
@@ -21,29 +17,32 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Index()
 		{
-			var viewModel = _productCategoryService.GetProductCategoryViewModel();
+			var viewModel = _productCategoryService.GetProductCategoriesWithProductCountViewModel();
 
 			return View(viewModel);
 		}
 
-		public ActionResult CreateCategory()
+		public ActionResult Create()
 		{
-			var viewModel = _productCategoryService.AddProductCategoryViewModel(); // cr3 sam powinienes tworzyc ten viewmodel w kontrolerze
+			var viewModel = new ProductCategoryViewModel
+			{
+				Heading = "Add a new category",
+			};
 
 			return View("CategoryForm", viewModel);
 		}
 
 		[HttpPost]
-		public ActionResult CreateCategory(ProductCategoryViewModel viewModel)
+		public ActionResult Create(ProductCategoryViewModel viewModel)
 		{
 			_productCategoryService.AddProductCategory(viewModel);
 
 			return RedirectToAction("Index", "ProductCategory");
 		}
 
-		public ActionResult DeleteCategory(int id)
+		public ActionResult Delete(int id)
 		{
-			if (!_productCategoryService.IsProductCategoryExist(id))
+			if (!_productCategoryService.ProductCategoryExist(id))
 				return HttpNotFound();
 
 			_productCategoryService.DeleteProductCategory(id);
@@ -51,10 +50,9 @@ namespace szalkszop.Areas.Admin.Controllers
 			return RedirectToAction("Index", "ProductCategory");
 		}
 
-		public ActionResult EditCategory(int id)
+		public ActionResult Edit(int id)
 		{
-
-			if (!_productCategoryService.IsProductCategoryExist(id))
+			if (!_productCategoryService.ProductCategoryExist(id))
 				return HttpNotFound();
 
 			var viewModel = _productCategoryService.EditProductCategoryViewModel(id);
@@ -64,9 +62,9 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult EditCategory(ProductCategoryViewModel viewModel)
+		public ActionResult Edit(ProductCategoryViewModel viewModel)
 		{
-			if (!_productCategoryService.IsProductCategoryExist(viewModel.Id))
+			if (!_productCategoryService.ProductCategoryExist(viewModel.Id))
 				return HttpNotFound();
 
 			_productCategoryService.EditProductCategory(viewModel);

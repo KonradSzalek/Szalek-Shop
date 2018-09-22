@@ -1,11 +1,8 @@
-﻿using Antlr.Runtime.Misc;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using szalkszop.Areas.Admin.Controllers;
-using szalkszop.Core.Models;
-using szalkszop.DTO;
 
 namespace szalkszop.ViewModels
 {
@@ -21,19 +18,16 @@ namespace szalkszop.ViewModels
 
 		public string Heading { get; set; }
 
-		public IEnumerable<ProductCategorySearchResultDto> ProductCategoriesSearchResultDto { get; set; } // to nie powinno byc w tym viewmodelu
-		public IEnumerable<ProductCategory> ProductCategories { get; set; } // to nie powinno byc w tym viewmodelu
-
 		public string Action
 		{
 			get
 			{
 				Expression<Func<ProductCategoryController,
-					ActionResult>> update = (c => c.EditCategory(this));
+					ActionResult>> edit = (c => c.Edit(this));
 				Expression<Func<ProductCategoryController,
-					ActionResult>> create = (c => c.CreateCategory(this));
+					ActionResult>> create = (c => c.Create(this));
 
-				var action = (Id != 0) ? update : create;
+				var action = (Id != 0) ? edit : create;
 				return (action.Body as MethodCallExpression).Method.Name;
 			}
 		}

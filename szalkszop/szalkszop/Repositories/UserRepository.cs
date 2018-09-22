@@ -50,7 +50,7 @@ namespace szalkszop.Repositories
 			}
 		}
 
-		public void Remove(string id)
+		public void DeleteUser(string id)
 		{
 			_context.Users.Remove(_context.Users.Single(u => u.Id == id));
 		}

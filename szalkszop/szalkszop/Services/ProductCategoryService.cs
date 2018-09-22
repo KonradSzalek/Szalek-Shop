@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
 using szalkszop.Mappers;
@@ -15,10 +13,11 @@ namespace szalkszop.Services
 		private readonly IProductRepository _productRepository;
 		private readonly IProductCategoryMapper _productCategoryMapper;
 
-        // cr3 musze napisac pare zdan o odpowiedzialnosci serwisu
-        // serwis powinien komunikowac sie z repozytorium zeby zwracac kontrolerowi dane oraz zeby przyjmowac dane od kontrolera i wrzucac je do bazy
-        // serwis nie powinien wiedziec o tym ze ma ustawic jakis heading w viewmodelu, bo sam w sobie o widokach serwis nic nie wie
-        // tak samo serwis nie powinien przygotowywac pustego viewmodelu kontrolerowi do przekazania na widok, to powinien robic kontroler
+		// cr3 musze napisac pare zdan o odpowiedzialnosci serwisu
+		// serwis powinien komunikowac sie z repozytorium zeby zwracac kontrolerowi dane oraz zeby przyjmowac dane od kontrolera i wrzucac je do bazy
+		// serwis nie powinien wiedziec o tym ze ma ustawic jakis heading w viewmodelu, bo sam w sobie o widokach serwis nic nie wie
+		// tak samo serwis nie powinien przygotowywac pustego viewmodelu kontrolerowi do przekazania na widok, to powinien robic kontroler
+		// tak na marginesie to ta metoda powinna byc prywatna bo zwraca model a nie chcesz nigdzie wyzej tego udostepniac 
 
 		public ProductCategoryService(ProductCategoryRepository productCategoryRepository, ProductCategoryMapper productCategoryMapper, ProductRepository productRepository)
 		{
@@ -27,30 +26,18 @@ namespace szalkszop.Services
 			_productRepository = productRepository;
 		}
 
-        // cr3 ta metoda jest uzywana jedynie w jednej metodzie ProductCategoryService
-        // nie widze potrzeby jej istnienia, pomniewaz ani nie zawiera oni skomplikowanego kodu ani nie jest reuzywana
-        // wywal ja
-        // tak na marginesie to ta metoda powinna byc prywatna bo zwraca model a nie chcesz nigdzie wyzej tego udostepniac
-		public IEnumerable<ProductCategory> GetProductCategories()
+		public IEnumerable<ProductCategoryDto> GetProductCategoriesList()
 		{
-			var categories = _productCategoryRepository.GetProductCategoryList().ToList();
+			var productCategories = _productCategoryRepository.GetProductCategories();
 
-			return categories;
+			return _productCategoryMapper.MapToDto(productCategories);
 		}
 
-        // cr3 po pierwsze nie wiem po co editing jest w nazwie po drugie ta metoda jest uzywana tylko raz, w tym samym serwisie, po prostu przenies te jedna linijke tam gdzie trzeba
-		public ProductCategoryDto GetEditingProductCategoryDto(int id)
+		public IEnumerable<ProductCategoryWithProductCountDto> GetCategoriesWithAmountOfProducts()
 		{
-			var productCategory = _productCategoryRepository.GetProductCategory(id);
-
-			return _productCategoryMapper.MapToDto(productCategory);
-		}
-
-		public IEnumerable<ProductCategorySearchResultDto> GetCategoriesWithAmountOfProducts()
-		{		
 			var products = _productRepository.GetProductList();
-			var categories = _productCategoryRepository.GetProductCategoryList();
-            
+			var categories = _productCategoryRepository.GetProductCategories();
+
 			return _productCategoryMapper.MapToDtoWithAmountOfProducts(products, categories);
 		}
 
@@ -60,6 +47,7 @@ namespace szalkszop.Services
 			{
 				Name = viewModel.Name
 			};
+
 			_productCategoryRepository.Add(category);
 			_productCategoryRepository.SaveChanges();
 		}
@@ -75,71 +63,51 @@ namespace szalkszop.Services
 
 		public void DeleteProductCategory(int id)
 		{
-			_productCategoryRepository.Remove(id);
+			_productCategoryRepository.DeleteProductCategory(id);
 			_productCategoryRepository.SaveChanges();
 		}
 
-        // cr3 gdzies juz napisaelm ze nazwa z dupy dla pewnosci pisze i tutaj
-		public bool IsProductCategoryExist(int id)
+		public bool ProductCategoryExist(int id)
 		{
-			return _productCategoryRepository.IsCategoryExist(id);
+			return _productCategoryRepository.DoesProductCategoryExist(id);
 		}
 
-        // cr3 serwis nie powinien wiedziec ze dany viewmodel bedzie partialem lub nie
-		public ProductCategoryViewModel GetPartialCategoryView()
+
+		public ProductCategoriesWithProductCountViewModel GetProductCategoriesWithProductCountViewModel()
 		{
-			var viewModel = new ProductCategoryViewModel
+			var viewModel = new ProductCategoriesWithProductCountViewModel
 			{
-				ProductCategoriesSearchResultDto = GetCategoriesWithAmountOfProducts(),
+				ProductCategoriesWithProductCountDto = GetCategoriesWithAmountOfProducts(),
 			};
 
 			return viewModel;
 		}
 
-		public ProductCategoryViewModel GetProductCategorySearchResultViewModel()
+		public ProductCategoriesViewModel GetProductCategoriesViewModel()
 		{
-			var viewModel = new ProductCategoryViewModel
+			var productCategories = _productCategoryRepository.GetProductCategories();
+			var productCategoriesDto = _productCategoryMapper.MapToDto(productCategories);
+
+			var viewModel = new ProductCategoriesViewModel
 			{
-				Heading = "Product Categories", // serwis nie powinien wiedziec o takich rzeczach jak heading
-				ProductCategoriesSearchResultDto = GetCategoriesWithAmountOfProducts(),
+				ProductCategoriesDto = productCategoriesDto,
 			};
 
 			return viewModel;
 		}
 
-		public ProductCategoryViewModel GetProductCategoryViewModel()
+		public ProductCategoryViewModel EditProductCategoryViewModel(int id)
 		{
+			var productCategory = _productCategoryRepository.GetProductCategory(id);
+
 			var viewModel = new ProductCategoryViewModel
 			{
-				ProductCategoriesSearchResultDto = GetCategoriesWithAmountOfProducts(),
+				Heading = "Update Category",
+				Name = productCategory.Name,
+				Id = productCategory.Id,
 			};
 
 			return viewModel;
 		}
-
-        // cr3 ten kod powinien byc w kontrolerze
-        public ProductCategoryViewModel AddProductCategoryViewModel()
-        {
-            var viewModel = new ProductCategoryViewModel
-            {
-                Heading = "Add a new category",
-            };
-
-            return viewModel;
-        }
-
-        // cr3 Ten kod powinien byc w kontrolerze
-        public ProductCategoryViewModel EditProductCategoryViewModel(int id)
-        {
-            var category = GetEditingProductCategoryDto(id);
-
-            var viewModel = new ProductCategoryViewModel
-            {
-                Heading = "Update Category",
-                Name = category.Name,
-            };
-
-            return viewModel;
-        }
-    }
+	}
 }

@@ -4,10 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using szalkszop.Areas.Admin.Controllers;
-using szalkszop.Controllers;
-using szalkszop.Core.Models;
 using szalkszop.DTO;
-using szalkszop.Repositories;
 
 namespace szalkszop.ViewModels
 {
@@ -46,21 +43,15 @@ namespace szalkszop.ViewModels
 			get
 			{
 				Expression<Func<ProductsController,
-					ActionResult>> update = (c => c.EditProduct(this));
+					ActionResult>> edit = (c => c.Edit(this));
 				Expression<Func<ProductsController,
-					ActionResult>> create = (c => c.CreateProduct(this));
+					ActionResult>> create = (c => c.Create(this));
 
-				var action = (Id != 0) ? update : create;
+				var action = (Id != 0) ? edit : create;
 				return (action.Body as MethodCallExpression).Method.Name;
 			}
 		}
 
-		public IEnumerable<ProductCategory> ProductCategories { get; set; }
-
-		public IEnumerable<ProductDto> ProductsDto { get; set; }
-
-		public IEnumerable<Product> Products { get; set; }
-
-		public IEnumerable<ProductCategorySearchResultDto> ProductCategoriesSearchResultDto { get; set; }
+		public IEnumerable<ProductCategoryDto> ProductCategoriesDto { get; set; }
 	}
 }

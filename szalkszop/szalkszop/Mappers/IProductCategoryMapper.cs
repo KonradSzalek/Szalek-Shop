@@ -11,6 +11,6 @@ namespace szalkszop.Mappers
 	{
 		IEnumerable<ProductCategoryDto> MapToDto(IEnumerable<ProductCategory> categories);
 		ProductCategoryDto MapToDto(ProductCategory productCategory);
-		IEnumerable<ProductCategorySearchResultDto> MapToDtoWithAmountOfProducts(IEnumerable<Product> products, IEnumerable<ProductCategory> categories);
+		IEnumerable<ProductCategoryWithProductCountDto> MapToDtoWithAmountOfProducts(IEnumerable<Product> products, IEnumerable<ProductCategory> categories);
 	}
 }

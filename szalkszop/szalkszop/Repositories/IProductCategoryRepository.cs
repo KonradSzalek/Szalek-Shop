@@ -6,11 +6,11 @@ namespace szalkszop.Repositories
 {
 	public interface IProductCategoryRepository
 	{
-		IEnumerable<ProductCategory> GetProductCategoryList();
+		IEnumerable<ProductCategory> GetProductCategories();
 		ProductCategory GetProductCategory(int id);
 		void Add(ProductCategory category);
-		void Remove(int id);
+		void DeleteProductCategory(int id);
 		void SaveChanges();
-		bool IsCategoryExist(int id);
+		bool DoesProductCategoryExist(int id);
 	}
 }

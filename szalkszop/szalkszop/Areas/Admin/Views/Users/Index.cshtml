@@ -1,10 +1,10 @@
 ﻿@model szalkszop.ViewModels.UsersViewModel
 @{
-	ViewBag.Title = @Model.Heading;
+	ViewBag.Title = "Heading";
 	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>@Model.Heading</h2>
+<h2>Heading</h2>
 @using (Html.BeginForm("Search", "Users"))
 {
 	<div class="form-group">
@@ -33,13 +33,13 @@
 				<td>@user.Name @user.Surname</td>
 				<td>@user.RegistrationDateTime</td>
 				<td>
-					@Html.ActionLink("Edit", "EditUser", new { id = user.Id })
+					@Html.ActionLink("Edit", "Edit", new { id = user.Id })
 					<br />
-					@Html.ActionLink("Delete", "DeleteUser", new { id = user.Id })
+					@Html.ActionLink("Delete", "Delete", new { id = user.Id })
 				</td>
 			</tr>
 		}
 	</tbody>
 </table>
 <br />
-@Html.ActionLink("Add a new user", "CreateUser", "Users")
+@Html.ActionLink("Add a new user", "Create", "Users")

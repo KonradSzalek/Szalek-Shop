@@ -23,7 +23,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		}
         
 		[HttpPost]
-		public ActionResult Search(ProductSearchModel searchModel)
+		public ActionResult Search(ProductSearchViewModel searchModel)
 		{
 			var viewModel = _productService.GetQueriedProductSearchViewModel(searchModel);
 
@@ -32,12 +32,12 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Index()
 		{
-			var viewModel = _productService.GetProductViewModel();
+			var viewModel = _productService.GetProductsViewModel();
 
 			return View(viewModel);
 		}
 
-		public ActionResult CreateProduct()
+		public ActionResult Create()
 		{
 			var viewModel = _productService.AddProductViewModel();
 
@@ -45,16 +45,16 @@ namespace szalkszop.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult CreateProduct(ProductViewModel viewModel)
+		public ActionResult Create(ProductViewModel viewModel)
 		{
 			_productService.AddProduct(viewModel);
 
 			return RedirectToAction("Index", "Products");
 		}
 
-		public ActionResult EditProduct(int id)
+		public ActionResult Edit(int id)
 		{
-			if (!_productService.IsProductExist(id))
+			if (!_productService.ProductExist(id))
 				return HttpNotFound();
 
 			var viewModel = _productService.EditProductViewModel(id);
@@ -64,9 +64,9 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult EditProduct(ProductViewModel viewModel)
+		public ActionResult Edit(ProductViewModel viewModel)
 		{
-			if (!_productService.IsProductExist(viewModel.Id))
+			if (!_productService.ProductExist(viewModel.Id))
 				return HttpNotFound();
 
 			_productService.EditProduct(viewModel);
@@ -74,9 +74,9 @@ namespace szalkszop.Areas.Admin.Controllers
 			return RedirectToAction("Index", "Products");
 		}
 
-		public ActionResult DeleteProduct(int id)
+		public ActionResult Delete(int id)
 		{
-			if (!_productService.IsProductExist(id))
+			if (!_productService.ProductExist(id))
 				return HttpNotFound();
 
 			_productService.DeleteProduct(id);

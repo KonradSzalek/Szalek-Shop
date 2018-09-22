@@ -9,7 +9,7 @@
 @using (Html.BeginForm(Model.Action, "ProductCategory"))
 {
 	@Html.AntiForgeryToken()
-
+		
 	<div class="form-group">
 		@Html.LabelFor(m => m.Name)
 		@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })

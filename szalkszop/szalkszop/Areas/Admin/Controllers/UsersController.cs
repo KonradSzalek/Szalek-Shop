@@ -28,15 +28,18 @@ namespace szalkszop.Areas.Admin.Controllers
 			return RedirectToAction("Index", "Users", new { query = viewModel.SearchTerm });
 		}
 
-		public ActionResult CreateUser()
+		public ActionResult Create()
 		{
-			var viewModel = _userService.AddUserViewModel();
+			var viewModel = new UserViewModel
+			{
+				Heading = "Add a new user"
+			};
 
 			return View("UserForm", viewModel);
 		}
 
 		[HttpPost]
-		public ActionResult CreateUser(UsersViewModel viewModel)
+		public ActionResult Create(UserViewModel viewModel)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -48,9 +51,9 @@ namespace szalkszop.Areas.Admin.Controllers
 			return RedirectToAction("Index", "Users");
 		}
 
-		public ActionResult DeleteUser(string id)
+		public ActionResult Delete(string id)
 		{
-			if (!_userService.IsUserExist(id))
+			if (!_userService.UserExist(id))
 				return HttpNotFound();
 
 			_userService.DeleteUser(id);
@@ -58,9 +61,9 @@ namespace szalkszop.Areas.Admin.Controllers
 			return RedirectToAction("Index", "Users");
 		}
 
-		public ActionResult EditUser(string id)
+		public ActionResult Edit(string id)
 		{
-			if (!_userService.IsUserExist(id))
+			if (!_userService.UserExist(id))
 				return HttpNotFound();
 
 			var viewModel = _userService.EditUserViewModel(id);
@@ -70,9 +73,9 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult EditUser(UsersViewModel viewModel)
+		public ActionResult Edit(UserViewModel viewModel)
 		{
-			if (!_userService.IsUserExist(viewModel.Id))
+			if (!_userService.UserExist(viewModel.Id))
 				return HttpNotFound();
 
 			_userService.EditUser(viewModel);

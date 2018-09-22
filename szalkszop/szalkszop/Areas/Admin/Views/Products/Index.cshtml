@@ -1,9 +1,9 @@
-﻿@model szalkszop.ViewModels.ProductViewModel
+﻿@model szalkszop.ViewModels.ProductsViewModel
 @{
 	ViewBag.Title = "Product List";
 	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-<h2>@Model.Heading</h2>
+<h2>Heading</h2>
 
 @Html.ActionLink("Search for a product","Search", "Products")
 
@@ -20,7 +20,7 @@
 	</tr>
 	</thead>
 	<tbody>
-	@foreach (var product in Model.Products)
+	@foreach (var product in Model.ProductsDto)
 	{
 		<tr>
 			<td>@product.Name</td>
@@ -30,15 +30,15 @@
 			<td>@product.Price</td>
 			<td>@product.Description</td>
 			<td>
-				@Html.ActionLink("Edit", "EditProduct", new { id = product.Id })
+				@Html.ActionLink("Edit", "Edit", new { id = product.Id })
 				<br/>
-				@Html.ActionLink("Delete", "DeleteProduct", new { id = product.Id })
+				@Html.ActionLink("Delete", "Delete", new { id = product.Id })
 			</td>			
 		</tr>
 	}
 	</tbody>
 </table>
 <br/>
-@Html.ActionLink("Add a product", "CreateProduct")
+@Html.ActionLink("Add a product", "Create")
 
 

@@ -29,7 +29,7 @@ namespace szalkszop.Controllers
 
 		public ActionResult PartialCategories()
 		{
-			var viewModel = _productCategoryService.GetPartialCategoryView();
+			var viewModel = _productCategoryService.GetProductCategoriesWithProductCountViewModel();
 
 			return View("PartialCategories", viewModel);
 		}
@@ -42,7 +42,7 @@ namespace szalkszop.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult ProductSearch(ProductSearchModel searchModel)
+		public ActionResult ProductSearch(ProductSearchViewModel searchModel)
 		{
 			var viewModel = _productService.GetQueriedProductSearchViewModel(searchModel);
 
@@ -51,28 +51,31 @@ namespace szalkszop.Controllers
 
 		public ActionResult Products()
 		{
-			var viewModel = _productService.GetProductViewModel();
+			var viewModel = _productService.GetProductsViewModel();
 
 			return View(viewModel);
 		}
 
 		public ActionResult ProductCategories()
 		{
-			var viewModel = _productCategoryService.GetProductCategorySearchResultViewModel();
+			// ustawić heading view wspolny
+			var viewModel = _productCategoryService.GetProductCategoriesWithProductCountViewModel();
 
 			return View(viewModel);
 		}
 
 		public ActionResult ShowCategories()
 		{
-			var viewModel = _productCategoryService.GetProductCategoryViewModel();
+			// ustawic heading view wspolny
+
+			var viewModel = _productCategoryService.GetProductCategoriesViewModel();
 
 			return View("LeftPanel", viewModel);
 		}
 
-		public ActionResult ShowProductInCategory(int id)
+		public ActionResult ShowProductInCategory(int categoryId)
 		{
-			var viewModel = _productService.GetShowProductInCategoryViewModel(id);
+			var viewModel = _productService.GetProductsByCategoryViewModel(categoryId);
 
 			return View("Products", viewModel);
 		}

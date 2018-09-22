@@ -33,7 +33,7 @@ namespace szalkszop.Repositories
 			_context.Products.Remove(_context.Products.Single(p => p.Id == id));
 		}
 
-		public bool IsProductExist(int id)
+		public bool DoesProductExist(int id)
 		{
 			return _context.Products.Any(p => p.Id == id);
 		}

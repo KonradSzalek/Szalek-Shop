@@ -13,6 +13,6 @@ namespace szalkszop.Repositories
 		Product GetProduct(int id);
 		DbSet<Product> GetProductList();
 		void SaveChanges();
-		bool IsProductExist(int id);
+		bool DoesProductExist(int id);
 	}
 }

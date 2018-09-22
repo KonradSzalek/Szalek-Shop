@@ -29,9 +29,9 @@ namespace szalkszop.Repositories
 			return productCategoryDto;
 		}
 
-		public IEnumerable<ProductCategorySearchResultDto> MapToDtoWithAmountOfProducts(IEnumerable<Product> products, IEnumerable<ProductCategory> categories)
+		public IEnumerable<ProductCategoryWithProductCountDto> MapToDtoWithAmountOfProducts(IEnumerable<Product> products, IEnumerable<ProductCategory> categories)
 		{
-			var categoriesDto = categories.Select(category => new ProductCategorySearchResultDto()
+			var categoriesDto = categories.Select(category => new ProductCategoryWithProductCountDto()
 			{
 				Id = category.Id,
 				Name = category.Name,
