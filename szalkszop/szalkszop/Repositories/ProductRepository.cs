@@ -13,12 +13,12 @@ namespace szalkszop.Repositories
 			_context = context;
 		}
 
-		public DbSet<Product> GetProductList()
+		public DbSet<Product> GetList()
 		{
 			return _context.Products;
 		}
 
-		public Product GetProduct(int id)
+		public Product Get(int id)
 		{
 			return _context.Products.Include(p => p.ProductCategory).Single(u => u.Id == id);
 		}
@@ -28,12 +28,12 @@ namespace szalkszop.Repositories
 			_context.Products.Add(product);
 		}
 
-		public void Remove(int id)
+		public void Delete(int id)
 		{
 			_context.Products.Remove(_context.Products.Single(p => p.Id == id));
 		}
 
-		public bool DoesProductExist(int id)
+		public bool Exists(int id)
 		{
 			return _context.Products.Any(p => p.Id == id);
 		}

@@ -20,12 +20,12 @@ namespace szalkszop.Repositories
 			userManager = new UserManager<ApplicationUser>(userStore);
 		}
 
-		public IEnumerable<ApplicationUser> GetUserList()
+		public IEnumerable<ApplicationUser> GetList()
 		{
 			return _context.Users;
 		}
 
-		public ApplicationUser GetUser(string id)
+		public ApplicationUser Get(string id)
 		{
 			return _context.Users.Single(u => u.Id == id);
 		}
@@ -50,12 +50,12 @@ namespace szalkszop.Repositories
 			}
 		}
 
-		public void DeleteUser(string id)
+		public void Delete(string id)
 		{
 			_context.Users.Remove(_context.Users.Single(u => u.Id == id));
 		}
 
-		public bool IsUserExist(string id)
+		public bool Exists(string id)
 		{
 			return _context.Users.Any(u => u.Id == id);
 		}

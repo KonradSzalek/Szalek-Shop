@@ -261,9 +261,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Mappers\IProductCategoryMapper.cs" />
-    <Compile Include="Mappers\IProductMapper.cs" />
-    <Compile Include="Mappers\IUserMapper.cs" />
     <Compile Include="Migrations\201707080857219_InitialCreate.cs" />
     <Compile Include="Migrations\201707080857219_InitialCreate.Designer.cs">
       <DependentUpon>201707080857219_InitialCreate.cs</DependentUpon>

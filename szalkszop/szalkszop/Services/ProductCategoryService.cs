@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
-using szalkszop.Mappers;
 using szalkszop.Repositories;
 using szalkszop.ViewModels;
 
@@ -11,34 +10,26 @@ namespace szalkszop.Services
 	{
 		private readonly IProductCategoryRepository _productCategoryRepository;
 		private readonly IProductRepository _productRepository;
-		private readonly IProductCategoryMapper _productCategoryMapper;
 
-		// cr3 musze napisac pare zdan o odpowiedzialnosci serwisu
-		// serwis powinien komunikowac sie z repozytorium zeby zwracac kontrolerowi dane oraz zeby przyjmowac dane od kontrolera i wrzucac je do bazy
-		// serwis nie powinien wiedziec o tym ze ma ustawic jakis heading w viewmodelu, bo sam w sobie o widokach serwis nic nie wie
-		// tak samo serwis nie powinien przygotowywac pustego viewmodelu kontrolerowi do przekazania na widok, to powinien robic kontroler
-		// tak na marginesie to ta metoda powinna byc prywatna bo zwraca model a nie chcesz nigdzie wyzej tego udostepniac 
-
-		public ProductCategoryService(ProductCategoryRepository productCategoryRepository, ProductCategoryMapper productCategoryMapper, ProductRepository productRepository)
+		public ProductCategoryService(ProductCategoryRepository productCategoryRepository, ProductRepository productRepository)
 		{
 			_productCategoryRepository = productCategoryRepository;
-			_productCategoryMapper = productCategoryMapper;
 			_productRepository = productRepository;
 		}
 
 		public IEnumerable<ProductCategoryDto> GetProductCategoriesList()
 		{
-			var productCategories = _productCategoryRepository.GetProductCategories();
+			var productCategories = _productCategoryRepository.GetList();
 
-			return _productCategoryMapper.MapToDto(productCategories);
+			return ProductCategoryMapper.MapToDto(productCategories);
 		}
 
 		public IEnumerable<ProductCategoryWithProductCountDto> GetCategoriesWithAmountOfProducts()
 		{
-			var products = _productRepository.GetProductList();
-			var categories = _productCategoryRepository.GetProductCategories();
+			var products = _productRepository.GetList();
+			var categories = _productCategoryRepository.GetList();
 
-			return _productCategoryMapper.MapToDtoWithAmountOfProducts(products, categories);
+			return ProductCategoryMapper.MapToDtoWithAmountOfProducts(products, categories);
 		}
 
 		public void AddProductCategory(ProductCategoryViewModel viewModel)
@@ -54,7 +45,7 @@ namespace szalkszop.Services
 
 		public void EditProductCategory(ProductCategoryViewModel viewModel)
 		{
-			var category = _productCategoryRepository.GetProductCategory(viewModel.Id);
+			var category = _productCategoryRepository.Get(viewModel.Id);
 
 			category.Name = viewModel.Name;
 
@@ -63,13 +54,13 @@ namespace szalkszop.Services
 
 		public void DeleteProductCategory(int id)
 		{
-			_productCategoryRepository.DeleteProductCategory(id);
+			_productCategoryRepository.Delete(id);
 			_productCategoryRepository.SaveChanges();
 		}
 
 		public bool ProductCategoryExist(int id)
 		{
-			return _productCategoryRepository.DoesProductCategoryExist(id);
+			return _productCategoryRepository.Exists(id);
 		}
 
 
@@ -85,8 +76,8 @@ namespace szalkszop.Services
 
 		public ProductCategoriesViewModel GetProductCategoriesViewModel()
 		{
-			var productCategories = _productCategoryRepository.GetProductCategories();
-			var productCategoriesDto = _productCategoryMapper.MapToDto(productCategories);
+			var productCategories = _productCategoryRepository.GetList();
+			var productCategoriesDto = ProductCategoryMapper.MapToDto(productCategories);
 
 			var viewModel = new ProductCategoriesViewModel
 			{
@@ -98,7 +89,7 @@ namespace szalkszop.Services
 
 		public ProductCategoryViewModel EditProductCategoryViewModel(int id)
 		{
-			var productCategory = _productCategoryRepository.GetProductCategory(id);
+			var productCategory = _productCategoryRepository.Get(id);
 
 			var viewModel = new ProductCategoryViewModel
 			{

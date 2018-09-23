@@ -6,14 +6,14 @@ using szalkszop.Mappers;
 
 namespace szalkszop.Repositories
 {
-	public class ProductMapper : IProductMapper
+	public static class ProductMapper
 	{
-		public IEnumerable<ProductDto> MapToDto(IEnumerable<Product> products)
+		public static IEnumerable<ProductDto> MapToDto(IEnumerable<Product> products)
 		{
 			return products.Select(n => MapToDto(n));
 		}
 
-		public ProductDto MapToDto(Product product)
+		public static ProductDto MapToDto(Product product)
 		{
 			var productDto = new ProductDto()
 			{

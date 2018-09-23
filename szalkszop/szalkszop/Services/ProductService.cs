@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using szalkszop.Core.Models;
-using szalkszop.DTO;
-using szalkszop.Mappers;
 using szalkszop.Repositories;
 using szalkszop.ViewModels;
 
@@ -14,18 +12,16 @@ namespace szalkszop.Services
 	{
 		private readonly IProductRepository _productRepository;
 		private readonly IProductCategoryService _productCategoryService;
-		private readonly IProductMapper _productMapper;
 
-		public ProductService(IProductRepository productRepository, IProductCategoryService productCategoryRepository, ProductMapper productMapper)
+		public ProductService(IProductRepository productRepository, IProductCategoryService productCategoryRepository)
 		{
 			_productRepository = productRepository;
 			_productCategoryService = productCategoryRepository;
-			_productMapper = productMapper;
 		}
 
 		private IEnumerable<Product> GetProductsWithCategory()
 		{
-			var products = _productRepository.GetProductList()
+			var products = _productRepository.GetList()
 				.Include(p => p.ProductCategory)
 				.ToList();
 
@@ -57,13 +53,13 @@ namespace szalkszop.Services
 
 		public ProductsViewModel GetThreeNewestProductsViewModel()
 		{
-			var products = _productRepository.GetProductList()
+			var products = _productRepository.GetList()
 				.Include(p => p.ProductCategory)
 				.OrderByDescending(d => d.DateOfAdding)
 				.Take(3)
 				.ToList();
 
-			var productsDto = _productMapper.MapToDto(products);
+			var productsDto = ProductMapper.MapToDto(products);
 
 			var viewModel = new ProductsViewModel
 			{
@@ -75,12 +71,12 @@ namespace szalkszop.Services
 
 		public ProductsViewModel GetProductsByCategoryViewModel(int categoryId)
 		{
-			var products = _productRepository.GetProductList()
+			var products = _productRepository.GetList()
 				.Include(p => p.ProductCategory)
 				.Where(p => p.ProductCategoryId == categoryId)
 				.ToList();
 
-			var productsDto = _productMapper.MapToDto(products);
+			var productsDto = ProductMapper.MapToDto(products);
 
 			var viewModel = new ProductsViewModel
 			{
@@ -104,7 +100,7 @@ namespace szalkszop.Services
 		{
 			var products = GetQueriedProducts(searchModel, GetProductsWithCategory());
 
-			var productsDto = _productMapper.MapToDto(products);
+			var productsDto = ProductMapper.MapToDto(products);
 
 			var viewModel = new ProductsViewModel
 			{
@@ -118,7 +114,7 @@ namespace szalkszop.Services
 		{
 			var products = GetProductsWithCategory();
 
-			var productsDto = _productMapper.MapToDto(products);
+			var productsDto = ProductMapper.MapToDto(products);
 
 			var viewModel = new ProductsViewModel
 			{
@@ -141,9 +137,9 @@ namespace szalkszop.Services
 
 		public ProductViewModel EditProductViewModel(int id)
 		{
-			var product = _productRepository.GetProduct(id);
+			var product = _productRepository.Get(id);
 
-			var productDto = _productMapper.MapToDto(product);
+			var productDto = ProductMapper.MapToDto(product);
 
 			var viewModel = new ProductViewModel
 			{
@@ -178,7 +174,7 @@ namespace szalkszop.Services
 
 		public void EditProduct(ProductViewModel viewModel)
 		{
-			var product = _productRepository.GetProduct(viewModel.Id);
+			var product = _productRepository.Get(viewModel.Id);
 
 			product.Name = viewModel.Name;
 			product.ProductCategoryId = viewModel.ProductCategory;
@@ -191,13 +187,13 @@ namespace szalkszop.Services
 
 		public void DeleteProduct(int id)
 		{
-			_productRepository.Remove(id);
+			_productRepository.Delete(id);
 			_productRepository.SaveChanges();
 		}
 
 		public bool ProductExist(int id)
 		{
-			return _productRepository.DoesProductExist(id);
+			return _productRepository.Exists(id);
 		}
 	}
 }

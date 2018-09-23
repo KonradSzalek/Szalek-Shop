@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
-using szalkszop.Mappers;
 
 namespace szalkszop.Repositories
 {
-	public class UserMapper : IUserMapper
+	public static class UserMapper
 	{
-		public IEnumerable<UserDto> MapToDto(IEnumerable<ApplicationUser> users)
+		public static IEnumerable<UserDto> MapToDto(IEnumerable<ApplicationUser> users)
 		{
 			return users.Select(n => MapToDto(n));
 		}
 
-		public UserDto MapToDto(ApplicationUser user)
+		public static UserDto MapToDto(ApplicationUser user)
 		{
 			var userDto = new UserDto()
 			{

@@ -6,11 +6,11 @@ namespace szalkszop.Repositories
 {
 	public interface IUserRepository
 	{
-		IEnumerable<ApplicationUser> GetUserList();
-		ApplicationUser GetUser(string id);
+		IEnumerable<ApplicationUser> GetList();
+		ApplicationUser Get(string id);
 		void Add(ApplicationUser user);
-		void DeleteUser(string id);
-		bool IsUserExist(string id);
+		void Delete(string id);
+		bool Exists(string id);
 		void SaveChanges();
 	}
 }
