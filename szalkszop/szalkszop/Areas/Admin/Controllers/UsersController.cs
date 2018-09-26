@@ -15,6 +15,7 @@ namespace szalkszop.Areas.Admin.Controllers
 			_userService = userService;
 		}
 
+        // cr4 spokojnie mogles wstawic tutaj ViewModel jako parametr
 		public ActionResult Index(string query = null)
 		{
 			var viewModel = _userService.GetUsersViewModel(query);

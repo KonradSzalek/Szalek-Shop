@@ -51,6 +51,8 @@ namespace szalkszop.Services
 			return products;
 		}
 
+        // cr4 w takich wypadkach wolalbym zebys ten viewmodel tworzyl w kontrolerze
+        // a z serwisu zwracal jedynie liste i metoda by sie wtedy ladnie nazywala GetThreeNewestProducts
 		public ProductsViewModel GetThreeNewestProductsViewModel()
 		{
 			var products = _productRepository.GetList()
@@ -69,6 +71,7 @@ namespace szalkszop.Services
 			return viewModel;
 		}
 
+        // cr4 to samo, tworzenie viewmodelu do kontrolera, unikaj nazw z "viewmodel" w serwisie
 		public ProductsViewModel GetProductsByCategoryViewModel(int categoryId)
 		{
 			var products = _productRepository.GetList()
@@ -98,6 +101,8 @@ namespace szalkszop.Services
 
 		public ProductsViewModel GetQueriedProductSearchViewModel(ProductSearchViewModel searchModel)
 		{
+            // cr4 zle, ten kod pobiera wszystkie produkty z bazy i dopiero liste w pamieci filtruje, niech metoda GetQueriedProducts samo sobie pracuje na repo
+            // nie musisz jej podawac listy produktow
 			var products = GetQueriedProducts(searchModel, GetProductsWithCategory());
 
 			var productsDto = ProductMapper.MapToDto(products);

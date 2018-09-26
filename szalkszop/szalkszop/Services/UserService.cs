@@ -20,6 +20,7 @@ namespace szalkszop.Services
 		{
 			_context = context;
 			_userRepository = userRepository;
+            // cr4 Sprobuj zarejestrowac w DI UserManagera, tak zebys je injectowal a nie tutaj recznie instancjonowal
 			var userStore = new UserStore<ApplicationUser>(_context);
 			userManager = new UserManager<ApplicationUser>(userStore);
 		}
@@ -31,17 +32,30 @@ namespace szalkszop.Services
 			return UserMapper.MapToDto(users);
 		}
 
-		public UsersViewModel GetUsersViewModel(string query)
+		public UsersViewModel GetUsersViewModel(string query) // jak przyjmiesz tu viewmodel to nie bedziesz musial wypelniac query recznie
 		{
 			var viewModel = new UsersViewModel
 			{
 				SearchTerm = query,
-				Users = GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime),
+				Users = GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime), 
 			};
+            // cr4 rozumiem ze wypelniasz userow 2krotnie na wypadek jakby query bylo nullem ale mozesz zrobic to lepiej i czytelniej:
+            /*
+             * if (string.IsNullOrWhiteSpace(query))
+             * {
+             *   viewmodel.USers = queryyyyy
+             *   return viewmodel;
+             * }
+             * 
+             * viewmodel.Users = users bez query
+             * return viewmodell
+             */
 
+
+            // cr4 string z malej litery
 			if (!String.IsNullOrWhiteSpace(query))
 			{
-				viewModel.Users = GetUsersWithUserRole().Where(u => (u.Surname.Contains(query) || u.Email.Contains(query))); ;
+				viewModel.Users = GetUsersWithUserRole().Where(u => (u.Surname.Contains(query) || u.Email.Contains(query))); ; // cr4 srednik do wywalenia
 			}
 
 			return viewModel;

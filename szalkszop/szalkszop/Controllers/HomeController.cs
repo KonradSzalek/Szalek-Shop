@@ -1,9 +1,42 @@
 ﻿using System.Web.Mvc;
 using szalkszop.Services;
 using szalkszop.ViewModels;
+// cr4 uwagi ogolne do calego kodu:
+// 1. Wszystkie viewmodele masz w folderze viewmodels/, przenies viewmodele ktore sa w admin area do folderu Areas/Admin/Viewmodels
+//      Te, ktore sa uzyte i tu i tu moga byc w viewmodels/
+// 2. Poprzenos tworzenie niektorych viewmodelow ktore maja wypelniany heading do kontrolerow, przyklady:
+// dla takiego viewmodelu:
+/*
+ * SomeViewMode{
+ *  Heading,
+ *  Categoires
+ * }
+ * 
+ * w kontrolerze mozesz miec wtedy:
+ * new SomeViewModel { 
+ *  Heading = "SomeHeading", 
+ *  Categories = service.GetCategories()
+ * }
+ * 
+ * Czyli serwis zwraca sama liste a nie caly viewmodel - nie musi wiedziec o rzeczach zwiazanych z widokiem
+ * 
+ * Jezeli Viewmodel ma kilka propertasow czyli np. 1
+ * new SomeViewModel { 
+ *  Heading,
+ *  Dupa,
+ *  Cipa
+ * }
+ * zwracaj ten viewmodel serwisem, ale wypelniaj heading w kontrolerze
+ * Sprawa sie tyczy nie tylko headingow ale jakiejkolwiek wartosci ktora jest przydatna JEDYNIE w kontrolerze/widoku (wtedy serwis nie powinien o niej w ogole wiedziec)
+ * 3. Zle nazywasz metody serwisów, i property  na viewmodelach. Nie nazywaj ich CategoriesDto albo GetPRoductViewModel
+ * Wystarczy Categories, albo GetProduct (jak ktos bedzie potrzebowal specyficznego info to spojrzy na typ)
+ * 4. Jak serwis zwraca viewmodel ktory ma w sobie tylko liste, to wywal tworzenie viewmodelu z serwisu, zmien metode by zwracala tylko liste i zmien jej nazwie
+ * hint: jezeli w nazwie serwisu jest viewmodel, najczesciej zrobiles cos zle
+ */
 
 namespace szalkszop.Controllers
 {
+    // cr4 rozdziel homeController na oddzielne kontrollery home, categories, products etc.
 	public class HomeController : Controller
 	{
 		private readonly IProductCategoryService _productCategoryService;
@@ -27,6 +60,8 @@ namespace szalkszop.Controllers
 			return View("TopThreeProductsPartial", viewModel);
 		}
 
+        // cr4 nie nazywaj tak metod, to zalezy od konkretnego uzycia czy dana akcja kontrolera bedzie w partialu czy nie
+        // wystarczy samo GetCategories
 		public ActionResult PartialCategories()
 		{
 			var viewModel = _productCategoryService.GetProductCategoriesWithProductCountViewModel();

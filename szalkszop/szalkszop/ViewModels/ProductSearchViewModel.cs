@@ -10,6 +10,7 @@ namespace szalkszop.ViewModels
 	public class ProductSearchViewModel
 	{
 		// Walidacja nie działa, nie wiem czemu
+        // cr4 szukanie po Id mozesz olac
 		public int? Id { get; set; }
 
 		[StringLength(100)]
