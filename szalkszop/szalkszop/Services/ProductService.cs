@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using szalkszop.Core.Models;
+using szalkszop.DTO;
 using szalkszop.Repositories;
 using szalkszop.ViewModels;
 
@@ -22,18 +23,17 @@ namespace szalkszop.Services
 		private IEnumerable<Product> GetProductsWithCategory()
 		{
 			var products = _productRepository.GetList()
-				.Include(p => p.ProductCategory)
-				.ToList();
+				.Include(p => p.ProductCategory);
 
 			return products;
 		}
 
-		private IEnumerable<Product> GetQueriedProducts(ProductSearchViewModel searchModel, IEnumerable<Product> products)
+		private IEnumerable<Product> GetQueriedProducts(ProductSearchViewModel searchModel)
 		{
+			var products = GetProductsWithCategory();
+
 			if (searchModel != null)
 			{
-				if (searchModel.Id.HasValue)
-					products = products.Where(p => p.Id == searchModel.Id);
 				if (!string.IsNullOrEmpty(searchModel.Name))
 					products = products.Where(p => p.Name.Contains(searchModel.Name));
 				if (searchModel.PriceFrom.HasValue)
@@ -51,9 +51,7 @@ namespace szalkszop.Services
 			return products;
 		}
 
-        // cr4 w takich wypadkach wolalbym zebys ten viewmodel tworzyl w kontrolerze
-        // a z serwisu zwracal jedynie liste i metoda by sie wtedy ladnie nazywala GetThreeNewestProducts
-		public ProductsViewModel GetThreeNewestProductsViewModel()
+		public IEnumerable<ProductDto> GetThreeNewestProducts()
 		{
 			var products = _productRepository.GetList()
 				.Include(p => p.ProductCategory)
@@ -63,15 +61,9 @@ namespace szalkszop.Services
 
 			var productsDto = ProductMapper.MapToDto(products);
 
-			var viewModel = new ProductsViewModel
-			{
-				ProductsDto = productsDto,
-			};
-
-			return viewModel;
+			return productsDto;
 		}
 
-        // cr4 to samo, tworzenie viewmodelu do kontrolera, unikaj nazw z "viewmodel" w serwisie
 		public ProductsViewModel GetProductsByCategoryViewModel(int categoryId)
 		{
 			var products = _productRepository.GetList()
@@ -99,41 +91,28 @@ namespace szalkszop.Services
 			return viewModel;
 		}
 
-		public ProductsViewModel GetQueriedProductSearchViewModel(ProductSearchViewModel searchModel)
+		public IEnumerable<ProductDto> GetQueriedProductSearch(ProductSearchViewModel searchModel)
 		{
-            // cr4 zle, ten kod pobiera wszystkie produkty z bazy i dopiero liste w pamieci filtruje, niech metoda GetQueriedProducts samo sobie pracuje na repo
-            // nie musisz jej podawac listy produktow
-			var products = GetQueriedProducts(searchModel, GetProductsWithCategory());
+			var products = GetQueriedProducts(searchModel);
 
 			var productsDto = ProductMapper.MapToDto(products);
 
-			var viewModel = new ProductsViewModel
-			{
-				ProductsDto = productsDto,
-			};
-
-			return viewModel;
+			return productsDto;
 		}
 
-		public ProductsViewModel GetProductsViewModel()
+		public IEnumerable<ProductDto> GetProducts()
 		{
-			var products = GetProductsWithCategory();
+			var products = GetProductsWithCategory().ToList();
 
 			var productsDto = ProductMapper.MapToDto(products);
 
-			var viewModel = new ProductsViewModel
-			{
-				ProductsDto = productsDto,
-			};
-
-			return viewModel;
+			return productsDto;
 		}
 
 		public ProductViewModel AddProductViewModel()
 		{
 			var viewModel = new ProductViewModel
 			{
-				Heading = "Add a product",
 				ProductCategoriesDto = _productCategoryService.GetProductCategoriesList(),
 			};
 
@@ -155,7 +134,6 @@ namespace szalkszop.Services
 				AmountInStock = productDto.AmountInStock,
 				Price = productDto.Price,
 				Description = productDto.Description,
-				Heading = "Edit a product",
 			};
 
 			return viewModel;

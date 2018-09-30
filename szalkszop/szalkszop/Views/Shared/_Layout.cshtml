@@ -21,9 +21,9 @@
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li>@Html.ActionLink("Home", "Index", "Home")</li>
-				<li>@Html.ActionLink("Products", "Products", "Home")</li>
-				<li>@Html.ActionLink("Categories", "ProductCategories", "Home")</li>
+				<li>@Html.ActionLink("Home Page", "Index", "Home")</li>
+				<li>@Html.ActionLink("Products", "Index", "Product")</li>
+				<li>@Html.ActionLink("Categories", "Index", "ProductCategory")</li>
 				@if (User.IsInRole("Admin"))
 				{
 					<li>@Html.ActionLink("Admin Panel", "Index", "Admin", new { area = "Admin" }, null)</li>
@@ -39,7 +39,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-2">
-			@Html.Action("ShowCategories", "Home")
+			@Html.Action("ShowCategories", "ProductCategory", new { area = string.Empty })
 		</div>
 		<div class="col-lg-10">
 			<div class="container body-content">

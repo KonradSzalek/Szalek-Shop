@@ -2,7 +2,6 @@
 using System.Linq;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
-using szalkszop.Mappers;
 
 namespace szalkszop.Repositories
 {

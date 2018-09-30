@@ -1,0 +1,14 @@
+﻿@model szalkszop.ViewModels.ProductCategoriesWithProductCountViewModel
+@{
+    ViewBag.Title = "Product Categories";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Product categories</h2>
+
+@{ Html.RenderAction("GetCategories", "ProductCategory");}
+
+
+
+
+   

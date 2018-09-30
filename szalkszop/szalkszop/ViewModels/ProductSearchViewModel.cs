@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using szalkszop.Core.Models;
-using szalkszop.DTO;
 using System.ComponentModel.DataAnnotations;
+using szalkszop.DTO;
 
 namespace szalkszop.ViewModels
 {
 	public class ProductSearchViewModel
 	{
 		// Walidacja nie działa, nie wiem czemu
-        // cr4 szukanie po Id mozesz olac
-		public int? Id { get; set; }
 
 		[StringLength(100)]
 		public string Name { get; set; }

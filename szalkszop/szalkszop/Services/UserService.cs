@@ -32,42 +32,26 @@ namespace szalkszop.Services
 			return UserMapper.MapToDto(users);
 		}
 
-		public UsersViewModel GetUsersViewModel(string query) // jak przyjmiesz tu viewmodel to nie bedziesz musial wypelniac query recznie
+		public UsersViewModel GetUsersViewModel(string searchTerm)
 		{
-			var viewModel = new UsersViewModel
-			{
-				SearchTerm = query,
-				Users = GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime), 
-			};
-            // cr4 rozumiem ze wypelniasz userow 2krotnie na wypadek jakby query bylo nullem ale mozesz zrobic to lepiej i czytelniej:
-            /*
-             * if (string.IsNullOrWhiteSpace(query))
-             * {
-             *   viewmodel.USers = queryyyyy
-             *   return viewmodel;
-             * }
-             * 
-             * viewmodel.Users = users bez query
-             * return viewmodell
-             */
+			var viewModel = new UsersViewModel();
 
-
-            // cr4 string z malej litery
-			if (!String.IsNullOrWhiteSpace(query))
+			if (!string.IsNullOrWhiteSpace(searchTerm))
 			{
-				viewModel.Users = GetUsersWithUserRole().Where(u => (u.Surname.Contains(query) || u.Email.Contains(query))); ; // cr4 srednik do wywalenia
+				viewModel.Users = GetUsersWithUserRole().Where(u => (u.Surname.Contains(searchTerm) || u.Email.Contains(searchTerm)));
+				return viewModel;
 			}
 
+			viewModel.Users = GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime);
 			return viewModel;
 		}
-
+	
 		public UserViewModel EditUserViewModel(string id)
 		{
 			var user = _userRepository.Get(id);
 
 			var viewModel = new UserViewModel
 			{
-				Heading = "Edit a user",
 				Id = user.Id,
 				Name = user.Name,
 				Surname = user.Surname,

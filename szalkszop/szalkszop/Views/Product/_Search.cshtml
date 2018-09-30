@@ -1,0 +1,43 @@
+﻿@model szalkszop.ViewModels.ProductsWithSearchViewModel
+@{
+	Layout = null;
+}
+
+<h3>Product search</h3>
+
+@using (Html.BeginForm("Search", "Product"))
+{
+	<div class="form-group">
+		@Html.LabelFor(m => m.ProductSearchViewModel.Name)
+		@Html.TextBoxFor(m => m.ProductSearchViewModel.Name, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.ProductSearchViewModel.Name)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.ProductSearchViewModel.DateTimeFrom)
+		@Html.TextBoxFor(m => m.ProductSearchViewModel.DateTimeFrom, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.ProductSearchViewModel.DateTimeFrom)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.ProductSearchViewModel.DateTimeTo)
+		@Html.TextBoxFor(m => m.ProductSearchViewModel.DateTimeTo, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.ProductSearchViewModel.DateTimeTo)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.ProductSearchViewModel.PriceFrom)
+		@Html.TextBoxFor(m => m.ProductSearchViewModel.PriceFrom, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.ProductSearchViewModel.PriceFrom)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.ProductSearchViewModel.PriceTo)
+		@Html.TextBoxFor(m => m.ProductSearchViewModel.PriceTo, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.ProductSearchViewModel.PriceTo)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.ProductSearchViewModel.ProductCategory)
+		@Html.DropDownListFor(m => m.ProductSearchViewModel.ProductCategory.Id,
+	   new SelectList(Model.ProductSearchViewModel.ProductCategories,
+	   "Id", "Name", Model.ProductSearchViewModel.ProductCategory), "",
+	   new { @class = "form-control" })
+	</div>
+	<button type="submit" value="Save" class="btn btn-primary">Search</button>
+}

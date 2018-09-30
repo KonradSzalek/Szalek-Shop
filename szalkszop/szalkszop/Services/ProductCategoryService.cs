@@ -93,7 +93,6 @@ namespace szalkszop.Services
 
 			var viewModel = new ProductCategoryViewModel
 			{
-				Heading = "Update Category",
 				Name = productCategory.Name,
 				Id = productCategory.Id,
 			};

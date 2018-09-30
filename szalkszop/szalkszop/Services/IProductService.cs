@@ -7,11 +7,11 @@ namespace szalkszop.Services
 {
 	public interface IProductService
 	{
-		ProductsViewModel GetThreeNewestProductsViewModel();
+		IEnumerable<ProductDto> GetThreeNewestProducts();
 		ProductsViewModel GetProductsByCategoryViewModel(int categoryId);
 		ProductSearchViewModel GetProductSearchViewModel();
-		ProductsViewModel GetQueriedProductSearchViewModel(ProductSearchViewModel searchModel);
-		ProductsViewModel GetProductsViewModel();
+		IEnumerable<ProductDto> GetQueriedProductSearch(ProductSearchViewModel searchModel);
+		IEnumerable<ProductDto> GetProducts();
 		ProductViewModel AddProductViewModel();
 		ProductViewModel EditProductViewModel(int id);
 		void AddProduct(ProductViewModel viewModel);

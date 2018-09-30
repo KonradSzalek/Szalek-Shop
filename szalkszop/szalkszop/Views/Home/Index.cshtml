@@ -3,14 +3,13 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>Our products and categories</h2>
-
 <h3>Product categories</h3>
 
-@{ Html.RenderAction("PartialCategories", "Home");}
-
+@{ Html.RenderAction("GetCategories", "ProductCategory");}
+ 
 <h3>Top 3 newest products</h3>
 
-@{ Html.RenderAction("TopThreeProducts", "Home");}
+@{ Html.RenderAction("TopThreeProducts", "Product");}
 
 
 

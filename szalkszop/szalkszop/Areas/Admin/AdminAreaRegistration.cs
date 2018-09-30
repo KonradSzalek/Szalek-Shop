@@ -17,9 +17,9 @@ namespace szalkszop.Areas.Admin
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
-                //new { action = "Index", id = UrlParameter.Optional }
-				new { controller = "Admin", action = "Index", id = ""}
-            );
-        }
+				new { controller = "Admin", action = "Index", id = "" },
+				namespaces: new[] { "szalkszop.Areas.Admin.Controllers" }
+			);
+		}
     }
 }

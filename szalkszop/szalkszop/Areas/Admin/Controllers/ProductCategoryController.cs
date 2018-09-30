@@ -56,6 +56,7 @@ namespace szalkszop.Areas.Admin.Controllers
 				return HttpNotFound();
 
 			var viewModel = _productCategoryService.EditProductCategoryViewModel(id);
+			viewModel.Heading = "Update Category";
 
 			return View("CategoryForm", viewModel);
 		}

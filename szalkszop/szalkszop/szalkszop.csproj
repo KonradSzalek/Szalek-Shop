@@ -251,12 +251,14 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductCategoryController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductCategoryController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="DTO\ProductCategoryWithProductCountDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -348,13 +350,14 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ProductCategoriesViewModel.cs" />
-    <Compile Include="ViewModels\ProductCategoryViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ProductCategoryViewModel.cs" />
     <Compile Include="ViewModels\ProductCategoryWithProductCountViewModel.cs" />
     <Compile Include="ViewModels\ProductSearchViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModel.cs" />
-    <Compile Include="ViewModels\ProductViewModel.cs" />
-    <Compile Include="ViewModels\UsersViewModel.cs" />
-    <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ProductViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\UsersViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\UserViewModel.cs" />
+    <Compile Include="ViewModels\ProductsWithSearchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -371,10 +374,10 @@
     </Content>
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ProductCategory\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\ProductSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\_Products.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -398,8 +401,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Products.cshtml" />
-    <Content Include="Views\Home\ProductCategories.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\ProductCategory\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -422,14 +425,16 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Users\UserForm.cshtml" />
-    <Content Include="Areas\Admin\Views\Products\ProductForm.cshtml" />
+    <Content Include="Areas\Admin\Views\User\UserForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\ProductForm.cshtml" />
     <Content Include="Areas\Admin\Views\ProductCategory\CategoryForm.cshtml" />
-    <Content Include="Views\Home\LeftPanel.cshtml" />
-    <Content Include="Views\Home\ProductSearch.cshtml" />
-    <Content Include="Views\Home\TopThreeProductsPartial.cshtml" />
-    <Content Include="Views\Home\PartialCategories.cshtml" />
+    <Content Include="Views\ProductCategory\_LeftPanel.cshtml" />
+    <Content Include="Views\Product\_Search.cshtml" />
+    <Content Include="Views\Product\_TopThreeProducts.cshtml" />
+    <Content Include="Views\ProductCategory\_PartialCategories.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Views\Product\_Products.cshtml" />
+    <Content Include="Views\Product\Products.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
