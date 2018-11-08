@@ -14,8 +14,9 @@ namespace szalkszop.Services
 		IEnumerable<ProductDto> GetProducts();
 		ProductViewModel AddProductViewModel();
 		ProductViewModel EditProductViewModel(int id);
-		void AddProduct(ProductViewModel viewModel);
-		void EditProduct(ProductViewModel viewModel);
+		int AddProduct(ProductViewModel viewModel);
+		void EditProduct(ProductViewModel viewModel, bool? imageUploaded1, bool? imageUploaded2, bool? imageUploaded3);
+		void DeleteProductPhotos(int id, bool? imageUploaded1, bool? imageUploaded2, bool? imageUploaded3);
 		void DeleteProduct(int id);
 		bool ProductExist(int id);
 	}

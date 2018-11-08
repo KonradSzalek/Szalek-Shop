@@ -27,5 +27,9 @@ namespace szalkszop.Core.Models
 		[Required]
 		[StringLength(255)]
 		public string Description { get; set; }
+
+		public bool? ImageUploaded1 { get; set; }
+		public bool? ImageUploaded2 { get; set; }
+		public bool? ImageUploaded3 { get; set; }
 	}
 }

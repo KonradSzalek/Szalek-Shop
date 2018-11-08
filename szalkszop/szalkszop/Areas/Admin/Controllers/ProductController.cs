@@ -49,7 +49,33 @@ namespace szalkszop.Areas.Admin.Controllers
 		[HttpPost]
 		public ActionResult Create(ProductViewModel viewModel)
 		{
-			_productService.AddProduct(viewModel);
+			viewModel.Id = _productService.AddProduct(viewModel);
+
+			bool? imageUploaded1, imageUploaded2, imageUploaded3;
+			imageUploaded1 = imageUploaded2 = imageUploaded3 = null;
+
+			if (viewModel.File1 != null)
+			{
+				viewModel.File1.SaveAs(HttpContext.Server.MapPath("~/Images/Product")
+												 + viewModel.Id + "File1.jpg");
+				imageUploaded1 = true;
+			}
+
+			if (viewModel.File2 != null)
+			{
+				viewModel.File2.SaveAs(HttpContext.Server.MapPath("~/Images/Product")
+												 + viewModel.Id + "File2.jpg");
+				imageUploaded2 = true;
+			}
+
+			if (viewModel.File3 != null)
+			{
+				viewModel.File3.SaveAs(HttpContext.Server.MapPath("~/Images/Product")
+												 + viewModel.Id + "File3.jpg");
+				imageUploaded3 = true;
+			}
+
+			_productService.EditProduct(viewModel, imageUploaded1, imageUploaded2, imageUploaded3);
 
 			return RedirectToAction("Index", "Product");
 		}
@@ -72,7 +98,75 @@ namespace szalkszop.Areas.Admin.Controllers
 			if (!_productService.ProductExist(viewModel.Id))
 				return HttpNotFound();
 
-			_productService.EditProduct(viewModel);
+			bool? imageUploaded1, imageUploaded2, imageUploaded3;
+			imageUploaded1 = imageUploaded2 = imageUploaded3 = null;
+
+			if (viewModel.File1 != null)
+			{
+				viewModel.File1.SaveAs(HttpContext.Server.MapPath("~/Images/Product")
+												 + viewModel.Id + "File1.jpg");
+				imageUploaded1 = true;
+			}
+
+			if (viewModel.File2 != null)
+			{
+				viewModel.File2.SaveAs(HttpContext.Server.MapPath("~/Images/Product")
+												 + viewModel.Id + "File2.jpg");
+				imageUploaded2 = true;
+			}
+
+			if (viewModel.File3 != null)
+			{
+				viewModel.File3.SaveAs(HttpContext.Server.MapPath("~/Images/Product")
+												 + viewModel.Id + "File3.jpg");
+				imageUploaded3 = true;
+			}
+
+			_productService.EditProduct(viewModel, imageUploaded1, imageUploaded2, imageUploaded3);
+
+
+			return RedirectToAction("Index", "Product");
+		}
+
+		public ActionResult DeletePhoto(int id, string photo)
+		{
+			bool? imageUploaded1, imageUploaded2, imageUploaded3;
+			imageUploaded1 = imageUploaded2 = imageUploaded3 = null;
+
+			switch (photo)
+			{
+				case "Delete1":
+
+					if (System.IO.File.Exists(Server.MapPath("~/Images/Product") + id + "File1.jpg"))
+					{
+						System.IO.File.Delete(Server.MapPath("~/Images/Product") + id + "File1.jpg");
+					}
+					imageUploaded1 = false;
+					break;
+
+				case "Delete2":
+
+					if (System.IO.File.Exists(Server.MapPath("~/Images/Product") + id + "File2.jpg"))
+					{
+						System.IO.File.Delete(Server.MapPath("~/Images/Product") + id + "File2.jpg");
+					}
+					imageUploaded1 = false;
+					break;
+
+				case "Delete3":
+
+					if (System.IO.File.Exists(Server.MapPath("~/Images/Product") + id + "File3.jpg"))
+					{
+						System.IO.File.Delete(Server.MapPath("~/Images/Product") + id + "File3.jpg");
+					}
+					imageUploaded3 = false;
+					break;
+
+				default:
+					break;
+			}
+
+			_productService.DeleteProductPhotos(id, imageUploaded1, imageUploaded2, imageUploaded3);
 
 			return RedirectToAction("Index", "Product");
 		}

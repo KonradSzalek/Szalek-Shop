@@ -20,5 +20,11 @@ namespace szalkszop.DTO
 		public double Price { get; set; }
 
 		public string Description { get; set; }
+
+		public bool? ImageUploaded1 { get; set; }
+
+		public bool? ImageUploaded2 { get; set; }
+
+		public bool? ImageUploaded3 { get; set; }
 	}
 }

@@ -16,22 +16,12 @@ namespace szalkszop.Controllers
 
 		public ActionResult Index()
 		{
-			// ustawić heading view wspolny
 			var viewModel = _productCategoryService.GetProductCategoriesWithProductCountViewModel();
 
 			return View(viewModel);
 		}
 
-		public ActionResult ShowCategories()
-		{
-			// ustawic heading view wspolny
-
-			var viewModel = _productCategoryService.GetProductCategoriesViewModel();
-
-			return View("_LeftPanel", viewModel);
-		}
-
-		public ActionResult GetCategories()
+		public ActionResult Categories()
 		{
 			var viewModel = _productCategoryService.GetProductCategoriesWithProductCountViewModel();
 
@@ -45,5 +35,11 @@ namespace szalkszop.Controllers
 			return View("~/Views/Product/Products.cshtml", viewModel);
 		}
 
+		public ActionResult LeftPanel()
+		{
+			var viewModel = _productCategoryService.GetProductCategoriesViewModel();
+
+			return View("~/Views/Shared/_LeftPanel.cshtml", viewModel);
+		}
 	}
 }

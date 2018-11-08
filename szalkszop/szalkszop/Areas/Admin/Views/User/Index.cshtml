@@ -1,11 +1,11 @@
 ﻿@model szalkszop.ViewModels.UsersViewModel
 @{
 	ViewBag.Title = "Manage users";
-	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h2>Manage users</h2>
-@using (Html.BeginForm("Search", "User"))
+@using (Html.BeginForm("Index", "User", FormMethod.Get))
 {
 	<div class="form-group">
 		<div class="input-group" style="width: 300px">

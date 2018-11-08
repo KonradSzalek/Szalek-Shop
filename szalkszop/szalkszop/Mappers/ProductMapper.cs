@@ -23,6 +23,9 @@ namespace szalkszop.Repositories
 				Price = product.Price,
 				Description = product.Description,
 				ProductCategoryId = product.ProductCategoryId,
+				ImageUploaded1 = product.ImageUploaded1,
+				ImageUploaded2 = product.ImageUploaded2,
+				ImageUploaded3 = product.ImageUploaded3,
 				ProductCategory = new ProductCategoryDto
 				{
 					Id = product.ProductCategory.Id,

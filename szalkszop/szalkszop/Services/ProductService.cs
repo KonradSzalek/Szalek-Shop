@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Web;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
 using szalkszop.Repositories;
@@ -139,7 +140,7 @@ namespace szalkszop.Services
 			return viewModel;
 		}
 
-		public void AddProduct(ProductViewModel viewModel)
+		public int AddProduct(ProductViewModel viewModel)
 		{
 			var product = new Product
 			{
@@ -153,17 +154,59 @@ namespace szalkszop.Services
 
 			_productRepository.Add(product);
 			_productRepository.SaveChanges();
+
+			return product.Id;
 		}
 
-		public void EditProduct(ProductViewModel viewModel)
+		public void DeleteProductPhotos(int id, bool? imageUploaded1, bool? imageUploaded2, bool? imageUploaded3)
+		{
+			var product = _productRepository.Get(id);
+
+			if (imageUploaded1 != null)
+			{
+				product.ImageUploaded1 = imageUploaded1;
+			}
+
+			if (imageUploaded2 != null)
+			{
+				product.ImageUploaded2 = imageUploaded2;
+			}
+
+			if (imageUploaded3 != null)
+			{
+				product.ImageUploaded3 = imageUploaded3;
+			}
+
+			_productRepository.SaveChanges();
+		}
+
+		public void EditProduct(ProductViewModel viewModel, bool? imageUploaded1, bool? imageUploaded2, bool? imageUploaded3)
 		{
 			var product = _productRepository.Get(viewModel.Id);
 
-			product.Name = viewModel.Name;
-			product.ProductCategoryId = viewModel.ProductCategory;
-			product.AmountInStock = viewModel.AmountInStock;
-			product.Price = viewModel.Price;
-			product.Description = viewModel.Description;
+			if (viewModel.Name != null)
+			{
+				product.Name = viewModel.Name;
+				product.ProductCategoryId = viewModel.ProductCategory;
+				product.AmountInStock = viewModel.AmountInStock;
+				product.Price = viewModel.Price;
+				product.Description = viewModel.Description;
+			}
+
+			if (imageUploaded1 != null)
+			{
+				product.ImageUploaded1 = imageUploaded1;
+			}
+
+			if (imageUploaded2 != null)
+			{
+				product.ImageUploaded2 = imageUploaded2;
+			}
+
+			if (imageUploaded3 != null)
+			{
+				product.ImageUploaded3 = imageUploaded3;
+			}
 
 			_productRepository.SaveChanges();
 		}

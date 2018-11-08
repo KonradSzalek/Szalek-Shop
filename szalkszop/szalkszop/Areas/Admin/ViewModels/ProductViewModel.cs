@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
+using System.Web;
 using System.Web.Mvc;
 using szalkszop.Areas.Admin.Controllers;
 using szalkszop.DTO;
@@ -53,5 +55,14 @@ namespace szalkszop.ViewModels
 		}
 
 		public IEnumerable<ProductCategoryDto> ProductCategoriesDto { get; set; }
+
+		[DisplayName("Upload product photo 1")]
+		public HttpPostedFileBase File1 { get; set; }
+
+		[DisplayName("Upload product photo 2")]
+		public HttpPostedFileBase File2 { get; set; }
+
+		[DisplayName("Upload product photo 3")]
+		public HttpPostedFileBase File3 { get; set; }
 	}
 }

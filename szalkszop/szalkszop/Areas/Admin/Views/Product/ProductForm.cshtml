@@ -1,12 +1,12 @@
 ﻿@model szalkszop.ViewModels.ProductViewModel
 @{
-    ViewBag.Title = "EditProduct";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+	ViewBag.Title = "EditProduct";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h2>@Model.Heading</h2>
 
-@using (Html.BeginForm(Model.Action, "Product"))
+@using (Html.BeginForm(Model.Action, "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 	@Html.AntiForgeryToken()
 	@Html.HiddenFor(m => m.Id)
@@ -34,5 +34,27 @@
 		@Html.LabelFor(m => m.ProductCategory)
 		@Html.DropDownListFor(m => m.ProductCategory, new SelectList(Model.ProductCategoriesDto, "Id", "Name", Model.ProductCategoriesDto), "", new { @class = "form-control" })
 	</div>
+
+	<div>
+		@Html.LabelFor(m => m.File1)
+		@Html.TextBoxFor(m => m.File1, new { type= "file" })
+	</div>
+
+	<div>
+		@Html.LabelFor(m => m.File2)
+		@Html.TextBoxFor(m => m.File2, new { type = "file" })
+	</div>
+
+	<div>
+		@Html.LabelFor(m => m.File3)
+		@Html.TextBoxFor(m => m.File3, new { type = "file" })
+	</div>
+
+	<br />
+
 	<button type="submit" value="Save" class="btn btn-primary">@Model.Heading</button>
+}
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
 }

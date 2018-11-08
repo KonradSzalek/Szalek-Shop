@@ -1,7 +1,7 @@
 ﻿@model szalkszop.ViewModels.ProductCategoryViewModel
 @{
-    ViewBag.Title = "CategoryForm";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+	ViewBag.Title = "CategoryForm";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <h2>@Model.Heading</h2>
@@ -15,5 +15,9 @@
 		@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
 		@Html.ValidationMessageFor(m => m.Name)
 	</div>
-	<button type="submit" class="btn-primary btn-lg">@Model.Heading</button>
+	<button type="submit" class="btn-primary btn-lg">Add category</button>
+}
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
 }

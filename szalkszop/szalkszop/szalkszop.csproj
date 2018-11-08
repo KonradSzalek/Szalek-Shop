@@ -323,6 +323,22 @@
     <Compile Include="Migrations\201809161457339_wtf1.Designer.cs">
       <DependentUpon>201809161457339_wtf1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810260803453_AddImageSourceToProductModel.cs" />
+    <Compile Include="Migrations\201810260803453_AddImageSourceToProductModel.Designer.cs">
+      <DependentUpon>201810260803453_AddImageSourceToProductModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810300948407_AddingImagesToProduct.cs" />
+    <Compile Include="Migrations\201810300948407_AddingImagesToProduct.Designer.cs">
+      <DependentUpon>201810300948407_AddingImagesToProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810301808134_addingimagestoproducts.cs" />
+    <Compile Include="Migrations\201810301808134_addingimagestoproducts.Designer.cs">
+      <DependentUpon>201810301808134_addingimagestoproducts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810301935473_zmiany.cs" />
+    <Compile Include="Migrations\201810301935473_zmiany.Designer.cs">
+      <DependentUpon>201810301935473_zmiany.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Core\Models\AccountViewModels.cs" />
     <Compile Include="Core\Models\IdentityModels.cs" />
@@ -428,18 +444,16 @@
     <Content Include="Areas\Admin\Views\User\UserForm.cshtml" />
     <Content Include="Areas\Admin\Views\Product\ProductForm.cshtml" />
     <Content Include="Areas\Admin\Views\ProductCategory\CategoryForm.cshtml" />
-    <Content Include="Views\ProductCategory\_LeftPanel.cshtml" />
+    <Content Include="Views\Shared\_LeftPanel.cshtml" />
     <Content Include="Views\Product\_Search.cshtml" />
-    <Content Include="Views\Product\_TopThreeProducts.cshtml" />
     <Content Include="Views\ProductCategory\_PartialCategories.cshtml" />
-    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Product\_Products.cshtml" />
     <Content Include="Views\Product\Products.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -496,6 +510,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809161457339_wtf1.resx">
       <DependentUpon>201809161457339_wtf1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810260803453_AddImageSourceToProductModel.resx">
+      <DependentUpon>201810260803453_AddImageSourceToProductModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810300948407_AddingImagesToProduct.resx">
+      <DependentUpon>201810300948407_AddingImagesToProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301808134_addingimagestoproducts.resx">
+      <DependentUpon>201810301808134_addingimagestoproducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810301935473_zmiany.resx">
+      <DependentUpon>201810301935473_zmiany.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -15,12 +15,12 @@ namespace szalkszop.Controllers
 
 		public ActionResult TopThreeProducts()
 		{
-			var viewModel = new ProductsViewModel
+			var viewModel = new ProductsWithSearchViewModel
 			{
 				ProductsDto = _productService.GetThreeNewestProducts(),
 			};
 			
-			return View("_TopThreeProducts", viewModel);
+			return View("_Products", viewModel);
 		}
 
 		public ActionResult Index()
