@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
 using szalkszop.Repositories;
@@ -24,7 +25,8 @@ namespace szalkszop.Services
 		private IEnumerable<Product> GetProductsWithCategory()
 		{
 			var products = _productRepository.GetList()
-				.Include(p => p.ProductCategory);
+				.Include(p => p.ProductCategory)
+				.Include(i => i.Images);
 
 			return products;
 		}
@@ -56,6 +58,7 @@ namespace szalkszop.Services
 		{
 			var products = _productRepository.GetList()
 				.Include(p => p.ProductCategory)
+				.Include(i => i.Images)
 				.OrderByDescending(d => d.DateOfAdding)
 				.Take(3)
 				.ToList();
@@ -69,6 +72,7 @@ namespace szalkszop.Services
 		{
 			var products = _productRepository.GetList()
 				.Include(p => p.ProductCategory)
+				.Include(i => i.Images)
 				.Where(p => p.ProductCategoryId == categoryId)
 				.ToList();
 
@@ -158,29 +162,22 @@ namespace szalkszop.Services
 			return product.Id;
 		}
 
-		public void DeleteProductPhotos(int id, bool? imageUploaded1, bool? imageUploaded2, bool? imageUploaded3)
+		public void DeletePhoto(Guid id, int productId)
 		{
-			var product = _productRepository.Get(id);
+			var product = _productRepository.Get(productId);
+			var image = product.Images.Single(i => i.Id == id);
 
-			if (imageUploaded1 != null)
+			if (System.IO.File.Exists(HostingEnvironment.MapPath("~/Images/") + image.FileName))
 			{
-				product.ImageUploaded1 = imageUploaded1;
+				System.IO.File.Delete(HostingEnvironment.MapPath("~/Images/") + image.FileName);
 			}
 
-			if (imageUploaded2 != null)
-			{
-				product.ImageUploaded2 = imageUploaded2;
-			}
-
-			if (imageUploaded3 != null)
-			{
-				product.ImageUploaded3 = imageUploaded3;
-			}
+			product.Images.Remove(image);
 
 			_productRepository.SaveChanges();
 		}
 
-		public void EditProduct(ProductViewModel viewModel, bool? imageUploaded1, bool? imageUploaded2, bool? imageUploaded3)
+		public void EditProduct(ProductViewModel viewModel)
 		{
 			var product = _productRepository.Get(viewModel.Id);
 
@@ -193,22 +190,22 @@ namespace szalkszop.Services
 				product.Description = viewModel.Description;
 			}
 
-			if (imageUploaded1 != null)
+			if (viewModel.File != null)
 			{
-				product.ImageUploaded1 = imageUploaded1;
-			}
+				Guid id = Guid.NewGuid();
 
-			if (imageUploaded2 != null)
-			{
-				product.ImageUploaded2 = imageUploaded2;
-			}
+				var productImage = new ProductImage
+				{
+					Id = id,
+					FileName = viewModel.Name + viewModel.Id + "File" + id + ".jpg",
+				};
+				product.Images.Add(productImage);
 
-			if (imageUploaded3 != null)
-			{
-				product.ImageUploaded3 = imageUploaded3;
+				viewModel.File.SaveAs(HostingEnvironment.MapPath("~/Images/") + viewModel.Name + viewModel.Id + "File" + id + ".jpg");
 			}
 
 			_productRepository.SaveChanges();
+
 		}
 
 		public void DeleteProduct(int id)

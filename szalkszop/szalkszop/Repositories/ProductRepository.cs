@@ -20,7 +20,9 @@ namespace szalkszop.Repositories
 
 		public Product Get(int id)
 		{
-			return _context.Products.Include(p => p.ProductCategory).Single(u => u.Id == id);
+			return _context.Products.Include(p => p.ProductCategory)
+				.Include(p => p.Images)
+				.Single(u => u.Id == id);
 		}
 
 		public void Add(Product product)

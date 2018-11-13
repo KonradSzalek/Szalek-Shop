@@ -38,6 +38,9 @@ namespace szalkszop.ViewModels
 		[StringLength(255)]
 		public string Description { get; set; }
 
+		[DisplayName("Upload product photos")]
+		public HttpPostedFileBase File { get; set; }
+
 		public string Heading { get; set; }
 
 		public string Action
@@ -55,14 +58,5 @@ namespace szalkszop.ViewModels
 		}
 
 		public IEnumerable<ProductCategoryDto> ProductCategoriesDto { get; set; }
-
-		[DisplayName("Upload product photo 1")]
-		public HttpPostedFileBase File1 { get; set; }
-
-		[DisplayName("Upload product photo 2")]
-		public HttpPostedFileBase File2 { get; set; }
-
-		[DisplayName("Upload product photo 3")]
-		public HttpPostedFileBase File3 { get; set; }
 	}
 }

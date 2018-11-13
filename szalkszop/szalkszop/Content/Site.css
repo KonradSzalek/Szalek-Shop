@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 0px;
     padding-bottom: 20px;
 }
 
@@ -21,4 +21,15 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.main-logo {
+    background: black
+}
+
+
+.main-logo img {
+	padding-top: 10px;
+    display:block;
+    margin:auto;
 }

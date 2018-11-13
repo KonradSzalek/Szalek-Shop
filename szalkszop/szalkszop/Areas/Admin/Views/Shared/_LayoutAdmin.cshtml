@@ -10,7 +10,8 @@
 </head>
 <body>
 
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="main-logo"><img alt="SZAŁKSZOP" src="~/Images/logoost.jpg" /></div>
+<div class="navbar navbar-inverse">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -18,13 +19,12 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#"><img alt="SZAŁKSZOP" src="~/Images/logo.jpg" height="30" width="50" /></a>
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<li>@Html.ActionLink("Home", "Index", "Home", new { area = string.Empty }, null)</li>
 				<li>@Html.ActionLink("Products", "Index", "Product",new { area = string.Empty }, null)</li>
-				<li>@Html.ActionLink("Categories", "Index", "ProductCategory", new { area = string.Empty }, null))</li>
+				<li>@Html.ActionLink("Categories", "Index", "ProductCategory", new { area = string.Empty }, null)</li>
 				@if (User.IsInRole("Admin"))
 				{
 					<li>@Html.ActionLink("Admin Panel", "Index", "Admin")</li>
@@ -34,8 +34,6 @@
 		</div>
 	</div>
 </div>
-<br/>
-<br/>
 
 <div class="container">
 	<div class="row">

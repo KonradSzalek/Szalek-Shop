@@ -8,17 +8,15 @@ namespace szalkszop.ViewModels
 {
 	public class ProductSearchViewModel
 	{
-		// Walidacja nie działa, nie wiem czemu
-
 		[StringLength(100)]
 		public string Name { get; set; }
 
 		[DisplayName("Price from")]
-		[Range(0, int.MaxValue)]
+		[Range(0, double.MaxValue)]
 		public int? PriceFrom { get; set; }
 
 		[DisplayName("Price to")]
-		[Range(0, int.MaxValue)]
+		[Range(0, double.MaxValue)]
 		public int? PriceTo { get; set; }
 
 		[DisplayName("Date from")]

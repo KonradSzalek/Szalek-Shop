@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,8 +29,6 @@ namespace szalkszop.Core.Models
 		[StringLength(255)]
 		public string Description { get; set; }
 
-		public bool? ImageUploaded1 { get; set; }
-		public bool? ImageUploaded2 { get; set; }
-		public bool? ImageUploaded3 { get; set; }
+		public List<ProductImage> Images { get; set; }
 	}
 }

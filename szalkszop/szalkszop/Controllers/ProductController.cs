@@ -45,5 +45,12 @@ namespace szalkszop.Controllers
 
 			return View("Index", viewModel);
 		}
+
+		public ActionResult Details(int id)
+		{
+			var viewModel = _productService.EditProductViewModel(id);
+
+			return View(viewModel);
+		}
 	}
 }

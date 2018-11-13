@@ -2,30 +2,24 @@
 @{
 	Layout = null;
 }
-
-<table cellpadding="10">
-	<thead>
-		<tr>
-			<th>Product Name</th>
-			<th>Product category</th>
-			<th>Amount in stock</th>
-			<th>Date of adding</th>
-			<th>Price</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var product in Model.ProductsDto)
+<br />
+@foreach (var product in Model.ProductsDto)
+{
+<div class="vert-offset-bottom-1 col-sm-3">
+	<div class="thumbnail">
+		@if (product.Images.Any())
 		{
-			<tr>
-				<td>@product.Name</td>
-				<td>@product.ProductCategory.Name</td>
-				<td>@product.AmountInStock</td>
-				<td>@product.DateOfAdding</td>
-				<td>@product.Price</td>
-				<td>@product.Description</td>
-			</tr>
+			<img src="~/Images/@product.Images.FirstOrDefault().FileName" class="img-responsive" alt="Product image">
 		}
-	</tbody>
-</table>
+		<div class="caption">
+			<h3>@product.Name</h3>
+			<h4>@product.Price €</h4>
+			<p>@product.Description</p>
+			<p><a href="#" class="btn btn-primary" role="button">To Cart</a> <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn btn-default" role="button">Details</a></p>
+		</div>
+	</div>
+</div>
+}
+
+<br />
 

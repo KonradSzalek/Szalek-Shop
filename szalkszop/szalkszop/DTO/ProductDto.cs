@@ -1,5 +1,5 @@
 using System;
-using szalkszop.Repositories;
+using System.Collections.Generic;
 
 namespace szalkszop.DTO
 {
@@ -21,10 +21,6 @@ namespace szalkszop.DTO
 
 		public string Description { get; set; }
 
-		public bool? ImageUploaded1 { get; set; }
-
-		public bool? ImageUploaded2 { get; set; }
-
-		public bool? ImageUploaded3 { get; set; }
+		public List<ProductImageDto> Images { get; set; }
 	}
 }

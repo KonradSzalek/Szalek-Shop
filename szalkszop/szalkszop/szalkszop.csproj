@@ -259,85 +259,27 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Core\Models\ProductImage.cs" />
     <Compile Include="DTO\ProductCategoryWithProductCountDto.cs" />
+    <Compile Include="DTO\ProductImageDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201707080857219_InitialCreate.cs" />
-    <Compile Include="Migrations\201707080857219_InitialCreate.Designer.cs">
-      <DependentUpon>201707080857219_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201811121226434_WholeProjectMigration.cs" />
+    <Compile Include="Migrations\201811121226434_WholeProjectMigration.Designer.cs">
+      <DependentUpon>201811121226434_WholeProjectMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201707080917522_ExtendedAccountModel.cs" />
-    <Compile Include="Migrations\201707080917522_ExtendedAccountModel.Designer.cs">
-      <DependentUpon>201707080917522_ExtendedAccountModel.cs</DependentUpon>
+    <Compile Include="Migrations\201811121244439_lol.cs" />
+    <Compile Include="Migrations\201811121244439_lol.Designer.cs">
+      <DependentUpon>201811121244439_lol.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807301751484_AddingProductAndProductCategory.cs" />
-    <Compile Include="Migrations\201807301751484_AddingProductAndProductCategory.Designer.cs">
-      <DependentUpon>201807301751484_AddingProductAndProductCategory.cs</DependentUpon>
+    <Compile Include="Migrations\201811121552461_jakasmigracja.cs" />
+    <Compile Include="Migrations\201811121552461_jakasmigracja.Designer.cs">
+      <DependentUpon>201811121552461_jakasmigracja.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807301853160_AddingCategoryList.cs" />
-    <Compile Include="Migrations\201807301853160_AddingCategoryList.Designer.cs">
-      <DependentUpon>201807301853160_AddingCategoryList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201807311747182_AddingProductAndProductCategory1.cs" />
-    <Compile Include="Migrations\201807311747182_AddingProductAndProductCategory1.Designer.cs">
-      <DependentUpon>201807311747182_AddingProductAndProductCategory1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808061722298_AddingDataAnotationsToModels.cs" />
-    <Compile Include="Migrations\201808061722298_AddingDataAnotationsToModels.Designer.cs">
-      <DependentUpon>201808061722298_AddingDataAnotationsToModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808061725517_AddingDataAnotationsToModels1.cs" />
-    <Compile Include="Migrations\201808061725517_AddingDataAnotationsToModels1.Designer.cs">
-      <DependentUpon>201808061725517_AddingDataAnotationsToModels1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808140725278_AddingUserRoleToApplicationUser.cs" />
-    <Compile Include="Migrations\201808140725278_AddingUserRoleToApplicationUser.Designer.cs">
-      <DependentUpon>201808140725278_AddingUserRoleToApplicationUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808140743175_DeletingUserRolesFromApplicationUser.cs" />
-    <Compile Include="Migrations\201808140743175_DeletingUserRolesFromApplicationUser.Designer.cs">
-      <DependentUpon>201808140743175_DeletingUserRolesFromApplicationUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808241017504_AddingRegistrationDateTimeToApplicationUser.cs" />
-    <Compile Include="Migrations\201808241017504_AddingRegistrationDateTimeToApplicationUser.Designer.cs">
-      <DependentUpon>201808241017504_AddingRegistrationDateTimeToApplicationUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808241144163_AddingAmountInStockForProducts.cs" />
-    <Compile Include="Migrations\201808241144163_AddingAmountInStockForProducts.Designer.cs">
-      <DependentUpon>201808241144163_AddingAmountInStockForProducts.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808251126434_AddingAmountOfProductsForProductCategory.cs" />
-    <Compile Include="Migrations\201808251126434_AddingAmountOfProductsForProductCategory.Designer.cs">
-      <DependentUpon>201808251126434_AddingAmountOfProductsForProductCategory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201808270801293_AddingPriceAndDescriptionToProduct.cs" />
-    <Compile Include="Migrations\201808270801293_AddingPriceAndDescriptionToProduct.Designer.cs">
-      <DependentUpon>201808270801293_AddingPriceAndDescriptionToProduct.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809161407532_wtf.cs" />
-    <Compile Include="Migrations\201809161407532_wtf.Designer.cs">
-      <DependentUpon>201809161407532_wtf.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809161457339_wtf1.cs" />
-    <Compile Include="Migrations\201809161457339_wtf1.Designer.cs">
-      <DependentUpon>201809161457339_wtf1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810260803453_AddImageSourceToProductModel.cs" />
-    <Compile Include="Migrations\201810260803453_AddImageSourceToProductModel.Designer.cs">
-      <DependentUpon>201810260803453_AddImageSourceToProductModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810300948407_AddingImagesToProduct.cs" />
-    <Compile Include="Migrations\201810300948407_AddingImagesToProduct.Designer.cs">
-      <DependentUpon>201810300948407_AddingImagesToProduct.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810301808134_addingimagestoproducts.cs" />
-    <Compile Include="Migrations\201810301808134_addingimagestoproducts.Designer.cs">
-      <DependentUpon>201810301808134_addingimagestoproducts.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810301935473_zmiany.cs" />
-    <Compile Include="Migrations\201810301935473_zmiany.Designer.cs">
-      <DependentUpon>201810301935473_zmiany.cs</DependentUpon>
+    <Compile Include="Migrations\201811121851162_chuj.cs" />
+    <Compile Include="Migrations\201811121851162_chuj.Designer.cs">
+      <DependentUpon>201811121851162_chuj.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Core\Models\AccountViewModels.cs" />
@@ -383,6 +325,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\logo.jpg" />
+    <Content Include="Images\Logo2.jpg" />
+    <Content Include="Images\logoost.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -450,6 +394,7 @@
     <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Product\_Products.cshtml" />
     <Content Include="Views\Product\Products.cshtml" />
+    <Content Include="Views\Product\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -464,64 +409,17 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707080857219_InitialCreate.resx">
-      <DependentUpon>201707080857219_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811121226434_WholeProjectMigration.resx">
+      <DependentUpon>201811121226434_WholeProjectMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707080917522_ExtendedAccountModel.resx">
-      <DependentUpon>201707080917522_ExtendedAccountModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811121244439_lol.resx">
+      <DependentUpon>201811121244439_lol.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807301751484_AddingProductAndProductCategory.resx">
-      <DependentUpon>201807301751484_AddingProductAndProductCategory.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811121552461_jakasmigracja.resx">
+      <DependentUpon>201811121552461_jakasmigracja.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807301853160_AddingCategoryList.resx">
-      <DependentUpon>201807301853160_AddingCategoryList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807311747182_AddingProductAndProductCategory1.resx">
-      <DependentUpon>201807311747182_AddingProductAndProductCategory1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808061722298_AddingDataAnotationsToModels.resx">
-      <DependentUpon>201808061722298_AddingDataAnotationsToModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808061725517_AddingDataAnotationsToModels1.resx">
-      <DependentUpon>201808061725517_AddingDataAnotationsToModels1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808140725278_AddingUserRoleToApplicationUser.resx">
-      <DependentUpon>201808140725278_AddingUserRoleToApplicationUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808140743175_DeletingUserRolesFromApplicationUser.resx">
-      <DependentUpon>201808140743175_DeletingUserRolesFromApplicationUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808241017504_AddingRegistrationDateTimeToApplicationUser.resx">
-      <DependentUpon>201808241017504_AddingRegistrationDateTimeToApplicationUser.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808241144163_AddingAmountInStockForProducts.resx">
-      <DependentUpon>201808241144163_AddingAmountInStockForProducts.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808251126434_AddingAmountOfProductsForProductCategory.resx">
-      <DependentUpon>201808251126434_AddingAmountOfProductsForProductCategory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201808270801293_AddingPriceAndDescriptionToProduct.resx">
-      <DependentUpon>201808270801293_AddingPriceAndDescriptionToProduct.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809161407532_wtf.resx">
-      <DependentUpon>201809161407532_wtf.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809161457339_wtf1.resx">
-      <DependentUpon>201809161457339_wtf1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810260803453_AddImageSourceToProductModel.resx">
-      <DependentUpon>201810260803453_AddImageSourceToProductModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810300948407_AddingImagesToProduct.resx">
-      <DependentUpon>201810300948407_AddingImagesToProduct.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810301808134_addingimagestoproducts.resx">
-      <DependentUpon>201810301808134_addingimagestoproducts.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810301935473_zmiany.resx">
-      <DependentUpon>201810301935473_zmiany.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811121851162_chuj.resx">
+      <DependentUpon>201811121851162_chuj.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

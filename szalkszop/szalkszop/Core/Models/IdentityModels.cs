@@ -71,5 +71,13 @@ namespace szalkszop.Core.Models
 		{
             return new ApplicationDbContext();
         }
-    }
+
+		protected override void OnModelCreating(DbModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Product>()
+		   .HasMany(p => p.Images);
+
+			base.OnModelCreating(modelBuilder);
+		}
+	}
 }
