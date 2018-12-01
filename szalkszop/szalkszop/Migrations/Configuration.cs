@@ -19,7 +19,7 @@ namespace szalkszop.Migrations
 		protected override void Seed(ApplicationDbContext context)
 
 		{
-			//  Dodawanie roli admina
+			//  Adding Admin Role to superuser
 
 			if (!context.Roles.Any())
 			{

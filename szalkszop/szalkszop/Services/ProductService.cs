@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Hosting;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
@@ -15,11 +15,13 @@ namespace szalkszop.Services
 	{
 		private readonly IProductRepository _productRepository;
 		private readonly IProductCategoryService _productCategoryService;
+		private readonly IProductImageService _productImageService;
 
-		public ProductService(IProductRepository productRepository, IProductCategoryService productCategoryRepository)
+		public ProductService(IProductRepository productRepository, IProductCategoryService productCategoryRepository, IProductImageService productImageService)
 		{
 			_productRepository = productRepository;
 			_productCategoryService = productCategoryRepository;
+			_productImageService = productImageService;
 		}
 
 		private IEnumerable<Product> GetProductsWithCategory()
@@ -31,27 +33,16 @@ namespace szalkszop.Services
 			return products;
 		}
 
-		private IEnumerable<Product> GetQueriedProducts(ProductSearchViewModel searchModel)
+		public IEnumerable<ProductSearchResult> GetQueriedProducts(ProductSearchViewModel searchModel)
 		{
-			var products = GetProductsWithCategory();
+			IEnumerable<ProductSearchResult> products;
 
-			if (searchModel != null)
-			{
-				if (!string.IsNullOrEmpty(searchModel.Name))
-					products = products.Where(p => p.Name.Contains(searchModel.Name));
-				if (searchModel.PriceFrom.HasValue)
-					products = products.Where(p => p.Price >= searchModel.PriceFrom);
-				if (searchModel.PriceTo.HasValue)
-					products = products.Where(p => p.Price <= searchModel.PriceTo);
-				if (searchModel.DateTimeFrom.HasValue)
-					products = products.Where(p => p.DateOfAdding >= searchModel.DateTimeFrom);
-				if (searchModel.DateTimeTo.HasValue)
-					products = products.Where(p => p.DateOfAdding <= searchModel.DateTimeTo);
-				if (searchModel.ProductCategory.Id != 0)
-					products = products.Where(p => p.ProductCategory.Id == searchModel.ProductCategory.Id);
-			}
-
-			return products;
+			return products = _productRepository.SearchResultFromSqlStoredProcedure(searchModel.Name,
+				searchModel.PriceFrom,
+				searchModel.PriceTo,
+				searchModel.DateTimeFrom,
+				searchModel.DateTimeFrom,
+				searchModel.ProductCategory.Id);
 		}
 
 		public IEnumerable<ProductDto> GetThreeNewestProducts()
@@ -96,15 +87,6 @@ namespace szalkszop.Services
 			return viewModel;
 		}
 
-		public IEnumerable<ProductDto> GetQueriedProductSearch(ProductSearchViewModel searchModel)
-		{
-			var products = GetQueriedProducts(searchModel);
-
-			var productsDto = ProductMapper.MapToDto(products);
-
-			return productsDto;
-		}
-
 		public IEnumerable<ProductDto> GetProducts()
 		{
 			var products = GetProductsWithCategory().ToList();
@@ -144,6 +126,28 @@ namespace szalkszop.Services
 			return viewModel;
 		}
 
+		public ProductDetailViewModel ProductDetailViewModel(int id)
+		{
+			var product = _productRepository.Get(id);
+
+			var productDto = ProductMapper.MapToDto(product);
+
+			var viewModel = new ProductDetailViewModel
+			{
+				Id = productDto.Id,
+				Name = productDto.Name,
+				ProductCategoriesDto = _productCategoryService.GetProductCategoriesList(),
+				ProductCategory = productDto.ProductCategoryId,
+				AmountInStock = productDto.AmountInStock,
+				Price = productDto.Price,
+				Description = productDto.Description,
+				DateOfAdding = productDto.DateOfAdding,
+				ProductImagesDto = productDto.Images,
+			};
+
+			return viewModel;
+		}
+
 		public int AddProduct(ProductViewModel viewModel)
 		{
 			var product = new Product
@@ -167,9 +171,14 @@ namespace szalkszop.Services
 			var product = _productRepository.Get(productId);
 			var image = product.Images.Single(i => i.Id == id);
 
-			if (System.IO.File.Exists(HostingEnvironment.MapPath("~/Images/") + image.FileName))
+			if (System.IO.File.Exists(HostingEnvironment.MapPath("~/Images/") + image.ImageName))
 			{
-				System.IO.File.Delete(HostingEnvironment.MapPath("~/Images/") + image.FileName);
+				System.IO.File.Delete(HostingEnvironment.MapPath("~/Images/") + image.ImageName);
+			}
+
+			if (System.IO.File.Exists(HostingEnvironment.MapPath("~/Images/") + image.ThumbnailName))
+			{
+				System.IO.File.Delete(HostingEnvironment.MapPath("~/Images/") + image.ThumbnailName);
 			}
 
 			product.Images.Remove(image);
@@ -190,22 +199,30 @@ namespace szalkszop.Services
 				product.Description = viewModel.Description;
 			}
 
-			if (viewModel.File != null)
+			if (viewModel.Files != null)
 			{
-				Guid id = Guid.NewGuid();
+				var images = _productImageService.GetFromFiles(viewModel.Files);
+				var resizedImages = _productImageService.ResizeImages(images, 1920, 1080);
+				var thumbnailImages = _productImageService.ThumbnailImages(resizedImages);
+				int i = 0;
 
-				var productImage = new ProductImage
+				foreach (var image in images)
 				{
-					Id = id,
-					FileName = viewModel.Name + viewModel.Id + "File" + id + ".jpg",
-				};
-				product.Images.Add(productImage);
+					Guid id = Guid.NewGuid();
 
-				viewModel.File.SaveAs(HostingEnvironment.MapPath("~/Images/") + viewModel.Name + viewModel.Id + "File" + id + ".jpg");
+					var productImage = new ProductImage
+					{
+						Id = id,
+						ImageName = viewModel.Name + viewModel.Id + "Image" + id + ".png",
+						ThumbnailName = viewModel.Name + viewModel.Id + "Thumbnail" + id + ".png",
+					};
+					product.Images.Add(productImage);
+					resizedImages[i].Save(HostingEnvironment.MapPath("~/Images/") + viewModel.Name + viewModel.Id + "Image" + id + ".png");
+					thumbnailImages[i].Save(HostingEnvironment.MapPath("~/Images/") + viewModel.Name + viewModel.Id + "Thumbnail" + id + ".png");
+					i++;
+				}
 			}
-
 			_productRepository.SaveChanges();
-
 		}
 
 		public void DeleteProduct(int id)

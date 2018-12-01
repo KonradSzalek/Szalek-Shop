@@ -9,6 +9,10 @@ namespace szalkszop.Core.Models
 
 		[Required]
 		[StringLength(255)]
-		public string FileName { get; set; }
+		public string ImageName { get; set; }
+
+		[Required]
+		[StringLength(255)]
+		public string ThumbnailName { get; set; }
 	}
 }

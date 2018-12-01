@@ -253,6 +253,7 @@
     <Compile Include="Areas\Admin\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\ViewModels\UserSearchResult.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -281,6 +282,18 @@
     <Compile Include="Migrations\201811121851162_chuj.Designer.cs">
       <DependentUpon>201811121851162_chuj.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811232222466_chujowsto.cs" />
+    <Compile Include="Migrations\201811232222466_chujowsto.Designer.cs">
+      <DependentUpon>201811232222466_chujowsto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812011136360_AddingProductSearchStoredProcedure.cs" />
+    <Compile Include="Migrations\201812011136360_AddingProductSearchStoredProcedure.Designer.cs">
+      <DependentUpon>201812011136360_AddingProductSearchStoredProcedure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812011139388_add-migration ADdingUserSearchStoredProcedure.cs" />
+    <Compile Include="Migrations\201812011139388_add-migration ADdingUserSearchStoredProcedure.Designer.cs">
+      <DependentUpon>201812011139388_add-migration ADdingUserSearchStoredProcedure.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Core\Models\AccountViewModels.cs" />
     <Compile Include="Core\Models\IdentityModels.cs" />
@@ -301,21 +314,26 @@
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Mappers\UserMapper.cs" />
     <Compile Include="Services\IProductCategoryService.cs" />
+    <Compile Include="Services\IProductImageService.cs" />
     <Compile Include="Services\IProductService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\ProductCategoryService.cs" />
+    <Compile Include="Services\ProductImageService.cs" />
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="CustomAttributes\CustomValidations.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ProductCategoriesViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ProductCategoryViewModel.cs" />
     <Compile Include="ViewModels\ProductCategoryWithProductCountViewModel.cs" />
+    <Compile Include="ViewModels\ProductSearchResult.cs" />
     <Compile Include="ViewModels\ProductSearchViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ProductViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\UsersViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ProductsWithSearchViewModel.cs" />
+    <Compile Include="ViewModels\ProductViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -338,6 +356,7 @@
     <Content Include="Areas\Admin\Views\ProductCategory\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Product\_Products.cshtml" />
+    <Content Include="Areas\Admin\Views\User\SearchResult.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -395,6 +414,8 @@
     <Content Include="Views\Product\_Products.cshtml" />
     <Content Include="Views\Product\Products.cshtml" />
     <Content Include="Views\Product\Details.cshtml" />
+    <Content Include="Views\Product\_ProductSearchResult.cshtml" />
+    <Content Include="Views\Product\SearchResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -420,6 +441,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811121851162_chuj.resx">
       <DependentUpon>201811121851162_chuj.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811232222466_chujowsto.resx">
+      <DependentUpon>201811232222466_chujowsto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812011136360_AddingProductSearchStoredProcedure.resx">
+      <DependentUpon>201812011136360_AddingProductSearchStoredProcedure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812011139388_add-migration ADdingUserSearchStoredProcedure.resx">
+      <DependentUpon>201812011139388_add-migration ADdingUserSearchStoredProcedure.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

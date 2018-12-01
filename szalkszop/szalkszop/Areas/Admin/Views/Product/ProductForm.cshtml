@@ -34,17 +34,13 @@
 		@Html.LabelFor(m => m.ProductCategory)
 		@Html.DropDownListFor(m => m.ProductCategory, new SelectList(Model.ProductCategoriesDto, "Id", "Name", Model.ProductCategoriesDto), "", new { @class = "form-control" })
 	</div>
-
 	<div>
-		@Html.LabelFor(m => m.File)
-		@Html.TextBoxFor(m => m.File, new { type= "file" })
+		@Html.LabelFor(m => m.Files)
+		@Html.TextBoxFor(m => m.Files, new { type = "file", multiple = "multiple" })
+		@Html.ValidationMessageFor(m => m.Files)
 	</div>
-
 	<br />
 
 	<button type="submit" value="Save" class="btn btn-primary">@Model.Heading</button>
 }
 
-@section Scripts {
-	@Scripts.Render("~/bundles/jqueryval")
-}

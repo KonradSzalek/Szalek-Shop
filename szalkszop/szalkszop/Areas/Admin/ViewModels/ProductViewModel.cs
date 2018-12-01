@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using szalkszop.Areas.Admin.Controllers;
 using szalkszop.DTO;
+using static szalkszop.Services.CustomValidations;
 
 namespace szalkszop.ViewModels
 {
@@ -39,7 +40,11 @@ namespace szalkszop.ViewModels
 		public string Description { get; set; }
 
 		[DisplayName("Upload product photos")]
-		public HttpPostedFileBase File { get; set; }
+		[ImageFormat(".jpg", ".jpeg", ".png", "gif")]
+		[MaximumImageSize(1500000)]
+		[MaximumImageFormat(3840, 2160)]
+		[MaximumAmountOfFiles(5)]
+		public IEnumerable<HttpPostedFileBase> Files { get; set; }
 
 		public string Heading { get; set; }
 

@@ -26,7 +26,9 @@ namespace szalkszop.Repositories
 				Images = product.Images.Select(i => new ProductImageDto()
 				{
 					Id = i.Id,
-					FileName = i.FileName,
+					ImageName = i.ImageName,
+					ThumbNailName = i.ThumbnailName
+
 				}).ToList(),
 				ProductCategory = new ProductCategoryDto
 				{
@@ -35,7 +37,7 @@ namespace szalkszop.Repositories
 				}
 			};
 
-			return productDto;
+			 return productDto;
 		}
 	}
 }

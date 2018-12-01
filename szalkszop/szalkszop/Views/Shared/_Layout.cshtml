@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+	<meta name="description" content="Web shop" />
 </head>
 <body>
 <div class="main-logo"><img alt="SZAŁKSZOP" src="~/Images/logoost.jpg"/></div>
@@ -42,7 +43,7 @@
 			<div class="container body-content">
 				@RenderBody()
 				<hr/>
-				<footer>
+				<footer class="footer">
 					<p>&copy; @DateTime.Now.Year - Designed by Konrad Szalek </p>
 				</footer>
 			</div>

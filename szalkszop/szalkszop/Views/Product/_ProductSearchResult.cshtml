@@ -1,0 +1,25 @@
+﻿@model szalkszop.ViewModels.ProductsWithSearchViewModel
+@{
+	Layout = null;
+}
+
+@foreach (var product in Model.ProductSearchResult)
+{
+	<div class="vert-offset-bottom-1 col-sm-3">
+		<div class="thumbnail" style="height:331px" ;>
+			@if (product.ThumbnailName != null)
+			{
+				<img src="~/Images/@product.ThumbnailName" alt="Product image">
+			}
+			<div class="caption">
+				<h3>@product.Name</h3>
+				<h4>@product.Price €</h4>
+				<p>@product.Description</p>
+				<p><a href="#" class="btn btn-primary" role="button">To Cart</a> <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn btn-default" role="button">Details</a></p>
+			</div>
+		</div>
+	</div>
+}
+
+
+

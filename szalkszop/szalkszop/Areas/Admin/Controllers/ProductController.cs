@@ -10,10 +10,12 @@ namespace szalkszop.Areas.Admin.Controllers
 	public class ProductController : Controller
 	{
 		private readonly IProductService _productService;
+		private readonly IProductCategoryService _productCategoryService;
 
-		public ProductController(IProductService productService)
+		public ProductController(IProductService productService, IProductCategoryService productCategoryService)
 		{
 			_productService = productService;
+			_productCategoryService = productCategoryService;
 		}
 
 		public ActionResult Index()
@@ -32,11 +34,11 @@ namespace szalkszop.Areas.Admin.Controllers
 		{
 			var viewModel = new ProductsWithSearchViewModel
 			{
-				ProductsDto = _productService.GetQueriedProductSearch(searchModel.ProductSearchViewModel),
+				ProductSearchResult = _productService.GetQueriedProducts(searchModel.ProductSearchViewModel),
 				ProductSearchViewModel = _productService.GetProductSearchViewModel(),
 			};
 
-			return View("Index", viewModel);
+			return View("SearchResult", viewModel);
 		}
 
 		public ActionResult Create()
@@ -50,7 +52,12 @@ namespace szalkszop.Areas.Admin.Controllers
 		[HttpPost]
 		public ActionResult Create(ProductViewModel viewModel)
 		{
-			viewModel.Id = _productService.AddProduct(viewModel);	
+			if (!ModelState.IsValid)
+			{
+				return View("ProductForm", viewModel);
+			}
+
+			viewModel.Id = _productService.AddProduct(viewModel);
 
 			return RedirectToAction("Index", "Product");
 		}
@@ -70,11 +77,17 @@ namespace szalkszop.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(ProductViewModel viewModel)
 		{
+			if (!ModelState.IsValid)
+			{
+				viewModel.Heading = "Edit a product";
+				viewModel.ProductCategoriesDto = _productCategoryService.GetProductCategoriesList();
+				return View("ProductForm", viewModel);
+			}
 			if (!_productService.ProductExist(viewModel.Id))
 				return HttpNotFound();
 
-			_productService.EditProduct(viewModel);
 
+			_productService.EditProduct(viewModel);
 
 			return RedirectToAction("Index", "Product");
 		}

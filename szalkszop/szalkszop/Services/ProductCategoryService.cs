@@ -63,7 +63,6 @@ namespace szalkszop.Services
 			return _productCategoryRepository.Exists(id);
 		}
 
-
 		public ProductCategoriesWithProductCountViewModel GetProductCategoriesWithProductCountViewModel()
 		{
 			var viewModel = new ProductCategoriesWithProductCountViewModel

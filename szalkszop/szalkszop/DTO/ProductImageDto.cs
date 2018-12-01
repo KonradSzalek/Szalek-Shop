@@ -9,6 +9,8 @@ namespace szalkszop.DTO
 	{
 		public Guid Id { get; set; }
 
-		public string FileName { get; set; }
+		public string ImageName { get; set; }
+
+		public string ThumbNailName { get; set; }
 	}
 }

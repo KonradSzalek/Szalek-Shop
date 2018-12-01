@@ -34,7 +34,7 @@
 				<td>
 					@if (product.Images.Any())
 					{
-						<img src="~/Images/@product.Images.FirstOrDefault().FileName" class="img-responsive" alt=@product.Name height="37" width="54">
+						<img src="~/Images/@product.Images.FirstOrDefault().ThumbNailName" class="img-responsive" alt=@product.Name height="37" width="54">
 						@Html.ActionLink("Delete", "DeletePhoto", new { id = @product.Images.FirstOrDefault().Id, productId = product.Id })
 					}
 				</td>

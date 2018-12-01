@@ -1,6 +1,12 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using szalkszop.Core.Models;
+using szalkszop.ViewModels;
+using System.Data.SqlTypes;
 
 namespace szalkszop.Repositories
 {
@@ -44,5 +50,25 @@ namespace szalkszop.Repositories
 		{
 			_context.SaveChanges();
 		}
+
+		public List<ProductSearchResult> SearchResultFromSqlStoredProcedure(string name, int? priceFrom, int? priceTo, DateTime? dateTimeFrom, DateTime? dateTimeTo, int productCategoryId)
+		{
+			int? categoryId;
+			if (productCategoryId == 0)
+			{
+				categoryId = null;
+			}
+			else categoryId = productCategoryId;
+		
+			var products = _context.Database.SqlQuery<ProductSearchResult>("EXEC [dbo].[SearchProductsStoredProcedure] @Name, @PriceFrom, @PriceTo, @DateTimeFrom, @DateTimeTo, @ProductCategoryId",
+			new SqlParameter("Name", name ?? SqlString.Null),
+			new SqlParameter("PriceFrom", priceFrom ?? SqlInt32.Null),
+			new SqlParameter("PriceTo", priceTo ?? SqlInt32.Null),
+			new SqlParameter("DateTimeFrom", dateTimeFrom ?? SqlDateTime.Null),
+			new SqlParameter("DateTimeTo", dateTimeTo ?? SqlDateTime.Null),
+			new SqlParameter("ProductCategoryId", categoryId ?? SqlInt32.Null)).ToList();
+
+			return products;
+		}		
 	}
 }

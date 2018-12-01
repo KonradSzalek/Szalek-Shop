@@ -3,16 +3,22 @@
 
 namespace szalkszop.App_Start
 {
-    using System;
-    using System.Web;
+	using System;
+	using System.Web;
 
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+	using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
-    using Ninject;
-    using Ninject.Web.Common;
+	using Ninject;
+	using Ninject.Web.Common;
 	using Ninject.Extensions.Conventions;
+	using Core.Models;
+	using Microsoft.AspNet.Identity;
+	using Microsoft.AspNet.Identity.EntityFramework;
+	using Repositories;
+	using Services;
+	using System.Data.Entity;
 
-    public static class NinjectWebCommon 
+	public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
@@ -41,21 +47,28 @@ namespace szalkszop.App_Start
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
-            try
-            {
-                kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
-                kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
+			try
+			{
+				kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
+				kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-                RegisterServices(kernel);
+				RegisterServices(kernel);
 
-	            kernel.Bind(x =>
-	            {
-		            x.FromThisAssembly()
-			            .SelectAllClasses()
-			            .BindDefaultInterface();
-	            });
-                return kernel;
-            }
+				kernel.Bind<ApplicationDbContext>().ToSelf();
+				kernel.Bind<DbContext>().To<ApplicationDbContext>();
+				kernel.Bind<IUserStore<ApplicationUser>>().To<UserStore<ApplicationUser>>();
+				kernel.Bind<UserManager<ApplicationUser>>().ToSelf();
+				kernel.Bind<IProductRepository>().To<ProductRepository>();
+				kernel.Bind<IProductCategoryRepository>().To<ProductCategoryRepository>();
+				kernel.Bind<IUserRepository>().To<UserRepository>();
+				kernel.Bind<IProductCategoryService>().To<ProductCategoryService>();
+				kernel.Bind<IProductService>().To<ProductService>();
+				kernel.Bind<IUserService>().To<UserService>();
+				kernel.Bind<IProductImageService>().To<ProductImageService>();
+
+				return kernel;
+			}
+
             catch
             {
                 kernel.Dispose();

@@ -2,7 +2,10 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Linq;
+using szalkszop.Areas.Admin.ViewModels;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
 
@@ -48,6 +51,14 @@ namespace szalkszop.Repositories
 			{
 				throw new ApplicationException("Unable to add user to a role.");
 			}
+		}
+
+		public IEnumerable<UserSearchResult> SearchUserWithStoredProcedure(string searchTerm)
+		{
+			var users = _context.Database.SqlQuery<UserSearchResult>("EXEC [dbo].[SearchUsersStoredProcedure] @searchTerm",
+			new SqlParameter("searchTerm", searchTerm ?? SqlString.Null)).AsEnumerable();
+
+			return users;
 		}
 
 		public void Delete(string id)

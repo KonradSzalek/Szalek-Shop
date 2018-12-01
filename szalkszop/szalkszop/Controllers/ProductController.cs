@@ -39,16 +39,16 @@ namespace szalkszop.Controllers
 		{
 			var viewModel = new ProductsWithSearchViewModel
 			{
-				ProductsDto = _productService.GetQueriedProductSearch(searchModel.ProductSearchViewModel),
+				ProductSearchResult = _productService.GetQueriedProducts(searchModel.ProductSearchViewModel),
 				ProductSearchViewModel = _productService.GetProductSearchViewModel(),
 			};
 
-			return View("Index", viewModel);
+			return View("SearchResult", viewModel);
 		}
 
 		public ActionResult Details(int id)
 		{
-			var viewModel = _productService.EditProductViewModel(id);
+			var viewModel = _productService.ProductDetailViewModel(id);
 
 			return View(viewModel);
 		}

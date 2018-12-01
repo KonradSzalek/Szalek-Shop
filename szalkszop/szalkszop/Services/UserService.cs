@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,39 +12,37 @@ namespace szalkszop.Services
 	public class UserService : IUserService
 	{
 		private readonly IUserRepository _userRepository;
-		public UserManager<ApplicationUser> userManager;
-		private readonly ApplicationDbContext _context;
+		private readonly UserManager<ApplicationUser> _userManager;
 
-		public UserService(IUserRepository userRepository, ApplicationDbContext context)
+		public UserService(IUserRepository userRepository, UserManager<ApplicationUser> userManager)
 		{
-			_context = context;
 			_userRepository = userRepository;
-            // cr4 Sprobuj zarejestrowac w DI UserManagera, tak zebys je injectowal a nie tutaj recznie instancjonowal
-			var userStore = new UserStore<ApplicationUser>(_context);
-			userManager = new UserManager<ApplicationUser>(userStore);
+			_userManager = userManager;
 		}
 
 		public IEnumerable<UserDto> GetUsersWithUserRole()
 		{
-			var users = _userRepository.GetList().ToList().Where((u => userManager.IsInRole(u.Id, "User"))).ToList();
+			var users = _userRepository.GetList().ToList().Where((u => _userManager.IsInRole(u.Id, "User"))).ToList();
 
 			return UserMapper.MapToDto(users);
 		}
 
 		public UsersViewModel GetUsersViewModel(string searchTerm)
 		{
-			var viewModel = new UsersViewModel();
+			var users = _userRepository.SearchUserWithStoredProcedure(searchTerm);
 
+			var viewModel = new UsersViewModel();
 			if (!string.IsNullOrWhiteSpace(searchTerm))
 			{
-				viewModel.Users = GetUsersWithUserRole().Where(u => (u.Surname.Contains(searchTerm) || u.Email.Contains(searchTerm)));
+				viewModel.UsersSearch = users;
 				return viewModel;
 			}
 
 			viewModel.Users = GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime);
+
 			return viewModel;
 		}
-	
+
 		public UserViewModel EditUserViewModel(string id)
 		{
 			var user = _userRepository.Get(id);

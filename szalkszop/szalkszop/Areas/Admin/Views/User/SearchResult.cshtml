@@ -1,0 +1,45 @@
+﻿@model szalkszop.ViewModels.UsersViewModel
+@{
+	ViewBag.Title = "Manage users";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Manage users</h2>
+@using (Html.BeginForm("Search", "User", FormMethod.Post))
+{
+	<div class="form-group">
+		<div class="input-group" style="width: 300px">
+			@Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Search by Email or Surname..." })
+			<span class="input-group-addon">
+				<i class="glyphicon glyphicon-search"></i>
+			</span>
+		</div>
+	</div>
+}
+<table cellpadding="10">
+	<thead>
+		<tr>
+			<th>Email</th>
+			<th>Full Name</th>
+			<th>Date of registration</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var user in Model.UsersSearch)
+		{
+			<tr>
+				<td>@user.Email</td>
+				<td>@user.Name @user.Surname</td>
+				<td>@user.RegistrationDateTime</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id = user.Id })
+					<br />
+					@Html.ActionLink("Delete", "Delete", new { id = user.Id })
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+<br />
+@Html.ActionLink("Add a new user", "Create", "User")
