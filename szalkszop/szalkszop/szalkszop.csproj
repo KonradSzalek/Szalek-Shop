@@ -266,33 +266,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811121226434_WholeProjectMigration.cs" />
-    <Compile Include="Migrations\201811121226434_WholeProjectMigration.Designer.cs">
-      <DependentUpon>201811121226434_WholeProjectMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201812011340143_WholeProjectMigration.cs" />
+    <Compile Include="Migrations\201812011340143_WholeProjectMigration.Designer.cs">
+      <DependentUpon>201812011340143_WholeProjectMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811121244439_lol.cs" />
-    <Compile Include="Migrations\201811121244439_lol.Designer.cs">
-      <DependentUpon>201811121244439_lol.cs</DependentUpon>
+    <Compile Include="Migrations\201812011340407_AddingUserSearchStoredProcedure.cs" />
+    <Compile Include="Migrations\201812011340407_AddingUserSearchStoredProcedure.Designer.cs">
+      <DependentUpon>201812011340407_AddingUserSearchStoredProcedure.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811121552461_jakasmigracja.cs" />
-    <Compile Include="Migrations\201811121552461_jakasmigracja.Designer.cs">
-      <DependentUpon>201811121552461_jakasmigracja.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811121851162_chuj.cs" />
-    <Compile Include="Migrations\201811121851162_chuj.Designer.cs">
-      <DependentUpon>201811121851162_chuj.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811232222466_chujowsto.cs" />
-    <Compile Include="Migrations\201811232222466_chujowsto.Designer.cs">
-      <DependentUpon>201811232222466_chujowsto.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812011136360_AddingProductSearchStoredProcedure.cs" />
-    <Compile Include="Migrations\201812011136360_AddingProductSearchStoredProcedure.Designer.cs">
-      <DependentUpon>201812011136360_AddingProductSearchStoredProcedure.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812011139388_add-migration ADdingUserSearchStoredProcedure.cs" />
-    <Compile Include="Migrations\201812011139388_add-migration ADdingUserSearchStoredProcedure.Designer.cs">
-      <DependentUpon>201812011139388_add-migration ADdingUserSearchStoredProcedure.cs</DependentUpon>
+    <Compile Include="Migrations\201812011341312_AddingProductSearchStoredProcedure.cs" />
+    <Compile Include="Migrations\201812011341312_AddingProductSearchStoredProcedure.Designer.cs">
+      <DependentUpon>201812011341312_AddingProductSearchStoredProcedure.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Core\Models\AccountViewModels.cs" />
@@ -430,26 +414,14 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811121226434_WholeProjectMigration.resx">
-      <DependentUpon>201811121226434_WholeProjectMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812011340143_WholeProjectMigration.resx">
+      <DependentUpon>201812011340143_WholeProjectMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811121244439_lol.resx">
-      <DependentUpon>201811121244439_lol.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812011340407_AddingUserSearchStoredProcedure.resx">
+      <DependentUpon>201812011340407_AddingUserSearchStoredProcedure.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811121552461_jakasmigracja.resx">
-      <DependentUpon>201811121552461_jakasmigracja.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811121851162_chuj.resx">
-      <DependentUpon>201811121851162_chuj.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811232222466_chujowsto.resx">
-      <DependentUpon>201811232222466_chujowsto.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812011136360_AddingProductSearchStoredProcedure.resx">
-      <DependentUpon>201812011136360_AddingProductSearchStoredProcedure.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812011139388_add-migration ADdingUserSearchStoredProcedure.resx">
-      <DependentUpon>201812011139388_add-migration ADdingUserSearchStoredProcedure.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812011341312_AddingProductSearchStoredProcedure.resx">
+      <DependentUpon>201812011341312_AddingProductSearchStoredProcedure.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
