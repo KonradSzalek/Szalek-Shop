@@ -15,6 +15,6 @@
 		@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
 		@Html.ValidationMessageFor(m => m.Name)
 	</div>
-	<button type="submit" class="btn-primary btn-lg">Add category</button>
+	<button type="submit" class="btn-primary btn-lg">@Model.Heading</button>
 }
 

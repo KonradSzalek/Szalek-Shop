@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Web;
 using System.Web.Hosting;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
@@ -148,7 +149,7 @@ namespace szalkszop.Services
 			return viewModel;
 		}
 
-		public int AddProduct(ProductViewModel viewModel)
+		public void AddProduct(ProductViewModel viewModel)
 		{
 			var product = new Product
 			{
@@ -161,9 +162,14 @@ namespace szalkszop.Services
 			};
 
 			_productRepository.Add(product);
+
 			_productRepository.SaveChanges();
 
-			return product.Id;
+			var productCreated = _productRepository.Get(product.Id);
+
+			AddImagesToProduct(viewModel.Files, productCreated);
+
+			_productRepository.SaveChanges();
 		}
 
 		public void DeletePhoto(Guid id, int productId)
@@ -199,9 +205,16 @@ namespace szalkszop.Services
 				product.Description = viewModel.Description;
 			}
 
-			if (viewModel.Files != null)
+			AddImagesToProduct(viewModel.Files, product);
+
+			_productRepository.SaveChanges();
+		}
+
+		public void AddImagesToProduct(IEnumerable<HttpPostedFileBase> files, Product product)
+		{
+			if (files != null)
 			{
-				var images = _productImageService.GetFromFiles(viewModel.Files);
+				var images = _productImageService.GetFromFiles(files);
 				var resizedImages = _productImageService.ResizeImages(images, 1920, 1080);
 				var thumbnailImages = _productImageService.ThumbnailImages(resizedImages);
 				int i = 0;
@@ -213,16 +226,15 @@ namespace szalkszop.Services
 					var productImage = new ProductImage
 					{
 						Id = id,
-						ImageName = viewModel.Name + viewModel.Id + "Image" + id + ".png",
-						ThumbnailName = viewModel.Name + viewModel.Id + "Thumbnail" + id + ".png",
+						ImageName = product.Name + product.Id + "Image" + id + ".png",
+						ThumbnailName = product.Name + product.Id + "Thumbnail" + id + ".png",
 					};
 					product.Images.Add(productImage);
-					resizedImages[i].Save(HostingEnvironment.MapPath("~/Images/") + viewModel.Name + viewModel.Id + "Image" + id + ".png");
-					thumbnailImages[i].Save(HostingEnvironment.MapPath("~/Images/") + viewModel.Name + viewModel.Id + "Thumbnail" + id + ".png");
+					resizedImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + product.Id + "Image" + id + ".png");
+					thumbnailImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + product.Id + "Thumbnail" + id + ".png");
 					i++;
 				}
 			}
-			_productRepository.SaveChanges();
 		}
 
 		public void DeleteProduct(int id)

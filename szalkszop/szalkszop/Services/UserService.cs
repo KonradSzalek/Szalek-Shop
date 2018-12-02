@@ -29,16 +29,27 @@ namespace szalkszop.Services
 
 		public UsersViewModel GetUsersViewModel(string searchTerm)
 		{
+			var viewModel = new UsersViewModel();
+			viewModel.Users = GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime);
+
+			return viewModel;
+		}
+
+		public UsersViewModel GetUsersViewModelPost(string searchTerm)
+		{
 			var users = _userRepository.SearchUserWithStoredProcedure(searchTerm);
 
 			var viewModel = new UsersViewModel();
 			if (!string.IsNullOrWhiteSpace(searchTerm))
 			{
+				viewModel.SearchTerm = searchTerm;
 				viewModel.UsersSearch = users;
 				return viewModel;
 			}
+			else
 
-			viewModel.Users = GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime);
+			viewModel.SearchTerm = null;
+			viewModel.UsersSearch = _userRepository.SearchUserWithStoredProcedure(searchTerm);
 
 			return viewModel;
 		}

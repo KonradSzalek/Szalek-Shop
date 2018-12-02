@@ -26,7 +26,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		{
 			var viewModel = new ProductCategoryViewModel
 			{
-				Heading = "Add a new category",
+				Heading = "Add category",
 			};
 
 			return View("CategoryForm", viewModel);

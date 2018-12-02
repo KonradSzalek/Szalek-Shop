@@ -54,10 +54,13 @@ namespace szalkszop.Areas.Admin.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
+				viewModel.Files = null;
+				viewModel.ProductCategoriesDto = _productCategoryService.GetProductCategoriesList();
+				viewModel.Heading = "Edit a product";
 				return View("ProductForm", viewModel);
 			}
 
-			viewModel.Id = _productService.AddProduct(viewModel);
+			_productService.AddProduct(viewModel);
 
 			return RedirectToAction("Index", "Product");
 		}

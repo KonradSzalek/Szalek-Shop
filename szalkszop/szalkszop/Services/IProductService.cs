@@ -15,7 +15,7 @@ namespace szalkszop.Services
 		ProductViewModel AddProductViewModel();
 		ProductViewModel EditProductViewModel(int id);
 		ProductDetailViewModel ProductDetailViewModel(int id);
-		int AddProduct(ProductViewModel viewModel);
+		void AddProduct(ProductViewModel viewModel);
 		void EditProduct(ProductViewModel viewModel);
 		void DeletePhoto(Guid id, int productId);
 		void DeleteProduct(int id);

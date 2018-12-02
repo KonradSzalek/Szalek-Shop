@@ -20,12 +20,11 @@ namespace szalkszop.Services
 			}
 			protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 			{
-				if (value == null) return ValidationResult.Success;
-
 				var files = value as IEnumerable<HttpPostedFileBase>;
 
 				foreach (HttpPostedFileBase file in files)
 				{
+					if (file == null) return ValidationResult.Success;
 					if (file.ContentLength > _fileSize)
 					{
 						var errorMessage = FormatErrorMessage((validationContext.DisplayName));
@@ -49,12 +48,11 @@ namespace szalkszop.Services
 
 			protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 			{
-				if (value == null) return ValidationResult.Success;
-
 				var files = value as IEnumerable<HttpPostedFileBase>;
 
 				foreach (HttpPostedFileBase file in files)
 				{
+					if (file == null) return ValidationResult.Success;
 					string ext = System.IO.Path.GetExtension(file.FileName);
 
 					if (!_supportedFormats.Contains(ext.ToLower()))
@@ -81,13 +79,11 @@ namespace szalkszop.Services
 
 			protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 			{
-				if (value == null) return ValidationResult.Success;
-
 				var files = value as IEnumerable<HttpPostedFileBase>;
-
 
 				foreach (var file in files)
 				{
+					if (file == null) return ValidationResult.Success;
 					try
 					{
 						int biggerValue;
@@ -134,8 +130,6 @@ namespace szalkszop.Services
 
 			protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 			{
-				if (value == null) return ValidationResult.Success;
-
 				var files = value as IEnumerable<HttpPostedFileBase>;
 
 				if (files.Count() > _maxAmountOfFiles)

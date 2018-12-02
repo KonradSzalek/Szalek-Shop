@@ -11,6 +11,7 @@ namespace szalkszop.Services
 	public interface IUserService
 	{
 		UsersViewModel GetUsersViewModel(string searchTerm);
+		UsersViewModel GetUsersViewModelPost(string searchTerm);
 		UserViewModel EditUserViewModel(string id);
 		void AddUser(UserViewModel viewModel);
 		void DeleteUser(string id);

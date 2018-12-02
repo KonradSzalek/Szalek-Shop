@@ -25,7 +25,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		[HttpPost]
 		public ActionResult Search(UsersViewModel viewModel)
 		{
-			var userViewModel = _userService.GetUsersViewModel(viewModel.SearchTerm);
+			var userViewModel = _userService.GetUsersViewModelPost(viewModel.SearchTerm);
 
 			return View("SearchResult", userViewModel);
 		}

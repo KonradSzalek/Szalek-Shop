@@ -9,7 +9,7 @@ namespace szalkszop.ViewModels
 	{
 		public int Id { get; set; }
 
-		public DateTime DateOfAdding { get; set; }
+		public DateTime? DateOfAdding { get; set; }
 
 		public int ProductCategoryId { get; set; }
 
@@ -23,7 +23,7 @@ namespace szalkszop.ViewModels
 
 		public string CategoryName { get; set; }
 
-		public Guid imageid { get; set; }
+		public Guid? imageid { get; set; }
 
 		public string ImageName { get; set; }
 
