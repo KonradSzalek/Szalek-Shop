@@ -12,27 +12,27 @@
 	@Html.HiddenFor(m => m.Id)
 	<div class="form-group">
 		@Html.LabelFor(m => m.Name)
-		@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+		@Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name of a product" })
 		@Html.ValidationMessageFor(m => m.Name)
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.AmountInStock)
-		@Html.TextBoxFor(m => m.AmountInStock, new { @class = "form-control" })
+		@Html.TextBoxFor(m => m.AmountInStock, new { @class = "form-control", placeholder = "Quantity" })
 		@Html.ValidationMessageFor(m => m.AmountInStock)
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.Price)
-		@Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+		@Html.TextBoxFor(m => m.Price, new { @class = "form-control", placeholder = "EUR"})
 		@Html.ValidationMessageFor(m => m.Price)
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.Description)
-		@Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+		@Html.TextBoxFor(m => m.Description, new { @class = "form-control", placeholder = "Product description" })
 		@Html.ValidationMessageFor(m => m.Description)
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.ProductCategory)
-		@Html.DropDownListFor(m => m.ProductCategory, new SelectList(Model.ProductCategoriesDto, "Id", "Name", Model.ProductCategoriesDto), "", new { @class = "form-control" })
+		@Html.DropDownListFor(m => m.ProductCategory, new SelectList(Model.ProductCategoriesDto, "Id", "Name", Model.ProductCategoriesDto), "Select Category", new { @class = "form-control" })
 	</div>
 	<div>
 		@Html.LabelFor(m => m.Files)

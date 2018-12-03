@@ -27,13 +27,11 @@ namespace szalkszop.ViewModels
 		[Range(0, int.MaxValue)]
 		public int ProductCategory { get; set; }
 
-		[Required]
 		[Range(0, int.MaxValue)]
-		public int AmountInStock { get; set; }
+		public int? AmountInStock { get; set; }
 
-		[Required]
 		[Range(0, double.MaxValue)]
-		public double Price { get; set; }
+		public double? Price { get; set; }
 
 		[Required]
 		[StringLength(255)]
@@ -61,6 +59,7 @@ namespace szalkszop.ViewModels
 				return (action.Body as MethodCallExpression).Method.Name;
 			}
 		}
+		public List<ProductImageDto> ProductImagesDto { get; set; }
 
 		public IEnumerable<ProductCategoryDto> ProductCategoriesDto { get; set; }
 	}

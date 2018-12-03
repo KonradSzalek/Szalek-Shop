@@ -11,11 +11,11 @@ namespace szalkszop.Services
 	public interface IProductCategoryService
 	{
 		IEnumerable<ProductCategoryDto> GetProductCategoriesList();
-		ProductCategoriesWithProductCountViewModel GetProductCategoriesWithProductCountViewModel();
-		ProductCategoriesViewModel GetProductCategoriesViewModel();
-		ProductCategoryViewModel EditProductCategoryViewModel(int id);
-		void AddProductCategory(ProductCategoryViewModel viewModel);
-		void EditProductCategory(ProductCategoryViewModel viewModel);
+		AdminProductCategoriesViewModel GetAdminProductCategoriesViewModel();
+		UserProductCategoriesViewModel GetUserProductCategoriesViewModel(); 
+		AdminProductCategoryViewModel EditProductCategoryViewModel(int id);
+		void AddProductCategory(AdminProductCategoryViewModel viewModel);
+		void EditProductCategory(AdminProductCategoryViewModel viewModel);
 		void DeleteProductCategory(int id);
 		bool ProductCategoryExist(int id);
 	}

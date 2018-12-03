@@ -48,7 +48,7 @@ namespace szalkszop.Services
 			}
 			else
 
-			viewModel.SearchTerm = null;
+				viewModel.SearchTerm = null;
 			viewModel.UsersSearch = _userRepository.SearchUserWithStoredProcedure(searchTerm);
 
 			return viewModel;
@@ -98,6 +98,11 @@ namespace szalkszop.Services
 			user.Email = viewModel.Email;
 			user.Name = viewModel.Name;
 			user.Surname = viewModel.Surname;
+
+			if (viewModel.NewPassword != null && viewModel.ConfirmPassword != null)
+			{
+				user.PasswordHash = _userManager.PasswordHasher.HashPassword(viewModel.NewPassword);
+			}
 
 			_userRepository.SaveChanges();
 		}

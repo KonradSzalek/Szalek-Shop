@@ -20,7 +20,7 @@
 				@Html.LabelFor(m => m.ProductSearchViewModel.ProductCategory)
 				@Html.DropDownListFor(m => m.ProductSearchViewModel.ProductCategory.Id,
 				new SelectList(Model.ProductSearchViewModel.ProductCategories,
-				"Id", "Name", Model.ProductSearchViewModel.ProductCategory), "",
+				"Id", "Name", Model.ProductSearchViewModel.ProductCategory), "Select Category",
 			    new { @class = "form-control"})
 			</div>
 		</div>

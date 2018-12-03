@@ -32,15 +32,15 @@ namespace szalkszop.Services
 			return ProductCategoryMapper.MapToDtoWithAmountOfProducts(products, categories);
 		}
 
-		public IEnumerable<ProductCategoryWithProductCountDto> GetCategoriesWithAmountOfProductsWithoutEmpty()
+		public IEnumerable<ProductCategoryWithProductCountDto> GetCategoriesWithoutEmptyCategories()
 		{
 			var products = _productRepository.GetList();
 			var categories = _productCategoryRepository.GetList();
 
-			return ProductCategoryMapper.MapToDtoWithAmountOfProductsWithoutEmptyProducts(products, categories);
+			return ProductCategoryMapper.MapToDtoWithoutEmptyCategories(products, categories);
 		}
-		//sprawdzone
-		public void AddProductCategory(ProductCategoryViewModel viewModel)
+
+		public void AddProductCategory(AdminProductCategoryViewModel viewModel)
 		{
 			var category = new ProductCategory
 			{
@@ -50,8 +50,8 @@ namespace szalkszop.Services
 			_productCategoryRepository.Add(category);
 			_productCategoryRepository.SaveChanges();
 		}
-		//sprawdzone
-		public void EditProductCategory(ProductCategoryViewModel viewModel)
+
+		public void EditProductCategory(AdminProductCategoryViewModel viewModel)
 		{
 			var category = _productCategoryRepository.Get(viewModel.Id);
 
@@ -59,18 +59,18 @@ namespace szalkszop.Services
 
 			_productCategoryRepository.SaveChanges();
 		}
-		//sprawdzone
+
 		public void DeleteProductCategory(int id)
 		{
 			_productCategoryRepository.Delete(id);
 			_productCategoryRepository.SaveChanges();
 		}
-		//sprawdzone
+	
 		public bool ProductCategoryExist(int id)
 		{
 			return _productCategoryRepository.Exists(id);
 		}
-		//sprawdzone
+	
 		public AdminProductCategoriesViewModel GetAdminProductCategoriesViewModel()
 		{
 			var viewModel = new AdminProductCategoriesViewModel
@@ -80,50 +80,22 @@ namespace szalkszop.Services
 
 			return viewModel;
 		}
-		//sprawdzone
+	
 		public UserProductCategoriesViewModel GetUserProductCategoriesViewModel()
 		{
 			var viewModel = new UserProductCategoriesViewModel
 			{
-				ProductCategoriesWithProductCountDto = GetCategoriesWithAmountOfProductsWithoutEmpty(),
+				ProductCategoriesWithProductCountDto = GetCategoriesWithoutEmptyCategories(),
 			};
 
 			return viewModel;
 		}
-		//sprawdzone
-		public UserProductCategoriesViewModel GetProductCategoriesViewModelWithoutEmpty()
-		{
-			var products = _productRepository.GetList();
-			var productCategories = _productCategoryRepository.GetList();
-			var productCategoriesDto = ProductCategoryMapper.MapToDtoWithAmountOfProductsWithoutEmptyProducts(products, productCategories);
-
-			var viewModel = new UserProductCategoriesViewModel
-			{
-				ProductCategoriesWithProductCountDto = productCategoriesDto,
-			};
-
-			return viewModel;
-		}
-
-		public UserProductCategoriesViewModel GetProductCategoriesViewModel()
-		{
-			var products = _productRepository.GetList();
-			var productCategories = _productCategoryRepository.GetList();
-			var productCategoriesDto = ProductCategoryMapper.MapToDtoWithAmountOfProducts(products, productCategories);
-
-			var viewModel = new UserProductCategoriesViewModel
-			{
-				ProductCategoriesWithProductCountDto = productCategoriesDto,
-			};
-
-			return viewModel;
-		}
-
-		public ProductCategoryViewModel EditProductCategoryViewModel(int id)
+	
+		public AdminProductCategoryViewModel EditProductCategoryViewModel(int id)
 		{
 			var productCategory = _productCategoryRepository.Get(id);
 
-			var viewModel = new ProductCategoryViewModel
+			var viewModel = new AdminProductCategoryViewModel
 			{
 				Name = productCategory.Name,
 				Id = productCategory.Id,

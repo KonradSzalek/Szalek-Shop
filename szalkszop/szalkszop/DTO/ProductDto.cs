@@ -15,9 +15,9 @@ namespace szalkszop.DTO
 
 		public int ProductCategoryId { get; set; }
 
-		public int AmountInStock { get; set; }
+		public int? AmountInStock { get; set; }
 
-		public double Price { get; set; }
+		public double? Price { get; set; }
 
 		public string Description { get; set; }
 

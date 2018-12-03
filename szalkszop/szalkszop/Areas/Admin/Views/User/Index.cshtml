@@ -8,11 +8,11 @@
 @using (Html.BeginForm("Search", "User", FormMethod.Post))
 {
 	<div class="form-group">
-		<div class="input-group" style="width: 300px">
+		<div class="input-group" style="width: 300px" >
 			@Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Search by Email or Surname..." })
-			<span class="input-group-addon">
+			<a class="input-group-addon" href='@Url.Action("Search", "User")'>
 				<i class="glyphicon glyphicon-search"></i>
-			</span>
+			</a>
 		</div>
 	</div>
 }

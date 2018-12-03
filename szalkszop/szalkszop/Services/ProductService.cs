@@ -41,7 +41,7 @@ namespace szalkszop.Services
 			return products = _productRepository.SearchResultFromSqlStoredProcedure(searchModel.Name,
 				searchModel.PriceFrom,
 				searchModel.PriceTo,
-				searchModel.DateTimeFrom,
+				searchModel.DateTimeTo,
 				searchModel.DateTimeFrom,
 				searchModel.ProductCategory.Id);
 		}
@@ -122,6 +122,7 @@ namespace szalkszop.Services
 				AmountInStock = productDto.AmountInStock,
 				Price = productDto.Price,
 				Description = productDto.Description,
+				ProductImagesDto = productDto.Images,
 			};
 
 			return viewModel;
@@ -221,18 +222,21 @@ namespace szalkszop.Services
 
 				foreach (var image in images)
 				{
-					Guid id = Guid.NewGuid();
-
-					var productImage = new ProductImage
+					if (product.Images.Count <= 5)
 					{
-						Id = id,
-						ImageName = product.Name + product.Id + "Image" + id + ".png",
-						ThumbnailName = product.Name + product.Id + "Thumbnail" + id + ".png",
-					};
-					product.Images.Add(productImage);
-					resizedImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + product.Id + "Image" + id + ".png");
-					thumbnailImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + product.Id + "Thumbnail" + id + ".png");
-					i++;
+						Guid id = Guid.NewGuid();
+
+						var productImage = new ProductImage
+						{
+							Id = id,
+							ImageName = product.Name + product.Id + "Image" + id + ".png",
+							ThumbnailName = product.Name + product.Id + "Thumbnail" + id + ".png",
+						};
+						product.Images.Add(productImage);
+						resizedImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + product.Id + "Image" + id + ".png");
+						thumbnailImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + product.Id + "Thumbnail" + id + ".png");
+						i++;
+					}
 				}
 			}
 		}

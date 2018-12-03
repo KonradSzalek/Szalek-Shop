@@ -17,14 +17,14 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Index()
 		{
-			var viewModel = _productCategoryService.GetProductCategoriesWithProductCountViewModel();
+			var viewModel = _productCategoryService.GetAdminProductCategoriesViewModel();
 
 			return View(viewModel);
 		}
 
 		public ActionResult Create()
 		{
-			var viewModel = new ProductCategoryViewModel
+			var viewModel = new AdminProductCategoryViewModel
 			{
 				Heading = "Add category",
 			};
@@ -33,8 +33,14 @@ namespace szalkszop.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Create(ProductCategoryViewModel viewModel)
+		public ActionResult Create(AdminProductCategoryViewModel viewModel)
 		{
+			if (!ModelState.IsValid)
+			{
+				viewModel.Heading = "Add category";
+				return View("CategoryForm", viewModel);
+			}
+
 			_productCategoryService.AddProductCategory(viewModel);
 
 			return RedirectToAction("Index", "ProductCategory");
@@ -63,7 +69,7 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(ProductCategoryViewModel viewModel)
+		public ActionResult Edit(AdminProductCategoryViewModel viewModel)
 		{
 			if (!_productCategoryService.ProductCategoryExist(viewModel.Id))
 				return HttpNotFound();

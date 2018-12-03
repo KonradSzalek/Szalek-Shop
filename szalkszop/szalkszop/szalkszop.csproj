@@ -243,12 +243,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
-    <Compile Include="App_Start\NinjectWebCommon.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\App_Start\BundleConfig.cs" />
+    <Compile Include="Areas\App_Start\FilterConfig.cs" />
+    <Compile Include="Areas\App_Start\IdentityConfig.cs" />
+    <Compile Include="Areas\App_Start\NinjectWebCommon.cs" />
+    <Compile Include="Areas\App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
@@ -277,6 +277,10 @@
     <Compile Include="Migrations\201812011341312_AddingProductSearchStoredProcedure.cs" />
     <Compile Include="Migrations\201812011341312_AddingProductSearchStoredProcedure.Designer.cs">
       <DependentUpon>201812011341312_AddingProductSearchStoredProcedure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812021820055_ChangingProductIntValuesToNullable.cs" />
+    <Compile Include="Migrations\201812021820055_ChangingProductIntValuesToNullable.Designer.cs">
+      <DependentUpon>201812021820055_ChangingProductIntValuesToNullable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Core\Models\AccountViewModels.cs" />
@@ -307,9 +311,8 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="CustomAttributes\CustomValidations.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\ProductCategoriesViewModel.cs" />
-    <Compile Include="Areas\Admin\ViewModels\ProductCategoryViewModel.cs" />
-    <Compile Include="ViewModels\ProductCategoryWithProductCountViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\AdminProductCategoryViewModel.cs" />
+    <Compile Include="ViewModels\AdminProductCategoriesViewModel.cs" />
     <Compile Include="ViewModels\ProductSearchResult.cs" />
     <Compile Include="ViewModels\ProductSearchViewModel.cs" />
     <Compile Include="ViewModels\ProductsViewModel.cs" />
@@ -318,6 +321,7 @@
     <Compile Include="Areas\Admin\ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\ProductsWithSearchViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\UserProductCategoriesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -341,6 +345,7 @@
     <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Product\_Products.cshtml" />
     <Content Include="Areas\Admin\Views\User\SearchResult.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\EditPhotos.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -422,6 +427,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812011341312_AddingProductSearchStoredProcedure.resx">
       <DependentUpon>201812011341312_AddingProductSearchStoredProcedure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812021820055_ChangingProductIntValuesToNullable.resx">
+      <DependentUpon>201812021820055_ChangingProductIntValuesToNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

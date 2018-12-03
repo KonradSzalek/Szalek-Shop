@@ -1,4 +1,4 @@
-﻿@model szalkszop.ViewModels.ProductCategoryViewModel
+﻿@model szalkszop.ViewModels.AdminProductCategoryViewModel
 @{
 	ViewBag.Title = "CategoryForm";
 	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
@@ -12,9 +12,9 @@
 		
 	<div class="form-group">
 		@Html.LabelFor(m => m.Name)
-		@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+		@Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name of product category"})
 		@Html.ValidationMessageFor(m => m.Name)
 	</div>
-	<button type="submit" class="btn-primary btn-lg">@Model.Heading</button>
+	<button type="submit" class="btn btn-primary">Add</button>
 }
 

@@ -34,7 +34,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		{
 			var viewModel = new UserViewModel
 			{
-				Heading = "Add a new user"
+				Heading = "Add user"
 			};
 
 			return View("UserForm", viewModel);
@@ -80,6 +80,12 @@ namespace szalkszop.Areas.Admin.Controllers
 		{
 			if (!_userService.UserExist(viewModel.Id))
 				return HttpNotFound();
+
+			if (!ModelState.IsValid)
+			{
+				viewModel.Heading = "Edit a user";
+				return View("UserForm", viewModel);
+			}
 
 			_userService.EditUser(viewModel);
 

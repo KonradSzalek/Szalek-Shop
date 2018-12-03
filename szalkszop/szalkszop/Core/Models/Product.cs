@@ -21,9 +21,9 @@ namespace szalkszop.Core.Models
 		[Required]
 		public int ProductCategoryId { get; set; }
 
-		public int AmountInStock { get; set; }
+		public int? AmountInStock { get; set; }
 
-		public double Price { get; set; }
+		public double? Price { get; set; }
 
 		[Required]
 		[StringLength(255)]

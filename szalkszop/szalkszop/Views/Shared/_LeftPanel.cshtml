@@ -1,4 +1,4 @@
-﻿@model szalkszop.ViewModels.ProductCategoriesViewModel
+﻿@model szalkszop.ViewModels.UserProductCategoriesViewModel
 @{
     Layout = null;
 }
@@ -12,7 +12,7 @@
 		</thead>
 		<tbody>
 	
-		@foreach (var category in Model.ProductCategoriesDto)
+		@foreach (var category in Model.ProductCategoriesWithProductCountDto)
 		{
 			<tr>
 				<td>

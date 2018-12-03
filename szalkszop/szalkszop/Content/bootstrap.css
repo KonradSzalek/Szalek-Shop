@@ -3707,7 +3707,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   font-weight: normal;
   line-height: 1;
   text-align: center;
-  background-color: #eeeeee;
+  /*background-color: #eeeeee;*/
   border: 1px solid #cccccc;
   border-radius: 4px;
 }
@@ -3715,7 +3715,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .input-group-addon.input-sm {
   padding: 5px 10px;
   font-size: 12px;
-  border-radius: 3px;
+  border-radius: 3px;z
 }
 
 .input-group-addon.input-lg {

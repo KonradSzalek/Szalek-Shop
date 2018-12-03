@@ -95,13 +95,6 @@ namespace szalkszop.Areas.Admin.Controllers
 			return RedirectToAction("Index", "Product");
 		}
 
-		public ActionResult DeletePhoto(Guid id, int productId)
-		{
-			_productService.DeletePhoto(id, productId);
-
-			return RedirectToAction("Index", "Product");
-		}
-
 		public ActionResult Delete(int id)
 		{
 			if (!_productService.ProductExist(id))
@@ -110,6 +103,27 @@ namespace szalkszop.Areas.Admin.Controllers
 			_productService.DeleteProduct(id);
 
 			return RedirectToAction("Index", "Product");
+		}
+
+		public ActionResult EditPhotos(int productId)
+		{
+			//if (!_productService.ProductPhotoExist(id))
+			//	return HttpNotFound();
+
+			var viewModel = _productService.EditProductViewModel(productId);
+
+			return View("EditPhotos", viewModel);
+		}
+
+		public ActionResult DeletePhoto(Guid id, int productId)
+		{
+			//if (!_productService.ProductPhotoExists(id))
+			//	return HttpNotFound();
+
+			_productService.DeletePhoto(id, productId);
+			var viewModel = _productService.EditProductViewModel(productId);
+
+			return RedirectToAction("EditPhotos", viewModel);
 		}
 	}
 }
