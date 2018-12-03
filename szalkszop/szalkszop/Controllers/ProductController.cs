@@ -37,6 +37,8 @@ namespace szalkszop.Controllers
 		[HttpPost]
 		public ActionResult Search(ProductsWithSearchViewModel searchModel)
 		{
+			// dodac modelstate.IsValid
+
 			var viewModel = new ProductsWithSearchViewModel
 			{
 				ProductSearchResult = _productService.GetQueriedProducts(searchModel.ProductSearchViewModel),
@@ -48,8 +50,10 @@ namespace szalkszop.Controllers
 
 		public ActionResult Details(int id)
 		{
-			var viewModel = _productService.ProductDetailViewModel(id);
+			if (!_productService.ProductExist(id))
+				return HttpNotFound();
 
+			var viewModel = _productService.ProductDetailViewModel(id);
 			return View(viewModel);
 		}
 	}

@@ -25,13 +25,25 @@ namespace szalkszop.Services
 			_productImageService = productImageService;
 		}
 
-		private IEnumerable<Product> GetProductsWithCategory()
+		public IEnumerable<ProductDto> GetProducts()
 		{
 			var products = _productRepository.GetList()
 				.Include(p => p.ProductCategory)
-				.Include(i => i.Images);
+				.Include(i => i.Images).ToList();
 
-			return products;
+			var productsDto = ProductMapper.MapToDto(products);
+
+			return productsDto;
+		}
+
+		public ProductSearchViewModel GetProductSearchViewModel()
+		{
+			var viewModel = new ProductSearchViewModel
+			{
+				ProductCategories = _productCategoryService.GetProductCategoriesList(),
+			};
+
+			return viewModel;
 		}
 
 		public IEnumerable<ProductSearchResult> GetQueriedProducts(ProductSearchViewModel searchModel)
@@ -44,6 +56,37 @@ namespace szalkszop.Services
 				searchModel.DateTimeTo,
 				searchModel.DateTimeFrom,
 				searchModel.ProductCategory.Id);
+		}
+
+		public ProductViewModel AddProductViewModel()
+		{
+			var viewModel = new ProductViewModel
+			{
+				ProductCategoriesDto = _productCategoryService.GetProductCategoriesList(),
+			};
+
+			return viewModel;
+		}
+
+		public ProductViewModel EditProductViewModel(int id)
+		{
+			var product = _productRepository.Get(id);
+
+			var productDto = ProductMapper.MapToDto(product);
+
+			var viewModel = new ProductViewModel
+			{
+				Id = productDto.Id,
+				Name = productDto.Name,
+				ProductCategoriesDto = _productCategoryService.GetProductCategoriesList(),
+				ProductCategory = productDto.ProductCategoryId,
+				AmountInStock = productDto.AmountInStock,
+				Price = productDto.Price,
+				Description = productDto.Description,
+				ProductImagesDto = productDto.Images,
+			};
+
+			return viewModel;
 		}
 
 		public IEnumerable<ProductDto> GetThreeNewestProducts()
@@ -73,56 +116,6 @@ namespace szalkszop.Services
 			var viewModel = new ProductsViewModel
 			{
 				ProductsDto = productsDto,
-			};
-
-			return viewModel;
-		}
-
-		public ProductSearchViewModel GetProductSearchViewModel()
-		{
-			var viewModel = new ProductSearchViewModel
-			{
-				ProductCategories = _productCategoryService.GetProductCategoriesList(),
-			};
-
-			return viewModel;
-		}
-
-		public IEnumerable<ProductDto> GetProducts()
-		{
-			var products = GetProductsWithCategory().ToList();
-
-			var productsDto = ProductMapper.MapToDto(products);
-
-			return productsDto;
-		}
-
-		public ProductViewModel AddProductViewModel()
-		{
-			var viewModel = new ProductViewModel
-			{
-				ProductCategoriesDto = _productCategoryService.GetProductCategoriesList(),
-			};
-
-			return viewModel;
-		}
-
-		public ProductViewModel EditProductViewModel(int id)
-		{
-			var product = _productRepository.Get(id);
-
-			var productDto = ProductMapper.MapToDto(product);
-
-			var viewModel = new ProductViewModel
-			{
-				Id = productDto.Id,
-				Name = productDto.Name,
-				ProductCategoriesDto = _productCategoryService.GetProductCategoriesList(),
-				ProductCategory = productDto.ProductCategoryId,
-				AmountInStock = productDto.AmountInStock,
-				Price = productDto.Price,
-				Description = productDto.Description,
-				ProductImagesDto = productDto.Images,
 			};
 
 			return viewModel;
@@ -173,24 +166,15 @@ namespace szalkszop.Services
 			_productRepository.SaveChanges();
 		}
 
-		public void DeletePhoto(Guid id, int productId)
+		public void DeleteProduct(int id)
 		{
-			var product = _productRepository.Get(productId);
-			var image = product.Images.Single(i => i.Id == id);
-
-			if (System.IO.File.Exists(HostingEnvironment.MapPath("~/Images/") + image.ImageName))
-			{
-				System.IO.File.Delete(HostingEnvironment.MapPath("~/Images/") + image.ImageName);
-			}
-
-			if (System.IO.File.Exists(HostingEnvironment.MapPath("~/Images/") + image.ThumbnailName))
-			{
-				System.IO.File.Delete(HostingEnvironment.MapPath("~/Images/") + image.ThumbnailName);
-			}
-
-			product.Images.Remove(image);
-
+			_productRepository.Delete(id);
 			_productRepository.SaveChanges();
+		}
+
+		public bool ProductExist(int id)
+		{
+			return _productRepository.Exists(id);
 		}
 
 		public void EditProduct(ProductViewModel viewModel)
@@ -207,6 +191,32 @@ namespace szalkszop.Services
 			}
 
 			AddImagesToProduct(viewModel.Files, product);
+
+			_productRepository.SaveChanges();
+		}
+
+		public bool ProductPhotoExists(Guid id, int productId)
+		{
+			var product = _productRepository.Get(productId);
+			return product.Images.Any(i => i.Id == id);
+		}
+
+		public void DeletePhoto(Guid id, int productId)
+		{
+			var product = _productRepository.Get(productId);
+			var image = product.Images.Single(i => i.Id == id);
+
+			if (System.IO.File.Exists(HostingEnvironment.MapPath("~/Images/") + image.ImageName))
+			{
+				System.IO.File.Delete(HostingEnvironment.MapPath("~/Images/") + image.ImageName);
+			}
+
+			if (System.IO.File.Exists(HostingEnvironment.MapPath("~/Images/") + image.ThumbnailName))
+			{
+				System.IO.File.Delete(HostingEnvironment.MapPath("~/Images/") + image.ThumbnailName);
+			}
+
+			product.Images.Remove(image);
 
 			_productRepository.SaveChanges();
 		}
@@ -239,17 +249,6 @@ namespace szalkszop.Services
 					}
 				}
 			}
-		}
-
-		public void DeleteProduct(int id)
-		{
-			_productRepository.Delete(id);
-			_productRepository.SaveChanges();
-		}
-
-		public bool ProductExist(int id)
-		{
-			return _productRepository.Exists(id);
 		}
 	}
 }

@@ -105,22 +105,22 @@ namespace szalkszop.Areas.Admin.Controllers
 			return RedirectToAction("Index", "Product");
 		}
 
-		public ActionResult EditPhotos(int productId)
+		public ActionResult EditPhotos(Guid imageId, int productId)
 		{
-			//if (!_productService.ProductPhotoExist(id))
-			//	return HttpNotFound();
-
+			if (!_productService.ProductExist(productId))
+				return HttpNotFound();
+	
 			var viewModel = _productService.EditProductViewModel(productId);
 
 			return View("EditPhotos", viewModel);
 		}
 
-		public ActionResult DeletePhoto(Guid id, int productId)
+		public ActionResult DeletePhoto(Guid imageId, int productId)
 		{
-			//if (!_productService.ProductPhotoExists(id))
-			//	return HttpNotFound();
+			if (!_productService.ProductPhotoExists(imageId, productId))
+				return HttpNotFound();
 
-			_productService.DeletePhoto(id, productId);
+			_productService.DeletePhoto(imageId, productId);
 			var viewModel = _productService.EditProductViewModel(productId);
 
 			return RedirectToAction("EditPhotos", viewModel);

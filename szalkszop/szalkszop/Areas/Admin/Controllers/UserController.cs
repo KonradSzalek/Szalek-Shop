@@ -25,6 +25,12 @@ namespace szalkszop.Areas.Admin.Controllers
 		[HttpPost]
 		public ActionResult Search(UsersViewModel viewModel)
 		{
+			// do weryfikacji przy podwojnym blednym wyszukaniu
+			if (!ModelState.IsValid)
+			{
+				return View("SearchResul", viewModel);
+			}
+
 			var userViewModel = _userService.GetUsersViewModelPost(viewModel.SearchTerm);
 
 			return View("SearchResult", userViewModel);
@@ -45,6 +51,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
+				viewModel.Heading = "Add user";
 				return View("UserForm", viewModel);
 			}
 

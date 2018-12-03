@@ -31,6 +31,9 @@ namespace szalkszop.Controllers
 
 		public ActionResult Products(int categoryId)
 		{
+			if (!_productCategoryService.ProductCategoryExist(categoryId))
+				return HttpNotFound();
+
 			var viewModel = _productService.GetProductsByCategoryViewModel(categoryId);
 
 			return View("~/Views/Product/Products.cshtml", viewModel);
