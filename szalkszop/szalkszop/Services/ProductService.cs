@@ -218,10 +218,10 @@ namespace szalkszop.Services
 			{
 				var resizedImages = _productImageService.ResizeImages(files, 1920, 1080);
 				var cropedImages = _productImageService.CropImage(files, 300, 200);
+				product.Images = new List<ProductImage>();
 
 				for (int i = 0; i < files.Count(); i++)
 				{
-					product.Images = new List<ProductImage>();
 					if (product.Images.Count <= 5)
 					{
 						Guid id = Guid.NewGuid();
