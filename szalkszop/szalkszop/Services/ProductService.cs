@@ -156,11 +156,7 @@ namespace szalkszop.Services
 			};
 
 			_productRepository.Add(product);
-
-			_productRepository.SaveChanges();
-
-			AddImagesToProduct(viewModel.Files, _productRepository.Get(product.Id));
-
+			AddImagesToProduct(viewModel.Files, product);
 			_productRepository.SaveChanges();
 		}
 
@@ -225,6 +221,7 @@ namespace szalkszop.Services
 
 				for (int i = 0; i < files.Count(); i++)
 				{
+					product.Images = new List<ProductImage>();
 					if (product.Images.Count <= 5)
 					{
 						Guid id = Guid.NewGuid();
@@ -232,8 +229,8 @@ namespace szalkszop.Services
 						var productImage = new ProductImage
 						{
 							Id = id,
-							ImageName = product.Name + product.Id + "Image" + id + ".png",
-							ThumbnailName = product.Name + product.Id + "Thumbnail" + id + ".png",
+							ImageName = product.Name + "Image" + id + ".png",
+							ThumbnailName = product.Name + "Thumbnail" + id + ".png",
 						};
 
 						product.Images.Add(productImage);
@@ -241,8 +238,8 @@ namespace szalkszop.Services
 						using (resizedImages[i])
 						using (cropedImages[i])
 						{
-							resizedImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + product.Id + "Image" + id + ".png");
-							cropedImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + product.Id + "Thumbnail" + id + ".png");
+							resizedImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + "Image" + id + ".png");
+							cropedImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + "Thumbnail" + id + ".png");
 						}
 					}
 				}
