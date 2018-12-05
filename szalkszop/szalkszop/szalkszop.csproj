@@ -333,6 +333,8 @@
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\Logo2.jpg" />
     <Content Include="Images\logoost.jpg" />
+    <Content Include="Images\no-image.jpg" />
+    <Content Include="Images\no-image1.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">

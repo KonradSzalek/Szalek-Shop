@@ -34,14 +34,14 @@ textarea {
 	margin:auto;
 }
 
-.footer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
+ .footer {
   background-color: white;
   text-align: center;
-}
+  position: relative;
+  height: 150px;
+  clear:both;
+  padding-top:20px;
+} 
 
 img.details {
 	height: 75%;
@@ -161,4 +161,8 @@ img.details {
 
  .carousel-indicators {
     z-index: 1;
+}
+
+ .carousel-inner > .item > img {
+    margin: 0 auto;
 }
