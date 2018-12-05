@@ -159,9 +159,7 @@ namespace szalkszop.Services
 
 			_productRepository.SaveChanges();
 
-			var productCreated = _productRepository.Get(product.Id);
-
-			AddImagesToProduct(viewModel.Files, productCreated);
+			AddImagesToProduct(viewModel.Files, _productRepository.Get(product.Id));
 
 			_productRepository.SaveChanges();
 		}
@@ -195,29 +193,26 @@ namespace szalkszop.Services
 			_productRepository.SaveChanges();
 		}
 
-		public bool ProductPhotoExists(Guid id, int productId)
+		public bool ProductPhotoExists(Guid id)
 		{
-			var product = _productRepository.Get(productId);
-			return product.Images.Any(i => i.Id == id);
+			return _productRepository.PhotoExists(id);
 		}
 
-		public void DeletePhoto(Guid id, int productId)
+		public void DeletePhoto(Guid id)
 		{
-			var product = _productRepository.Get(productId);
-			var image = product.Images.Single(i => i.Id == id);
+			List<string> photosNames = _productRepository.GetPhotosNames(id);
 
-			if (System.IO.File.Exists(HostingEnvironment.MapPath("~/Images/") + image.ImageName))
+			if (System.IO.File.Exists(HostingEnvironment.MapPath("~/Images/") + photosNames[0]))
 			{
-				System.IO.File.Delete(HostingEnvironment.MapPath("~/Images/") + image.ImageName);
+				System.IO.File.Delete(HostingEnvironment.MapPath("~/Images/") + photosNames[0]);
 			}
 
-			if (System.IO.File.Exists(HostingEnvironment.MapPath("~/Images/") + image.ThumbnailName))
+			if (System.IO.File.Exists(HostingEnvironment.MapPath("~/Images/") + photosNames[1]))
 			{
-				System.IO.File.Delete(HostingEnvironment.MapPath("~/Images/") + image.ThumbnailName);
+				System.IO.File.Delete(HostingEnvironment.MapPath("~/Images/") + photosNames[1]);
 			}
 
-			product.Images.Remove(image);
-
+			_productRepository.DeletePhoto(id);
 			_productRepository.SaveChanges();
 		}
 
@@ -225,12 +220,10 @@ namespace szalkszop.Services
 		{
 			if (files != null)
 			{
-				var images = _productImageService.GetFromFiles(files);
-				var resizedImages = _productImageService.ResizeImages(images, 1920, 1080);
-				var thumbnailImages = _productImageService.ThumbnailImages(resizedImages);
-				int i = 0;
+				var resizedImages = _productImageService.ResizeImages(files, 1920, 1080);
+				var cropedImages = _productImageService.CropImage(files, 300, 200);
 
-				foreach (var image in images)
+				for (int i = 0; i < files.Count(); i++)
 				{
 					if (product.Images.Count <= 5)
 					{
@@ -242,10 +235,15 @@ namespace szalkszop.Services
 							ImageName = product.Name + product.Id + "Image" + id + ".png",
 							ThumbnailName = product.Name + product.Id + "Thumbnail" + id + ".png",
 						};
+
 						product.Images.Add(productImage);
-						resizedImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + product.Id + "Image" + id + ".png");
-						thumbnailImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + product.Id + "Thumbnail" + id + ".png");
-						i++;
+
+						using (resizedImages[i])
+						using (cropedImages[i])
+						{
+							resizedImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + product.Id + "Image" + id + ".png");
+							cropedImages[i].Save(HostingEnvironment.MapPath("~/Images/") + product.Name + product.Id + "Thumbnail" + id + ".png");
+						}
 					}
 				}
 			}

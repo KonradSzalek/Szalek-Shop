@@ -33,9 +33,8 @@ namespace szalkszop.Repositories
 			return _context.Users.Single(u => u.Id == id);
 		}
 
-		public void Add(ApplicationUser user)
+		public void Add(ApplicationUser user, string password)
 		{
-			string password = "secret";
 			var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
 			var manager = new UserManager<ApplicationUser, string>(store);
 

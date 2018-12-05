@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Linq;
 using szalkszop.Core.Models;
 using szalkszop.ViewModels;
-using System.Data.SqlTypes;
 
 namespace szalkszop.Repositories
 {
@@ -41,6 +40,26 @@ namespace szalkszop.Repositories
 			_context.Products.Remove(_context.Products.Single(p => p.Id == id));
 		}
 
+		public void DeletePhoto(Guid id)
+		{
+			_context.ProductImages.Remove(_context.ProductImages.FirstOrDefault(i => i.Id == id));	
+		}
+
+		public List<string> GetPhotosNames(Guid id)
+		{
+			List<string> imageNames = new List<string>();
+
+			imageNames.Add(_context.ProductImages.FirstOrDefault(i => i.Id == id).ImageName);
+			imageNames.Add(_context.ProductImages.FirstOrDefault(i => i.Id == id).ThumbnailName);
+
+			return imageNames;
+		}
+
+		public bool PhotoExists(Guid id)
+		{
+			return _context.ProductImages.Any(i => i.Id == id);
+		}
+
 		public bool Exists(int id)
 		{
 			return _context.Products.Any(p => p.Id == id);
@@ -59,7 +78,7 @@ namespace szalkszop.Repositories
 				categoryId = null;
 			}
 			else categoryId = productCategoryId;
-		
+
 			var products = _context.Database.SqlQuery<ProductSearchResult>("EXEC [dbo].[SearchProductsStoredProcedure] @Name, @PriceFrom, @PriceTo, @DateTimeFrom, @DateTimeTo, @ProductCategoryId",
 			new SqlParameter("Name", name ?? SqlString.Null),
 			new SqlParameter("PriceFrom", priceFrom ?? SqlInt32.Null),
@@ -69,6 +88,6 @@ namespace szalkszop.Repositories
 			new SqlParameter("ProductCategoryId", categoryId ?? SqlInt32.Null)).ToList();
 
 			return products;
-		}		
+		}
 	}
 }

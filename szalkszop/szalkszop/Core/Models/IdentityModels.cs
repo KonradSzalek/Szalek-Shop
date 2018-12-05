@@ -60,6 +60,7 @@ namespace szalkszop.Core.Models
     {
 		public DbSet<Product> Products { get; set; }
 		public DbSet<ProductCategory> ProductsCategories { get; set; }
+		public DbSet<ProductImage> ProductImages { get; set; }
 
 		public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

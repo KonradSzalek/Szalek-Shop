@@ -80,7 +80,7 @@ namespace szalkszop.Services
 				RegistrationDateTime = DateTime.Now,
 			};
 
-			_userRepository.Add(user);
+			_userRepository.Add(user, viewModel.NewPassword);
 			_userRepository.SaveChanges();
 		}
 

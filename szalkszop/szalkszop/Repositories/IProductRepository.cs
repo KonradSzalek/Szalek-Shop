@@ -16,6 +16,15 @@ namespace szalkszop.Repositories
 		void Delete(int id);
 		void SaveChanges();
 		bool Exists(int id);
-		List<ProductSearchResult> SearchResultFromSqlStoredProcedure(string name, int? priceFrom, int? priceTo, DateTime? dateTimeFrom, DateTime? dateTimeTo, int productCategoryId);
+		bool PhotoExists(Guid id);
+		void DeletePhoto(Guid id);
+		List<string> GetPhotosNames(Guid id);
+		List<ProductSearchResult> SearchResultFromSqlStoredProcedure(
+			string name, 
+			int? priceFrom, 
+			int? priceTo, 
+			DateTime? dateTimeFrom, 
+			DateTime? dateTimeTo, 
+			int productCategoryId);
 	}
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Web;
@@ -8,44 +7,17 @@ namespace szalkszop.Services
 {
 	public class ProductImageService : IProductImageService
 	{
-		public List<Image> ThumbnailImages(List<Image> images)
-		{
-			List<Image> thumbnailImages = new List<Image>();
-
-			foreach (Image image in images)
-			{
-				var img = image;
-
-				double imgHeight = img.Size.Height;
-				double imgWidth = img.Size.Width;
-
-				double x = imgHeight / 124;
-				int newWidth = (int)(imgWidth / x);
-				int newHeight = (int)(imgHeight / x);
-
-				Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(ThumbnailCallback);
-				Image myThumbnail = img.GetThumbnailImage(newWidth, newHeight, myCallback, IntPtr.Zero);
-
-				thumbnailImages.Add(myThumbnail);
-			}
-
-			return thumbnailImages;
-		}
-
-		public bool ThumbnailCallback()
-		{
-			return false;
-		}
-
-		public List<Image> ResizeImages(List<Image> images, int biggerDimension, int smallerDimension)
+		public List<Image> ResizeImages(IEnumerable<HttpPostedFileBase> files, int biggerDimension, int smallerDimension)
 		{
 			List<Image> resizedImages = new List<Image>();
 			int biggerValue;
 			int smallerValue;
 			bool verticalImage = false;
 
-			foreach (Image image in images)
+			foreach (HttpPostedFileBase file in files)
 			{
+				var image = Image.FromStream(file.InputStream, true, true);
+
 				if (image.Width >= image.Height)
 				{
 					biggerValue = image.Width;
@@ -65,49 +37,60 @@ namespace szalkszop.Services
 					continue;
 				}
 
-				using (image)
+				int newHeight;
+				int newWidth;
+				double ratio = (double)biggerValue / biggerDimension;
+
+				if (verticalImage)
 				{
-					int newHeight;
-					int newWidth;
-					double ratio = (double)biggerValue / biggerDimension;
+					newHeight = biggerDimension;
+					newWidth = (int)(smallerValue / ratio);
+				}
+				else
+				{
+					newWidth = biggerDimension;
+					newHeight = (int)(smallerValue / ratio);
+				}
 
-					if (verticalImage)
-					{
-						newHeight = biggerDimension;
-						newWidth = (int)(smallerValue / ratio);
-					}
-					else
-					{
-						newWidth = biggerDimension;
-						newHeight = (int)(smallerValue / ratio);
-					}
+				Bitmap resizedImage = new Bitmap(newWidth, newHeight);
 
-					Bitmap resizedImage = new Bitmap(newWidth, newHeight);
+				using (var graphic = Graphics.FromImage(resizedImage))
+				{
+					graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+					graphic.SmoothingMode = SmoothingMode.HighQuality;
+					graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
+					graphic.CompositingQuality = CompositingQuality.HighQuality;
+					graphic.DrawImage(image, 0, 0, newWidth, newHeight);
 
-					using (var graphic = Graphics.FromImage(resizedImage))
-					{
-						graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
-						graphic.SmoothingMode = SmoothingMode.HighQuality;
-						graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
-						graphic.CompositingQuality = CompositingQuality.HighQuality;
-						graphic.DrawImage(image, 0, 0, newWidth, newHeight);
-					}
 					resizedImages.Add(resizedImage);
 				}
+
 			}
 			return resizedImages;
 		}
 
-		public List<Image> GetFromFiles(IEnumerable<HttpPostedFileBase> files)
+		public List<Image> CropImage(IEnumerable<HttpPostedFileBase> files, int width, int height)
 		{
-			List<Image> images = new List<Image>();
-			foreach (HttpPostedFileBase file in files)
+			List<Image> cropedImages = new List<Image>();
+			var resizedImages = ResizeImages(files, 530, 300);
+
+			foreach (var image in resizedImages)
 			{
-				var image = Image.FromStream(file.InputStream, true, true);
-				images.Add(image);
+				int x = (int)(image.Width / 2 - 0.5 * width);
+				int y = (int)(image.Height / 2 - 0.5 * height);
+
+				Rectangle fromRectangle = new Rectangle(x, y, width, height);
+
+				Bitmap target = new Bitmap(fromRectangle.Width, fromRectangle.Height);
+				using (Graphics g = Graphics.FromImage(target))
+				{
+					Rectangle croppedImageDimentions = new Rectangle(0, 0, target.Width, target.Height);
+					g.DrawImage(image, croppedImageDimentions, fromRectangle, GraphicsUnit.Pixel);
+				}
+				cropedImages.Add(target);
+
 			}
-			
-			return images;
+			return cropedImages;
 		}
 	}
 }

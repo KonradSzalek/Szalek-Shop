@@ -21,7 +21,7 @@
 				<td>@(i+1)</td>
 				<td><img src="~/Images/@Model.ProductImagesDto[i].ThumbNailName" class="img-responsive" alt=@Model.ProductImagesDto[i].ThumbNailName height="37" width="54"></td>
 				<td>
-					@Html.ActionLink("Delete", "DeletePhoto", new { id = Model.ProductImagesDto[i].Id, productId = Model.Id })
+					@Html.ActionLink("Delete", "DeletePhoto", new { productId = Model.Id , imageId = Model.ProductImagesDto[i].Id })
 				</td>
 			</tr>
 		}
