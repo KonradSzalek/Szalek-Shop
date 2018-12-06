@@ -12,10 +12,10 @@ namespace szalkszop.Services
 	{
 		UsersViewModel GetUsersViewModel(string searchTerm);
 		UsersViewModel GetUsersViewModelPost(string searchTerm);
-		UserViewModel EditUserViewModel(string id);
-		void AddUser(UserViewModel viewModel);
+		EditUserViewModel EditUserViewModel(string id);
+		void AddUser(CreateUserViewModel viewModel);
 		void DeleteUser(string id);
-		void EditUser(UserViewModel viewModel);
+		void EditUser(EditUserViewModel viewModel);
 		bool UserExist(string id);
 	}
 }

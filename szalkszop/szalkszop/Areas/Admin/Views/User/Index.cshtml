@@ -10,9 +10,9 @@
 	<div class="form-group">
 		<div class="input-group" style="width: 300px" >
 			@Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Search by Email or Surname..." })
-			<a class="input-group-addon" href='@Url.Action("Search", "User")'>
+			<span class="input-group-addon">
 				<i class="glyphicon glyphicon-search"></i>
-			</a>
+			</span>
 		</div>
 	</div>
 }

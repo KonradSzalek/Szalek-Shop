@@ -54,11 +54,11 @@ namespace szalkszop.Services
 			return viewModel;
 		}
 
-		public UserViewModel EditUserViewModel(string id)
+		public EditUserViewModel EditUserViewModel(string id)
 		{
 			var user = _userRepository.Get(id);
 
-			var viewModel = new UserViewModel
+			var viewModel = new EditUserViewModel
 			{
 				Id = user.Id,
 				Name = user.Name,
@@ -69,7 +69,7 @@ namespace szalkszop.Services
 			return viewModel;
 		}
 
-		public void AddUser(UserViewModel viewModel)
+		public void AddUser(CreateUserViewModel viewModel)
 		{
 			var user = new ApplicationUser
 			{
@@ -90,7 +90,7 @@ namespace szalkszop.Services
 			_userRepository.SaveChanges();
 		}
 
-		public void EditUser(UserViewModel viewModel)
+		public void EditUser(EditUserViewModel viewModel)
 		{
 			var user = _userRepository.Get(viewModel.Id);
 
@@ -99,7 +99,8 @@ namespace szalkszop.Services
 			user.Name = viewModel.Name;
 			user.Surname = viewModel.Surname;
 
-			if (viewModel.NewPassword != null && viewModel.ConfirmPassword != null)
+			
+			if (!String.IsNullOrWhiteSpace(viewModel.NewPassword) && !String.IsNullOrWhiteSpace(viewModel.ConfirmPassword))
 			{
 				user.PasswordHash = _userManager.PasswordHasher.HashPassword(viewModel.NewPassword);
 			}

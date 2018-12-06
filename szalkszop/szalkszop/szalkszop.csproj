@@ -243,6 +243,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Admin\ViewModels\CreateUserViewModel.cs" />
     <Compile Include="Areas\App_Start\BundleConfig.cs" />
     <Compile Include="Areas\App_Start\FilterConfig.cs" />
     <Compile Include="Areas\App_Start\IdentityConfig.cs" />
@@ -318,7 +319,7 @@
     <Compile Include="ViewModels\ProductsViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ProductViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\UsersViewModel.cs" />
-    <Compile Include="Areas\Admin\ViewModels\UserViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\ProductsWithSearchViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\UserProductCategoriesViewModel.cs" />
@@ -348,6 +349,9 @@
     <Content Include="Areas\Admin\Views\Product\_Products.cshtml" />
     <Content Include="Areas\Admin\Views\User\SearchResult.cshtml" />
     <Content Include="Areas\Admin\Views\Product\EditPhotos.cshtml" />
+    <Content Include="Areas\Admin\Views\User\EditUserForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\AdminSearchResult.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\_AdminProductSearchResult.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -395,7 +399,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\User\UserForm.cshtml" />
+    <Content Include="Areas\Admin\Views\User\CreateUserForm.cshtml" />
     <Content Include="Areas\Admin\Views\Product\ProductForm.cshtml" />
     <Content Include="Areas\Admin\Views\ProductCategory\CategoryForm.cshtml" />
     <Content Include="Views\Shared\_LeftPanel.cshtml" />

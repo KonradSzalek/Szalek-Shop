@@ -153,8 +153,8 @@ namespace szalkszop.Services
 				Price = viewModel.Price,
 				Description = viewModel.Description,
 				DateOfAdding = DateTime.Now,
-			};
-
+				Images = new List<ProductImage>(),
+		};
 			_productRepository.Add(product);
 			AddImagesToProduct(viewModel.Files, product);
 			_productRepository.SaveChanges();
@@ -214,11 +214,10 @@ namespace szalkszop.Services
 
 		public void AddImagesToProduct(IEnumerable<HttpPostedFileBase> files, Product product)
 		{
-			if (files != null)
+			if (files.Any(x => x != null))
 			{
 				var resizedImages = _productImageService.ResizeImages(files, 1920, 1080);
 				var cropedImages = _productImageService.CropImage(files, 300, 200);
-				product.Images = new List<ProductImage>();
 
 				for (int i = 0; i < files.Count(); i++)
 				{

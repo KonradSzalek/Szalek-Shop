@@ -33,7 +33,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Create(AdminProductCategoryViewModel viewModel)
+		public ActionResult Create([Bind(Exclude = "Id")] AdminProductCategoryViewModel viewModel)
 		{
 			if (!ModelState.IsValid)
 			{

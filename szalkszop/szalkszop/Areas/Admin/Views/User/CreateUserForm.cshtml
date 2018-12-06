@@ -1,0 +1,40 @@
+﻿@model szalkszop.ViewModels.CreateUserViewModel
+@{
+	ViewBag.Title = "Create User";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@Model.Heading</h2>
+
+@using (Html.BeginForm("Create", "User"))
+{
+	@Html.AntiForgeryToken()
+	@Html.HiddenFor(m => m.Id)
+	<div class="form-group">
+		@Html.LabelFor(m => m.Name)
+		@Html.TextBoxFor(m => m.Name, new { @class = "form-control"})
+		@Html.ValidationMessageFor(m => m.Name)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.Surname)
+		@Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.Surname)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.Email)
+		@Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "example@email.com"})
+		@Html.ValidationMessageFor(m => m.Email	)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.NewPassword)
+		@Html.PasswordFor(m => m.NewPassword, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.NewPassword)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.ConfirmPassword)
+		@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.ConfirmPassword)
+	</div>
+	<button type="submit" value="Save" class="btn btn-primary">@Model.Heading</button>
+}
+

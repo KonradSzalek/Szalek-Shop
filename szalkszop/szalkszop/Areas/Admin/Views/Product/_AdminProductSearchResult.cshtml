@@ -1,0 +1,46 @@
+﻿@model szalkszop.ViewModels.ProductsWithSearchViewModel
+@{
+	Layout = null;
+}
+
+<table cellpadding="10">
+	<thead>
+		<tr>
+			<th>Product Name</th>
+			<th>Product category</th>
+			<th>Amount in stock</th>
+			<th>Date of adding</th>
+			<th>Price</th>
+			<th>Description</th>
+			<th>Action</th>
+			<th>Picture</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var product in Model.ProductSearchResult)
+		{
+			<tr>
+				<td>@product.Name</td>
+				<td>@product.CategoryName</td>
+				<td>@product.AmountInStock</td>
+				<td>@product.DateOfAdding</td>
+				<td>@product.Price</td>
+				<td>@product.Description</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id = product.Id })
+					<br />
+					@Html.ActionLink("Delete", "Delete", new { id = product.Id })
+				</td>
+				<td>
+					@if (product.ImageName != null)
+					{
+						@Html.ActionLink("Edit", "EditPhotos", new { productId = product.Id })
+					}
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+<br />
+@Html.ActionLink("Add a product", "Create")
+

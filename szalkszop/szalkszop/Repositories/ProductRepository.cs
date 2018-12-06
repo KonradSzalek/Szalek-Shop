@@ -37,6 +37,14 @@ namespace szalkszop.Repositories
 
 		public void Delete(int id)
 		{
+			var product = _context.Products.Include(i => i.Images).Single(p => p.Id == id);
+
+			foreach (var image in product.Images.ToList())
+			{
+				var im = _context.ProductImages.Single(i => i.Id == image.Id);
+				_context.ProductImages.Remove(im);
+			}
+	
 			_context.Products.Remove(_context.Products.Single(p => p.Id == id));
 		}
 

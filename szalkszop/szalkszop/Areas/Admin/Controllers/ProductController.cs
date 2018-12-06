@@ -38,7 +38,7 @@ namespace szalkszop.Areas.Admin.Controllers
 				ProductSearchViewModel = _productService.GetProductSearchViewModel(),
 			};
 
-			return View("SearchResult", viewModel);
+			return View("AdminSearchResult", viewModel);
 		}
 
 		public ActionResult Create()

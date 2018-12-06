@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
 using szalkszop.Core.Models;
-using szalkszop.DTO;
+using System.Data.Entity;
 
 namespace szalkszop.Repositories
 {
@@ -32,7 +30,19 @@ namespace szalkszop.Repositories
 		}
 
 		public void Delete(int id)
-		{	
+		{
+			var products = _context.Products.Include(p => p.ProductCategory).Include(i => i.Images).Where(x => x.ProductCategoryId == id);
+
+			foreach (var product in products.ToList())
+			{
+				foreach (var image in product.Images.ToList())
+				{
+					var im = _context.ProductImages.Single(i => i.Id == image.Id);
+					_context.ProductImages.Remove(im);
+				}
+				_context.Products.Remove(product);
+			}
+	
 			_context.ProductsCategories.Remove(_context.ProductsCategories.Single(p => p.Id == id));
 		}
 

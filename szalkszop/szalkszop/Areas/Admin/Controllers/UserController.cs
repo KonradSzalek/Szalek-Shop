@@ -25,7 +25,6 @@ namespace szalkszop.Areas.Admin.Controllers
 		[HttpPost]
 		public ActionResult Search(UsersViewModel viewModel)
 		{
-			// do weryfikacji przy podwojnym blednym wyszukaniu
 			if (!ModelState.IsValid)
 			{
 				return View("SearchResul", viewModel);
@@ -38,21 +37,21 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Create()
 		{
-			var viewModel = new UserViewModel
+			var viewModel = new CreateUserViewModel
 			{
 				Heading = "Add user"
 			};
 
-			return View("UserForm", viewModel);
+			return View("CreateUserForm", viewModel);
 		}
 
 		[HttpPost]
-		public ActionResult Create(UserViewModel viewModel)
+		public ActionResult Create(CreateUserViewModel viewModel)
 		{
 			if (!ModelState.IsValid)
 			{
 				viewModel.Heading = "Add user";
-				return View("UserForm", viewModel);
+				return View("CreateUserForm", viewModel);
 			}
 
 			_userService.AddUser(viewModel);
@@ -78,12 +77,12 @@ namespace szalkszop.Areas.Admin.Controllers
 			var viewModel = _userService.EditUserViewModel(id);
 			viewModel.Heading = "Edit a user";
 
-			return View("UserForm", viewModel);
+			return View("EditUserForm", viewModel);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(UserViewModel viewModel)
+		public ActionResult Edit(EditUserViewModel viewModel)
 		{
 			if (!_userService.UserExist(viewModel.Id))
 				return HttpNotFound();
@@ -91,7 +90,7 @@ namespace szalkszop.Areas.Admin.Controllers
 			if (!ModelState.IsValid)
 			{
 				viewModel.Heading = "Edit a user";
-				return View("UserForm", viewModel);
+				return View("EditUserForm", viewModel);
 			}
 
 			_userService.EditUser(viewModel);
