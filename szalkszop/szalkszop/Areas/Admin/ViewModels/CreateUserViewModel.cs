@@ -6,7 +6,7 @@ namespace szalkszop.ViewModels
 {
 	public class CreateUserViewModel
 	{
-		public string Id { get; set; }
+        public string Id { get; set; }
 
 		[Required]
 		[StringLength(100)]

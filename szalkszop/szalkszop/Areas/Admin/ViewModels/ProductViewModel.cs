@@ -46,6 +46,7 @@ namespace szalkszop.ViewModels
 
 		public string Heading { get; set; }
 
+        //CR5 czy jest to gdzies uzywane? Jak nie to wywal.
 		public string Action
 		{
 			get

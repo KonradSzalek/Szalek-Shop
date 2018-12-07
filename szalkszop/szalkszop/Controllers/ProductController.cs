@@ -38,7 +38,7 @@ namespace szalkszop.Controllers
 		public ActionResult Search(ProductsWithSearchViewModel searchModel)
 		{
 			// dodac modelstate.IsValid
-
+            //CR5
 			var viewModel = new ProductsWithSearchViewModel
 			{
 				ProductSearchResult = _productService.GetQueriedProducts(searchModel.ProductSearchViewModel),

@@ -5,7 +5,7 @@ using szalkszop.Services;
 using szalkszop.ViewModels;
 
 namespace szalkszop.Areas.Admin.Controllers
-{
+{   //CR5 prefix zbedny
 	[ApplicationUser.AuthorizeRedirectToHomePage(Roles = "Admin")]
 	public class ProductController : Controller
 	{
@@ -20,6 +20,7 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Index()
 		{
+            //CR5 nie uwazasz ze ta nazwa jest mylna? Czy masz gdziekolwiek produkty bez searcha?
 			var viewModel = new ProductsWithSearchViewModel
 			{
 				ProductsDto = _productService.GetProducts(),
@@ -32,7 +33,9 @@ namespace szalkszop.Areas.Admin.Controllers
 		[HttpPost]
 		public ActionResult Search(ProductsWithSearchViewModel searchModel)
 		{
-			var viewModel = new ProductsWithSearchViewModel
+            //CR5 ModelState.IsValid
+            //CR5 kompletnie nie rozumiem tego productswithsearchViewModel, dlaczego nie mogles zrobic po prostu ProductsViewModel
+            var viewModel = new ProductsWithSearchViewModel
 			{
 				ProductSearchResult = _productService.GetQueriedProducts(searchModel.ProductSearchViewModel),
 				ProductSearchViewModel = _productService.GetProductSearchViewModel(),

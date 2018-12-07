@@ -39,7 +39,14 @@ namespace szalkszop.Repositories
 		{
 			var product = _context.Products.Include(i => i.Images).Single(p => p.Id == id);
 
-			foreach (var image in product.Images.ToList())
+            //CR5 wez to wywal i sprobuj tego w IdentityModel.cs:
+
+               // modelBuilder.Entity<Product>()
+               //.HasMany(p => p.Images)
+               //.WithRequired()
+               //.WillCascadeOnDelete(true);
+
+            foreach (var image in product.Images.ToList())
 			{
 				var im = _context.ProductImages.Single(i => i.Id == image.Id);
 				_context.ProductImages.Remove(im);

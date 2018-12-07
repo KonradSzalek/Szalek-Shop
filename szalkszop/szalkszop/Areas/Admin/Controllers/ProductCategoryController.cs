@@ -71,7 +71,8 @@ namespace szalkszop.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(AdminProductCategoryViewModel viewModel)
 		{
-			if (!_productCategoryService.ProductCategoryExist(viewModel.Id))
+            //CR5 ModelState.IsValid
+            if (!_productCategoryService.ProductCategoryExist(viewModel.Id))
 				return HttpNotFound();
 
 			_productCategoryService.EditProductCategory(viewModel);

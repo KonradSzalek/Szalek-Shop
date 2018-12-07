@@ -75,8 +75,8 @@ namespace szalkszop.Core.Models
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Product>()
-		   .HasMany(p => p.Images);
+            modelBuilder.Entity<Product>()
+           .HasMany(p => p.Images);
 
 			base.OnModelCreating(modelBuilder);
 		}

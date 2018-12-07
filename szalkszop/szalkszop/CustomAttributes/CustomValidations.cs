@@ -27,6 +27,7 @@ namespace szalkszop.Services
 					if (file == null) return ValidationResult.Success;
 					if (file.ContentLength > _fileSize)
 					{
+                        //CR5 nie lepiej tutaj dac error message, zamiast podawac ja do bazy i tutaj wyciagać ja z  validationContextu?
 						var errorMessage = FormatErrorMessage((validationContext.DisplayName));
 						return new ValidationResult(errorMessage);
 					}
@@ -57,6 +58,7 @@ namespace szalkszop.Services
 
 					if (!_supportedFormats.Contains(ext.ToLower()))
 					{
+                        //CR5 to samo tu
 						var errorMessage = FormatErrorMessage((validationContext.DisplayName));
 						return new ValidationResult(errorMessage);
 					}
@@ -102,8 +104,10 @@ namespace szalkszop.Services
 							smallerValue = image.Width;
 						}
 
+                        //CR5 a co jezeli tylko np. biggerValue bedzie wieksze? Powinien to puscic?
 						if (biggerValue >= _biggerDimension && smallerValue >= _smallerDimension)
 						{
+                            //CR5 i tu
 							var errorMessage = FormatErrorMessage((validationContext.DisplayName));
 							return new ValidationResult(errorMessage);
 						}
@@ -132,8 +136,10 @@ namespace szalkszop.Services
 			{
 				var files = value as IEnumerable<HttpPostedFileBase>;
 
+                //CR5 to sie nigdy nie stanie bo masz przeciez jeden textbox do dodawania zdjec
 				if (files.Count() > _maxAmountOfFiles)
 				{
+                    //cr5 i tu
 					var errorMessage = FormatErrorMessage((validationContext.DisplayName));
 					return new ValidationResult(errorMessage);
 				}

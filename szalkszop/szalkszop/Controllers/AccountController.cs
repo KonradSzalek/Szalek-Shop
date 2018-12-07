@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using szalkszop.Core.Models;
+using szalkszop.ViewModels;
 
 namespace szalkszop.Controllers
 {
