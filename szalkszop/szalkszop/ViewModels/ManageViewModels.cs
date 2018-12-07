@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace szalkszop.Core.Models
+namespace szalkszop.ViewModels
 {
     public class IndexViewModel
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace szalkszop.Core.Models
+namespace szalkszop.ViewModels
 {
     public class ExternalLoginConfirmationViewModel
     {
