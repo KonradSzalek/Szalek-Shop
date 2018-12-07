@@ -244,12 +244,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\Admin\ViewModels\CreateUserViewModel.cs" />
-    <Compile Include="Areas\App_Start\BundleConfig.cs" />
-    <Compile Include="Areas\App_Start\FilterConfig.cs" />
-    <Compile Include="Areas\App_Start\IdentityConfig.cs" />
-    <Compile Include="Areas\App_Start\NinjectWebCommon.cs" />
-    <Compile Include="Areas\App_Start\RouteConfig.cs" />
-    <Compile Include="Areas\App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
@@ -284,9 +284,9 @@
       <DependentUpon>201812021820055_ChangingProductIntValuesToNullable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Core\Models\AccountViewModels.cs" />
+    <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Core\Models\IdentityModels.cs" />
-    <Compile Include="Core\Models\ManageViewModels.cs" />
+    <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="Core\Models\Product.cs" />
     <Compile Include="Core\Models\ProductCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
