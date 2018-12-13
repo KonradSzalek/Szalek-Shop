@@ -2,10 +2,11 @@
 using szalkszop.Core.Models;
 using szalkszop.Services;
 using szalkszop.ViewModels;
+using static szalkszop.Core.Models.ApplicationUser;
 
 namespace szalkszop.Areas.Admin.Controllers
 {
-	[ApplicationUser.AuthorizeRedirectToHomePage(Roles = "Admin")]
+	[AuthorizeRedirectToHomePage(Roles = "Admin")]
 	public class ProductCategoryController : Controller
 	{
 		private readonly IProductCategoryService _productCategoryService;
@@ -71,7 +72,11 @@ namespace szalkszop.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(AdminProductCategoryViewModel viewModel)
 		{
-            //CR5 ModelState.IsValid
+			if (!ModelState.IsValid)
+			{
+				return View(viewModel);
+			}
+            //CR5FIXED ModelState.IsValid
             if (!_productCategoryService.ProductCategoryExist(viewModel.Id))
 				return HttpNotFound();
 
