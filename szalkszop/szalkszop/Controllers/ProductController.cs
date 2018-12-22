@@ -15,9 +15,9 @@ namespace szalkszop.Controllers
 
 		public ActionResult TopThreeProducts()
 		{
-			var viewModel = new ProductsWithSearchViewModel
+			var viewModel = new ProductListSearchViewModel
 			{
-				ProductsDto = _productService.GetThreeNewestProducts(),
+				ProductList = _productService.GetThreeNewestProducts(),
 			};
 			
 			return View("_Products", viewModel);
@@ -25,24 +25,29 @@ namespace szalkszop.Controllers
 
 		public ActionResult Index()
 		{
-			var viewModel = new ProductsWithSearchViewModel
+			var viewModel = new ProductListSearchViewModel
 			{
-				ProductsDto = _productService.GetProducts(),
-				ProductSearchViewModel = _productService.GetProductSearchViewModel(),
+				ProductList = _productService.GetProductList(),
+				ProductFiltersViewModel = _productService.GetProductSearch(),
 			};
 			
 			return View(viewModel);
 		}
 
 		[HttpPost]
-		public ActionResult Search(ProductsWithSearchViewModel searchModel)
+		public ActionResult Search(ProductListSearchViewModel searchModel)
 		{
-			// dodac modelstate.IsValid
-            //CR5
-			var viewModel = new ProductsWithSearchViewModel
+			ModelState.Remove("ProductSearchViewModel.ProductCategory.Id");
+			if (!ModelState.IsValid)
 			{
-				ProductSearchResult = _productService.GetQueriedProducts(searchModel.ProductSearchViewModel),
-				ProductSearchViewModel = _productService.GetProductSearchViewModel(),
+				return View("SearchResult", searchModel);
+			}
+			// CR5FIXED dodac modelstate.IsValid
+            
+			var viewModel = new ProductListSearchViewModel
+			{
+				ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel),
+				ProductFiltersViewModel = _productService.GetProductSearch(),
 			};
 
 			return View("SearchResult", viewModel);
@@ -50,10 +55,10 @@ namespace szalkszop.Controllers
 
 		public ActionResult Details(int id)
 		{
-			if (!_productService.ProductExist(id))
+			if (!_productService.DoesProductExist(id))
 				return HttpNotFound();
 
-			var viewModel = _productService.ProductDetailViewModel(id);
+			var viewModel = _productService.GetProductDetail(id);
 			return View(viewModel);
 		}
 	}

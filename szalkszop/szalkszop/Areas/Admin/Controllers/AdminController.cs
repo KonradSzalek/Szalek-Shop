@@ -1,13 +1,14 @@
 ﻿using System.Web.Mvc;
-using szalkszop.Core.Models;
+using static szalkszop.Core.Models.ApplicationUser;
 
 namespace szalkszop.Areas.Admin.Controllers
 {
-	//CR% ten rpzedrostek niepotrzebnu
-	[ApplicationUser.AuthorizeRedirectToHomePage(Roles = "Admin")]
+	//CR5FIXED ten rpzedrostek niepotrzebnu
+	[AuthorizeRedirectToHomePage(Roles = "Admin")]
 	public class AdminController : Controller
 	{
-		//CR5 usun ten pusty controller
+		//CR5FIXED usun ten pusty controller
+		// - jest potrzebny mimo ze widok na razie jest pusty
 		public ActionResult Index()
 		{
 			return View();

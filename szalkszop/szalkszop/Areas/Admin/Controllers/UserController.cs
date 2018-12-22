@@ -1,11 +1,11 @@
 ﻿using System.Web.Mvc;
-using szalkszop.Core.Models;
 using szalkszop.Services;
 using szalkszop.ViewModels;
+using static szalkszop.Core.Models.ApplicationUser;
 
 namespace szalkszop.Areas.Admin.Controllers
-{   //CR5 prefix zbedny
-	[ApplicationUser.AuthorizeRedirectToHomePage(Roles = "Admin")]
+{   //CR5FIXED prefix zbedny
+	[AuthorizeRedirectToHomePage(Roles = "Admin")]
 	public class UserController : Controller
 	{
 		private readonly IUserService _userService;
@@ -15,24 +15,24 @@ namespace szalkszop.Areas.Admin.Controllers
 			_userService = userService;
 		}
 
-		public ActionResult Index(UsersViewModel usersViewModel)
+		public ActionResult Index(UserListViewModel searchResultViewModel)
 		{
-			var viewModel = _userService.GetUsersViewModel(usersViewModel.SearchTerm);
+			var viewModel = _userService.GetUserList(searchResultViewModel.SearchTerm);
 
 			return View(viewModel);
 		}
 
 		[HttpPost]
-		public ActionResult Search(UsersViewModel viewModel)
+		public ActionResult Search(UserListViewModel viewModel)
 		{
 			if (!ModelState.IsValid)
 			{
 				return View("SearchResul", viewModel);
 			}
 
-			var userViewModel = _userService.GetUsersViewModelPost(viewModel.SearchTerm);
+			var searchResultViewModel = _userService.GetUserSearchResultList(viewModel.SearchTerm);
 
-			return View("SearchResult", userViewModel);
+			return View("SearchResult", searchResultViewModel);
 		}
 
 		public ActionResult Create()
@@ -61,7 +61,7 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Delete(string id)
 		{
-			if (!_userService.UserExist(id))
+			if (!_userService.DoesUserExist(id))
 				return HttpNotFound();
 
 			_userService.DeleteUser(id);
@@ -71,10 +71,10 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Edit(string id)
 		{
-			if (!_userService.UserExist(id))
+			if (!_userService.DoesUserExist(id))
 				return HttpNotFound();
 
-			var viewModel = _userService.EditUserViewModel(id);
+			var viewModel = _userService.EditUser(id);
 			viewModel.Heading = "Edit a user";
 
 			return View("EditUserForm", viewModel);
@@ -84,7 +84,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditUserViewModel viewModel)
 		{
-			if (!_userService.UserExist(viewModel.Id))
+			if (!_userService.DoesUserExist(viewModel.Id))
 				return HttpNotFound();
 
 			if (!ModelState.IsValid)

@@ -23,7 +23,7 @@ namespace szalkszop.Repositories
 			return productCategoryDto;
 		}
 
-		public static IEnumerable<ProductCategoryWithProductCountDto> MapToDtoWithAmountOfProducts(IEnumerable<Product> products, IEnumerable<ProductCategory> categories)
+		public static IEnumerable<ProductCategoryWithProductCountDto> MapToDtoWithProductCount(IEnumerable<Product> products, IEnumerable<ProductCategory> categories)
 		{
 			var categoriesDto = categories.Select(category => new ProductCategoryWithProductCountDto()
 			{
@@ -33,18 +33,6 @@ namespace szalkszop.Repositories
 			});
 
 			return categoriesDto;
-		}
-
-		public static IEnumerable<ProductCategoryWithProductCountDto> MapToDtoWithoutEmptyCategories(IEnumerable<Product> products, IEnumerable<ProductCategory> categories)
-		{
-			var categoriesDto = categories.Select(category => new ProductCategoryWithProductCountDto()
-			{
-				Id = category.Id,
-				Name = category.Name,
-				AmountOfProducts = products.Count(p => p.ProductCategoryId == category.Id)
-			});
-
-			return categoriesDto.Where(p => p.AmountOfProducts > 0); 
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿@model szalkszop.ViewModels.ProductsWithSearchViewModel
+﻿@model szalkszop.ViewModels.ProductListSearchViewModel
 @{
 	Layout = null;
 }
@@ -10,17 +10,17 @@
 	<div class="row">
 		<div class="vert-offset-bottom-1 col-sm-3">
 			<div class="form-control-inline">
-				@Html.LabelFor(m => m.ProductSearchViewModel.Name)
-				@Html.TextBoxFor(m => m.ProductSearchViewModel.Name, new { @class = "form-control", placeholder = "Name of a product" })
-				@Html.ValidationMessageFor(m => m.ProductSearchViewModel.Name)
+				@Html.LabelFor(m => m.ProductFiltersViewModel.Name)
+				@Html.TextBoxFor(m => m.ProductFiltersViewModel.Name, new { @class = "form-control", placeholder = "Name of a product" })
+				@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.Name)
 			</div>
 		</div>
 		<div class="vert-offset-bottom-1 col-sm-3">
 			<div class="form-control-inline">
-				@Html.LabelFor(m => m.ProductSearchViewModel.ProductCategory)
-				@Html.DropDownListFor(m => m.ProductSearchViewModel.ProductCategory.Id,
-				new SelectList(Model.ProductSearchViewModel.ProductCategories,
-				"Id", "Name", Model.ProductSearchViewModel.ProductCategory), "Select Category",
+				@Html.LabelFor(m => m.ProductFiltersViewModel.ProductCategory)
+				@Html.DropDownListFor(m => m.ProductFiltersViewModel.ProductCategory.Id,
+				new SelectList(Model.ProductFiltersViewModel.ProductCategories,
+				"Id", "Name", Model.ProductFiltersViewModel.ProductCategory), "Select Category",
 			    new { @class = "form-control"})
 			</div>
 		</div>
@@ -29,16 +29,16 @@
 	<div class="row">
 		<div class="vert-offset-bottom-1 col-sm-3">
 			<div class="form-control-inline">
-				@Html.LabelFor(m => m.ProductSearchViewModel.DateTimeFrom)
-				@Html.TextBoxFor(m => m.ProductSearchViewModel.DateTimeFrom, new { @class = "form-control", placeholder = "YYYY-MM-DD"})
-				@Html.ValidationMessageFor(m => m.ProductSearchViewModel.DateTimeFrom)
+				@Html.LabelFor(m => m.ProductFiltersViewModel.DateTimeFrom)
+				@Html.TextBoxFor(m => m.ProductFiltersViewModel.DateTimeFrom, new { @class = "form-control", placeholder = "YYYY-MM-DD"})
+				@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.DateTimeFrom)
 				</div>
 			</div>
 		<div class="vert-offset-bottom-1 col-sm-3">
 			<div class="form-control-inline">
-				@Html.LabelFor(m => m.ProductSearchViewModel.DateTimeTo)
-				@Html.TextBoxFor(m => m.ProductSearchViewModel.DateTimeTo, new { @class = "form-control", placeholder = "YYYY-MM-DD" })
-				@Html.ValidationMessageFor(m => m.ProductSearchViewModel.DateTimeTo)
+				@Html.LabelFor(m => m.ProductFiltersViewModel.DateTimeTo)
+				@Html.TextBoxFor(m => m.ProductFiltersViewModel.DateTimeTo, new { @class = "form-control", placeholder = "YYYY-MM-DD" })
+				@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.DateTimeTo)
 			</div>
 			</div>
 	</div>
@@ -46,16 +46,16 @@
 	<div class="row">
 		<div class="vert-offset-bottom-1 col-sm-3">
 			<div class="form-control-inline">
-				@Html.LabelFor(m => m.ProductSearchViewModel.PriceFrom)
-				@Html.TextBoxFor(m => m.ProductSearchViewModel.PriceFrom, new { @class = "form-control", placeholder = "EUR" })
-				@Html.ValidationMessageFor(m => m.ProductSearchViewModel.PriceFrom)
+				@Html.LabelFor(m => m.ProductFiltersViewModel.PriceFrom)
+				@Html.TextBoxFor(m => m.ProductFiltersViewModel.PriceFrom, new { @class = "form-control", placeholder = "EUR" })
+				@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.PriceFrom)
 			</div>
 		</div>
 		<div class="vert-offset-bottom-1 col-sm-3">
 			<div class="form-control-inline">
-				@Html.LabelFor(m => m.ProductSearchViewModel.PriceTo)
-				@Html.TextBoxFor(m => m.ProductSearchViewModel.PriceTo, new { @class = "form-control", placeholder = "EUR" })
-				@Html.ValidationMessageFor(m => m.ProductSearchViewModel.PriceTo)
+				@Html.LabelFor(m => m.ProductFiltersViewModel.PriceTo)
+				@Html.TextBoxFor(m => m.ProductFiltersViewModel.PriceTo, new { @class = "form-control", placeholder = "EUR" })
+				@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.PriceTo)
 			</div>
 		</div>
 	</div>

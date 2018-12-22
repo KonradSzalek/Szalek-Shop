@@ -1,4 +1,4 @@
-﻿@model szalkszop.ViewModels.AdminProductCategoriesViewModel
+﻿@model szalkszop.ViewModels.AdminProductCategoryListViewModel
 @{
 	ViewBag.Title = "Manage product categories";
 	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
@@ -16,7 +16,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var category in Model.ProductCategoriesWithProductCountDto)
+		@foreach (var category in Model.ProductCategoryWithProductCountList)
 		{
 			<tr>
 				<td>@category.Id</td>

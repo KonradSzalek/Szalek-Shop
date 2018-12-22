@@ -13,12 +13,13 @@ namespace szalkszop.ViewModels
 		[Required]
 		[StringLength(100)]
 		public string Name { get; set; }
-        //CR5 nigdzie nie uzywane (chyba), upewnij sie i wywal
-		public int AmountOfProducts { get; set; }
+		//CR5FIXED nigdzie nie uzywane (chyba), upewnij sie i wywal
+		// zgadza się, parametr wyświetlany jest tylko przy wyswietlaniu list product categories w innym viewmodelu
+		// public int AmountOfProducts { get; set; }
 
 		public string Heading { get; set; }
 
-        public string Action
+		public string Action
 		{
 			get
 			{

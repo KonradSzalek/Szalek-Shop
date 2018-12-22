@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using szalkszop.Core.Models;
 using szalkszop.Services;
 using szalkszop.ViewModels;
 using static szalkszop.Core.Models.ApplicationUser;
@@ -18,7 +17,7 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Index()
 		{
-			var viewModel = _productCategoryService.GetAdminProductCategoriesViewModel();
+			var viewModel = _productCategoryService.GetProductCategoryWithProductCountList();
 
 			return View(viewModel);
 		}
@@ -49,7 +48,7 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Delete(int id)
 		{
-			if (!_productCategoryService.ProductCategoryExist(id))
+			if (!_productCategoryService.DoesProductCategoryExist(id))
 				return HttpNotFound();
 
 			_productCategoryService.DeleteProductCategory(id);
@@ -59,10 +58,10 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Edit(int id)
 		{
-			if (!_productCategoryService.ProductCategoryExist(id))
+			if (!_productCategoryService.DoesProductCategoryExist(id))
 				return HttpNotFound();
 
-			var viewModel = _productCategoryService.EditProductCategoryViewModel(id);
+			var viewModel = _productCategoryService.EditProductCategory(id);
 			viewModel.Heading = "Update Category";
 
 			return View("CategoryForm", viewModel);
@@ -72,13 +71,13 @@ namespace szalkszop.Areas.Admin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(AdminProductCategoryViewModel viewModel)
 		{
+			if (!_productCategoryService.DoesProductCategoryExist(viewModel.Id))
+				return HttpNotFound();
+
 			if (!ModelState.IsValid)
 			{
 				return View(viewModel);
 			}
-            //CR5FIXED ModelState.IsValid
-            if (!_productCategoryService.ProductCategoryExist(viewModel.Id))
-				return HttpNotFound();
 
 			_productCategoryService.EditProductCategory(viewModel);
 

@@ -1,0 +1,55 @@
+﻿@model szalkszop.ViewModels.OrderViewModel
+@{
+	ViewBag.Title = "Order";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Make an order</h2>
+
+@using (Html.BeginForm("MakeOrder", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	<div class="form-group">
+		@Html.LabelFor(m => m.UserContactDetails.Name)
+		@Html.TextBoxFor(m => m.UserContactDetails.Name, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.UserContactDetails.Name)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.UserContactDetails.Surname)
+		@Html.TextBoxFor(m => m.UserContactDetails.Surname, new { @class = "form-control", placeholder = "Quantity" })
+		@Html.ValidationMessageFor(m => m.UserContactDetails.Surname)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.UserContactDetails.Email)
+		@Html.TextBoxFor(m => m.UserContactDetails.Email, new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.UserContactDetails.Email)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.UserContactDetails.Address)
+		@Html.TextBoxFor(m => m.UserContactDetails.Address, new { @class = "form-control", placeholder = "EUR" })
+		@Html.ValidationMessageFor(m => m.UserContactDetails.Address)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.UserContactDetails.PostalCode)
+		@Html.TextBoxFor(m => m.UserContactDetails.PostalCode, new { @class = "form-control", placeholder = "Product description" })
+		@Html.ValidationMessageFor(m => m.UserContactDetails.PostalCode)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.UserContactDetails.City)
+		@Html.TextBoxFor(m => m.UserContactDetails.City, new { @class = "form-control", placeholder = "Product description" })
+		@Html.ValidationMessageFor(m => m.UserContactDetails.City)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.DeliveryType)
+		@Html.DropDownListFor(m => m.DeliveryType.Id, new SelectList(Model.DeliveryTypes, "Id", "Name", Model.DeliveryType), "Select delivery type", new { @class = "form-control" })
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.PaymentMethod)
+		@Html.DropDownListFor(m => m.PaymentMethod.Id, new SelectList(Model.PaymentMethods, "Id", "Name", Model.PaymentMethod), "Select payment method", new { @class = "form-control" })
+	</div>
+
+	<br />
+
+	<button type="submit" value="Save" class="btn btn-primary">Confirm Order</button>
+}
+

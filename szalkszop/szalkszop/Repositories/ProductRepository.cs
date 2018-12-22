@@ -37,20 +37,21 @@ namespace szalkszop.Repositories
 
 		public void Delete(int id)
 		{
-			var product = _context.Products.Include(i => i.Images).Single(p => p.Id == id);
+			//var product = _context.Products.Include(i => i.Images).Single(p => p.Id == id);
 
-            //CR5 wez to wywal i sprobuj tego w IdentityModel.cs:
+            //CR5FIXED wez to wywal i sprobuj tego w IdentityModel.cs:
+			// - fixed
 
                // modelBuilder.Entity<Product>()
                //.HasMany(p => p.Images)
                //.WithRequired()
                //.WillCascadeOnDelete(true);
 
-            foreach (var image in product.Images.ToList())
-			{
-				var im = _context.ProductImages.Single(i => i.Id == image.Id);
-				_context.ProductImages.Remove(im);
-			}
+   //         foreach (var image in product.Images.ToList())
+			//{
+			//	var im = _context.ProductImages.Single(i => i.Id == image.Id);
+			//	_context.ProductImages.Remove(im);
+			//}
 	
 			_context.Products.Remove(_context.Products.Single(p => p.Id == id));
 		}
@@ -85,7 +86,7 @@ namespace szalkszop.Repositories
 			_context.SaveChanges();
 		}
 
-		public List<ProductSearchResult> SearchResultFromSqlStoredProcedure(string name, int? priceFrom, int? priceTo, DateTime? dateTimeFrom, DateTime? dateTimeTo, int productCategoryId)
+		public List<ProductSearchResultDto> SearchResultFromSqlStoredProcedure(string name, int? priceFrom, int? priceTo, DateTime? dateTimeFrom, DateTime? dateTimeTo, int productCategoryId)
 		{
 			int? categoryId;
 			if (productCategoryId == 0)
@@ -94,7 +95,7 @@ namespace szalkszop.Repositories
 			}
 			else categoryId = productCategoryId;
 
-			var products = _context.Database.SqlQuery<ProductSearchResult>("EXEC [dbo].[SearchProductsStoredProcedure] @Name, @PriceFrom, @PriceTo, @DateTimeFrom, @DateTimeTo, @ProductCategoryId",
+			var products = _context.Database.SqlQuery<ProductSearchResultDto>("EXEC [dbo].[SearchProductsStoredProcedure] @Name, @PriceFrom, @PriceTo, @DateTimeFrom, @DateTimeTo, @ProductCategoryId",
 			new SqlParameter("Name", name ?? SqlString.Null),
 			new SqlParameter("PriceFrom", priceFrom ?? SqlInt32.Null),
 			new SqlParameter("PriceTo", priceTo ?? SqlInt32.Null),

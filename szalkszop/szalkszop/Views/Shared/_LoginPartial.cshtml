@@ -1,20 +1,44 @@
 ﻿@using Microsoft.AspNet.Identity
+@using szalkszop.Core.Models;
 @if (Request.IsAuthenticated)
 {
 	using (Html.BeginForm("LogOff", "Account", new { area = string.Empty }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
 	{
     @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", new { area = string.Empty }, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
-    }
-}
-else
-{
+		List<Item> cart = (List<Item>)Session["cart" + Model.UserId];
+		<ul class="nav navbar-nav navbar-right">
+			@if (cart.Any())
+			{
+
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cart <span class="caret"></span></a>
+					@{ Html.RenderAction("CartDropdownList", "Cart");}
+				</li>
+
+				else
+					
+	
+
+			}
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello @User.Identity.GetUserName()!<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="@Url.Action("Index", "Manage", new { area = string.Empty })">My Account</a></li>
+					<li><a href="@Url.Action("Index", "Manage", new { area = string.Empty })">My Orders</a></li>
+					@if (User.IsInRole("Admin"))
+					{
+						<li><a href="@Url.Action("Index", "Admin")">Administrator's Panel</a></li>
+					}
+					<li role="separator" class="divider"></li>
+					<li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+				</ul>
+			</li>
+		</ul>
+							}
+						}
+						else
+						{
 	<ul class="nav navbar-nav navbar-right">
 		<li>@Html.ActionLink("Register", "Register", "Account", new { area = string.Empty }, htmlAttributes: new { id = "registerLink" })</li>
 		<li>@Html.ActionLink("Log in", "Login", "Account", new { area = string.Empty }, htmlAttributes: new { id = "loginLink" })</li>

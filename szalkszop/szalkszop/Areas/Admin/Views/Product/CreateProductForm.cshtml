@@ -34,8 +34,6 @@
 		@Html.LabelFor(m => m.ProductCategory)
 		@Html.DropDownListFor(m => m.ProductCategory, new SelectList(Model.ProductCategoriesDto, "Id", "Name", Model.ProductCategoriesDto), "Select Category", new { @class = "form-control" })
 	</div>
-    //CR5 Daj tutaj wiecej tych textboxow. Zautomatyzuj to tak zeby sie robilo tyle ile mozesz jeszcze dodac zdjec do produktu
-    //Jakis foreach na nowym propie ProductViewModelu
 	<div>
 		@Html.LabelFor(m => m.Files)
 		@Html.TextBoxFor(m => m.Files, new { type = "file", multiple = "multiple" })

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
 using szalkszop.Repositories;
@@ -17,27 +18,51 @@ namespace szalkszop.Services
 			_productRepository = productRepository;
 		}
 
-		public IEnumerable<ProductCategoryDto> GetProductCategoriesList()
+		public IEnumerable<ProductCategoryDto> GetProductCategoryList()
 		{
 			var productCategories = _productCategoryRepository.GetList();
 
 			return ProductCategoryMapper.MapToDto(productCategories);
 		}
 
-		public IEnumerable<ProductCategoryWithProductCountDto> GetCategoriesWithAmountOfProducts()
+		public AdminProductCategoryListViewModel GetProductCategoryWithProductCountList()
 		{
 			var products = _productRepository.GetList();
 			var categories = _productCategoryRepository.GetList();
 
-			return ProductCategoryMapper.MapToDtoWithAmountOfProducts(products, categories);
+			var viewModel = new AdminProductCategoryListViewModel
+			{
+				ProductCategoryWithProductCountList = ProductCategoryMapper.MapToDtoWithProductCount(products, categories),
+			};
+
+			return viewModel;
 		}
 
-		public IEnumerable<ProductCategoryWithProductCountDto> GetCategoriesWithoutEmptyCategories()
+		public UserProductCategoryListViewModel GetPopulatedOnlyProductCategoryList()
 		{
 			var products = _productRepository.GetList();
 			var categories = _productCategoryRepository.GetList();
 
-			return ProductCategoryMapper.MapToDtoWithoutEmptyCategories(products, categories);
+			var viewModel = new UserProductCategoryListViewModel
+			{
+				ProductCategoryWithProductCountList = ProductCategoryMapper.MapToDtoWithProductCount(products, categories)
+				.Where(p => p.AmountOfProducts > 0),
+			};
+
+			return viewModel;
+		}
+
+		public AdminProductCategoryViewModel EditProductCategory(int id)
+		{
+			var productCategory = _productCategoryRepository.Get(id);
+
+			var viewModel = new AdminProductCategoryViewModel
+			{
+				Name = productCategory.Name,
+				Id = productCategory.Id,
+			};
+
+			return viewModel;
 		}
 
 		public void AddProductCategory(AdminProductCategoryViewModel viewModel)
@@ -65,43 +90,10 @@ namespace szalkszop.Services
 			_productCategoryRepository.Delete(id);
 			_productCategoryRepository.SaveChanges();
 		}
-	
-		public bool ProductCategoryExist(int id)
+
+		public bool DoesProductCategoryExist(int id)
 		{
 			return _productCategoryRepository.Exists(id);
-		}
-	
-		public AdminProductCategoriesViewModel GetAdminProductCategoriesViewModel()
-		{
-			var viewModel = new AdminProductCategoriesViewModel
-			{
-				ProductCategoriesWithProductCountDto = GetCategoriesWithAmountOfProducts(),
-			};
-
-			return viewModel;
-		}
-	
-		public UserProductCategoriesViewModel GetUserProductCategoriesViewModel()
-		{
-			var viewModel = new UserProductCategoriesViewModel
-			{
-				ProductCategoriesWithProductCountDto = GetCategoriesWithoutEmptyCategories(),
-			};
-
-			return viewModel;
-		}
-	
-		public AdminProductCategoryViewModel EditProductCategoryViewModel(int id)
-		{
-			var productCategory = _productCategoryRepository.Get(id);
-
-			var viewModel = new AdminProductCategoryViewModel
-			{
-				Name = productCategory.Name,
-				Id = productCategory.Id,
-			};
-
-			return viewModel;
 		}
 	}
 }

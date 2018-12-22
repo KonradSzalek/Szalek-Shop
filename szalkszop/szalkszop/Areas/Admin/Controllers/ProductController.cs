@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
-using szalkszop.Core.Models;
 using szalkszop.Services;
 using szalkszop.ViewModels;
+using static szalkszop.Core.Models.ApplicationUser;
 
 namespace szalkszop.Areas.Admin.Controllers
-{   //CR5 prefix zbedny
-	[ApplicationUser.AuthorizeRedirectToHomePage(Roles = "Admin")]
+{
+	[AuthorizeRedirectToHomePage(Roles = "Admin")]
 	public class ProductController : Controller
 	{
 		private readonly IProductService _productService;
@@ -20,25 +21,30 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Index()
 		{
-            //CR5 nie uwazasz ze ta nazwa jest mylna? Czy masz gdziekolwiek produkty bez searcha?
-			var viewModel = new ProductsWithSearchViewModel
+			var viewModel = new ProductListSearchViewModel
 			{
-				ProductsDto = _productService.GetProducts(),
-				ProductSearchViewModel = _productService.GetProductSearchViewModel(),
+				ProductList = _productService.GetProductList(),
+				ProductFiltersViewModel = _productService.GetProductSearch(),
 			};
 
 			return View(viewModel);
 		}
 
 		[HttpPost]
-		public ActionResult Search(ProductsWithSearchViewModel searchModel)
+		public ActionResult Search(ProductListSearchViewModel searchModel)
 		{
-            //CR5 ModelState.IsValid
-            //CR5 kompletnie nie rozumiem tego productswithsearchViewModel, dlaczego nie mogles zrobic po prostu ProductsViewModel
-            var viewModel = new ProductsWithSearchViewModel
+			ModelState.Remove("ProductFiltersViewModel.ProductCategory.Id");
+			if (!ModelState.IsValid)
 			{
-				ProductSearchResult = _productService.GetQueriedProducts(searchModel.ProductSearchViewModel),
-				ProductSearchViewModel = _productService.GetProductSearchViewModel(),
+				return View("AdminSearchResult", searchModel);
+			}
+			//CR5FIXED ModelState.IsValid
+			//CR5FIXED kompletnie nie rozumiem tego productswithsearchViewModel, dlaczego nie mogles zrobic po prostu ProductsViewModel
+			// - jak wyżej
+			var viewModel = new ProductListSearchViewModel
+			{
+				ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel),
+				ProductFiltersViewModel = _productService.GetProductSearch(),
 			};
 
 			return View("AdminSearchResult", viewModel);
@@ -46,10 +52,10 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Create()
 		{
-			var viewModel = _productService.AddProductViewModel();
+			var viewModel = _productService.AddProduct();
 			viewModel.Heading = "Add a product";
 
-			return View("ProductForm", viewModel);
+			return View("CreateProductForm", viewModel);
 		}
 
 		[HttpPost]
@@ -58,9 +64,9 @@ namespace szalkszop.Areas.Admin.Controllers
 			if (!ModelState.IsValid)
 			{
 				viewModel.Files = null;
-				viewModel.ProductCategoriesDto = _productCategoryService.GetProductCategoriesList();
+				viewModel.ProductCategoryList = _productCategoryService.GetProductCategoryList();
 				viewModel.Heading = "Edit a product";
-				return View("ProductForm", viewModel);
+				return View("CreateProductForm", viewModel);
 			}
 
 			_productService.AddProduct(viewModel);
@@ -70,28 +76,35 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Edit(int id)
 		{
-			if (!_productService.ProductExist(id))
+			if (!_productService.DoesProductExist(id))
 				return HttpNotFound();
 
-			var viewModel = _productService.EditProductViewModel(id);
+			var viewModel = _productService.EditProduct(id);
 			viewModel.Heading = "Edit a product";
 
-			return View("ProductForm", viewModel);
+			return View("EditProductForm", viewModel);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(ProductViewModel viewModel)
 		{
+			var isPhotoCountExceeded = _productService.IsPhotoCountExceeded(viewModel.Id, viewModel.Files.Count());
+
+			if (!_productService.DoesProductExist(viewModel.Id))
+				return HttpNotFound();
+
+			if (isPhotoCountExceeded)
+			{
+				ModelState.AddModelError("Files", "Maximum images per product is 5");
+			}
+
 			if (!ModelState.IsValid)
 			{
 				viewModel.Heading = "Edit a product";
-				viewModel.ProductCategoriesDto = _productCategoryService.GetProductCategoriesList();
-				return View("ProductForm", viewModel);
+				viewModel.ProductCategoryList = _productCategoryService.GetProductCategoryList();
+				return View("EditProductForm", viewModel);
 			}
-			if (!_productService.ProductExist(viewModel.Id))
-				return HttpNotFound();
-
 
 			_productService.EditProduct(viewModel);
 
@@ -100,7 +113,7 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Delete(int id)
 		{
-			if (!_productService.ProductExist(id))
+			if (!_productService.DoesProductExist(id))
 				return HttpNotFound();
 
 			_productService.DeleteProduct(id);
@@ -108,19 +121,9 @@ namespace szalkszop.Areas.Admin.Controllers
 			return RedirectToAction("Index", "Product");
 		}
 
-		public ActionResult EditPhotos(int productId)
-		{
-			if (!_productService.ProductExist(productId))
-				return HttpNotFound();
-	
-			var viewModel = _productService.EditProductViewModel(productId);
-
-			return View("EditPhotos", viewModel);
-		}
-
 		public ActionResult DeletePhoto(Guid imageId, int productId)
 		{
-			if (!_productService.ProductPhotoExists(imageId))
+			if (!_productService.DoesProductPhotoExist(imageId))
 				return HttpNotFound();
 
 			_productService.DeletePhoto(imageId);

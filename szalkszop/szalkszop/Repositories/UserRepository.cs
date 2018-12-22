@@ -7,7 +7,6 @@ using System.Data.SqlTypes;
 using System.Linq;
 using szalkszop.Areas.Admin.ViewModels;
 using szalkszop.Core.Models;
-using szalkszop.DTO;
 
 namespace szalkszop.Repositories
 {
@@ -52,9 +51,9 @@ namespace szalkszop.Repositories
 			}
 		}
 
-		public IEnumerable<UserSearchResult> SearchUserWithStoredProcedure(string searchTerm)
+		public IEnumerable<UserSearchResultDto> SearchUserWithStoredProcedure(string searchTerm)
 		{
-			var users = _context.Database.SqlQuery<UserSearchResult>("EXEC [dbo].[SearchUsersStoredProcedure] @searchTerm",
+			var users = _context.Database.SqlQuery<UserSearchResultDto>("EXEC [dbo].[SearchUsersStoredProcedure] @searchTerm",
 			new SqlParameter("searchTerm", searchTerm ?? SqlString.Null)).AsEnumerable();
 
 			return users;
@@ -73,6 +72,6 @@ namespace szalkszop.Repositories
 		public void SaveChanges()
 		{
 			_context.SaveChanges();
-		}	
+		}
 	}
 }

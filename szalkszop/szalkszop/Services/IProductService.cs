@@ -8,18 +8,20 @@ namespace szalkszop.Services
 	public interface IProductService
 	{
 		IEnumerable<ProductDto> GetThreeNewestProducts();
-		ProductsViewModel GetProductsByCategoryViewModel(int categoryId);
-		ProductSearchViewModel GetProductSearchViewModel();
-		IEnumerable<ProductSearchResult> GetQueriedProducts(ProductSearchViewModel searchModel);
-		IEnumerable<ProductDto> GetProducts();
-		ProductViewModel AddProductViewModel();
-		ProductViewModel EditProductViewModel(int id);
-		ProductDetailViewModel ProductDetailViewModel(int id);
+		ProductListViewModel GetProductListByCategory(int categoryId);
+		ProductFiltersViewModel GetProductSearch();
+		IEnumerable<ProductSearchResultDto> GetQueriedProductList(ProductFiltersViewModel searchModel);
+		IEnumerable<ProductDto> GetProductList();
+		ProductViewModel AddProduct();
+		ProductViewModel EditProduct(int id);
+		ProductDetailViewModel GetProductDetail(int id);
+		ProductDto GetProduct(int id);
 		void AddProduct(ProductViewModel viewModel);
 		void EditProduct(ProductViewModel viewModel);
 		void DeleteProduct(int id);
-		bool ProductExist(int id);
-		bool ProductPhotoExists(Guid id);
+		bool DoesProductExist(int id);
+		bool DoesProductPhotoExist(Guid id);
+		bool IsPhotoCountExceeded(int productId, int filesCount);
 		void DeletePhoto(Guid id);
 	}
 }

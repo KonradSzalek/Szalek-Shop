@@ -166,3 +166,20 @@ img.details {
  .carousel-inner > .item > img {
     margin: 0 auto;
 }
+
+/* Page-level styles*/
+
+/*.cart {
+	list-style: none;
+}
+
+.cart > li {
+	position: relative;
+	margin-bottom: 40px;
+}
+
+.cart > li .details {
+	position: absolute;
+	top: 0;
+	left: 70px;
+}*/

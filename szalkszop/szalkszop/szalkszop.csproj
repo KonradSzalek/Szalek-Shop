@@ -243,6 +243,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\ViewModels\CreateUserViewModel.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -254,19 +255,30 @@
     <Compile Include="Areas\Admin\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
-    <Compile Include="Areas\Admin\ViewModels\UserSearchResult.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Core\Models\DeliveryType.cs" />
+    <Compile Include="Core\Models\OrderItems.cs" />
+    <Compile Include="Core\Models\Order.cs" />
+    <Compile Include="Core\Models\PaymentMethod.cs" />
+    <Compile Include="DTO\DeliveryTypeDto.cs" />
+    <Compile Include="DTO\PaymentMethodDto.cs" />
+    <Compile Include="DTO\UserSearchResultDto.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductCategoryController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Core\Models\Item.cs" />
     <Compile Include="Core\Models\ProductImage.cs" />
     <Compile Include="DTO\ProductCategoryWithProductCountDto.cs" />
     <Compile Include="DTO\ProductImageDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Mappers\DeliveryTypeMapper.cs" />
+    <Compile Include="Mappers\PaymentMethodMapper.cs" />
     <Compile Include="Migrations\201812011340143_WholeProjectMigration.cs" />
     <Compile Include="Migrations\201812011340143_WholeProjectMigration.Designer.cs">
       <DependentUpon>201812011340143_WholeProjectMigration.cs</DependentUpon>
@@ -283,9 +295,22 @@
     <Compile Include="Migrations\201812021820055_ChangingProductIntValuesToNullable.Designer.cs">
       <DependentUpon>201812021820055_ChangingProductIntValuesToNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812111057354_ChangingOnModelBuilder.cs" />
+    <Compile Include="Migrations\201812111057354_ChangingOnModelBuilder.Designer.cs">
+      <DependentUpon>201812111057354_ChangingOnModelBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812202303349_AddingOrderProductsFunctionalityToProject.cs" />
+    <Compile Include="Migrations\201812202303349_AddingOrderProductsFunctionalityToProject.Designer.cs">
+      <DependentUpon>201812202303349_AddingOrderProductsFunctionalityToProject.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Repositories\IOrderRepository.cs" />
+    <Compile Include="Repositories\OrderRepository.cs" />
+    <Compile Include="Services\IOrderService.cs" />
+    <Compile Include="Services\OrderService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Core\Models\IdentityModels.cs" />
+    <Compile Include="ViewModels\CartViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="Core\Models\Product.cs" />
     <Compile Include="Core\Models\ProductCategory.cs" />
@@ -313,19 +338,20 @@
     <Compile Include="CustomAttributes\CustomValidations.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Areas\Admin\ViewModels\AdminProductCategoryViewModel.cs" />
-    <Compile Include="ViewModels\AdminProductCategoriesViewModel.cs" />
-    <Compile Include="ViewModels\ProductSearchResult.cs" />
-    <Compile Include="ViewModels\ProductSearchViewModel.cs" />
-    <Compile Include="ViewModels\ProductsViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\AdminProductCategoryListViewModel.cs" />
+    <Compile Include="DTO\ProductSearchResultDto.cs" />
+    <Compile Include="ViewModels\OrderViewModel.cs" />
+    <Compile Include="ViewModels\ProductFiltersViewModel.cs" />
+    <Compile Include="ViewModels\ProductListViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ProductViewModel.cs" />
-    <Compile Include="Areas\Admin\ViewModels\UsersViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\UserListViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\EditUserViewModel.cs" />
-    <Compile Include="ViewModels\ProductsWithSearchViewModel.cs" />
+    <Compile Include="ViewModels\ProductListSearchViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
-    <Compile Include="ViewModels\UserProductCategoriesViewModel.cs" />
+    <Compile Include="ViewModels\UserContactDetailsViewModel.cs" />
+    <Compile Include="ViewModels\UserProductCategoryListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Admin\Models\TextFile1.txt" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -343,16 +369,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\User\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ProductCategory\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Product\_Products.cshtml" />
     <Content Include="Areas\Admin\Views\User\SearchResult.cshtml" />
-    <Content Include="Areas\Admin\Views\Product\EditPhotos.cshtml" />
     <Content Include="Areas\Admin\Views\User\EditUserForm.cshtml" />
     <Content Include="Areas\Admin\Views\Product\AdminSearchResult.cshtml" />
     <Content Include="Areas\Admin\Views\Product\_AdminProductSearchResult.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\CreateProductForm.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\View.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -401,7 +429,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\Index.cshtml" />
     <Content Include="Areas\Admin\Views\User\CreateUserForm.cshtml" />
-    <Content Include="Areas\Admin\Views\Product\ProductForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\EditProductForm.cshtml" />
     <Content Include="Areas\Admin\Views\ProductCategory\CategoryForm.cshtml" />
     <Content Include="Views\Shared\_LeftPanel.cshtml" />
     <Content Include="Views\Product\_Search.cshtml" />
@@ -412,10 +440,12 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Product\_ProductSearchResult.cshtml" />
     <Content Include="Views\Product\SearchResult.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\CartDropdownList.cshtml" />
+    <Content Include="Views\Order\MakeOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -437,6 +467,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812021820055_ChangingProductIntValuesToNullable.resx">
       <DependentUpon>201812021820055_ChangingProductIntValuesToNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812111057354_ChangingOnModelBuilder.resx">
+      <DependentUpon>201812111057354_ChangingOnModelBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812202303349_AddingOrderProductsFunctionalityToProject.resx">
+      <DependentUpon>201812202303349_AddingOrderProductsFunctionalityToProject.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

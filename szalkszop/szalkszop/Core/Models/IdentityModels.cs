@@ -61,6 +61,10 @@ namespace szalkszop.Core.Models
 		public DbSet<Product> Products { get; set; }
 		public DbSet<ProductCategory> ProductsCategories { get; set; }
 		public DbSet<ProductImage> ProductImages { get; set; }
+		public DbSet<PaymentMethod> PaymentMethods { get; set; }
+		public DbSet<DeliveryType> DeliveryTypes { get; set; }
+		public DbSet<Order> Orders { get; set; }
+		public DbSet<OrderItem> OrdersItems { get; set; }
 
 		public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -75,8 +79,10 @@ namespace szalkszop.Core.Models
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
-            modelBuilder.Entity<Product>()
-           .HasMany(p => p.Images);
+			modelBuilder.Entity<Product>()
+		   .HasMany(i => i.Images)
+		   .WithRequired()
+		   .WillCascadeOnDelete(true);
 
 			base.OnModelCreating(modelBuilder);
 		}

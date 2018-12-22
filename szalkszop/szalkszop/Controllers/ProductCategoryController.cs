@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using szalkszop.Services;
 
 namespace szalkszop.Controllers
@@ -17,31 +16,31 @@ namespace szalkszop.Controllers
 
 		public ActionResult Index()
 		{
-			var viewModel = _productCategoryService.GetUserProductCategoriesViewModel();
+			var viewModel = _productCategoryService.GetPopulatedOnlyProductCategoryList();
 
 			return View(viewModel);
 		}
 
 		public ActionResult Categories()
 		{
-			var viewModel = _productCategoryService.GetUserProductCategoriesViewModel();
+			var viewModel = _productCategoryService.GetPopulatedOnlyProductCategoryList();
 
 			return View("_PartialCategories", viewModel);
 		}
 
 		public ActionResult Products(int categoryId)
 		{
-			if (!_productCategoryService.ProductCategoryExist(categoryId))
+			if (!_productCategoryService.DoesProductCategoryExist(categoryId))
 				return HttpNotFound();
 
-			var viewModel = _productService.GetProductsByCategoryViewModel(categoryId);
+			var viewModel = _productService.GetProductListByCategory(categoryId);
 
 			return View("~/Views/Product/Products.cshtml", viewModel);
 		}
 
 		public ActionResult LeftPanel()
 		{
-			var viewModel = _productCategoryService.GetUserProductCategoriesViewModel();
+			var viewModel = _productCategoryService.GetPopulatedOnlyProductCategoryList();
 
 			return View("~/Views/Shared/_LeftPanel.cshtml", viewModel);
 		}

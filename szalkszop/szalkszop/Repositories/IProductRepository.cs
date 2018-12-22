@@ -19,7 +19,7 @@ namespace szalkszop.Repositories
 		bool PhotoExists(Guid id);
 		void DeletePhoto(Guid id);
 		List<string> GetPhotosNames(Guid id);
-		List<ProductSearchResult> SearchResultFromSqlStoredProcedure(
+		List<ProductSearchResultDto> SearchResultFromSqlStoredProcedure(
 			string name, 
 			int? priceFrom, 
 			int? priceTo, 

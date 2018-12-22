@@ -1,8 +1,8 @@
-﻿@model szalkszop.ViewModels.ProductsWithSearchViewModel
+﻿@model szalkszop.ViewModels.ProductListSearchViewModel
 @{
 	Layout = null;
 }
-@* Nie rozumiem po co ci ten widok, on jest identyczny jak _Products. *@
+@*CR5 Nie rozumiem po co ci ten widok, on jest identyczny jak _Products. *@
 <table cellpadding="10">
 	<thead>
 		<tr>
@@ -17,7 +17,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var product in Model.ProductSearchResult)
+		@foreach (var product in Model.ProductSearchResultList)
 		{
 			<tr>
 				<td>@product.Name</td>

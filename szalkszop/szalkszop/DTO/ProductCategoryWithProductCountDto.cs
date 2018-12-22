@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace szalkszop.DTO
+﻿namespace szalkszop.DTO
 {
 	public class ProductCategoryWithProductCountDto
 	{

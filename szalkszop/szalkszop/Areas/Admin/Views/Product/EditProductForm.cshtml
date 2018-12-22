@@ -1,0 +1,75 @@
+﻿@model szalkszop.ViewModels.ProductViewModel
+@{
+	ViewBag.Title = "EditProduct";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@Model.Heading</h2>
+
+@using (Html.BeginForm(Model.Action, "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+	@Html.HiddenFor(m => m.Id)
+	<div class="form-group">
+		@Html.LabelFor(m => m.Name)
+		@Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name of a product" })
+		@Html.ValidationMessageFor(m => m.Name)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.AmountInStock)
+		@Html.TextBoxFor(m => m.AmountInStock, new { @class = "form-control", placeholder = "Quantity" })
+		@Html.ValidationMessageFor(m => m.AmountInStock)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.Price)
+		@Html.TextBoxFor(m => m.Price, new { @class = "form-control", placeholder = "EUR"})
+		@Html.ValidationMessageFor(m => m.Price)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.Description)
+		@Html.TextBoxFor(m => m.Description, new { @class = "form-control", placeholder = "Product description" })
+		@Html.ValidationMessageFor(m => m.Description)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.ProductCategory)
+		@Html.DropDownListFor(m => m.ProductCategory, new SelectList(Model.ProductCategoryList, "Id", "Name", Model.ProductCategoryList), "Select Category", new { @class = "form-control" })
+	</div>
+
+	<br />
+
+	<table cellpadding="10">
+		<thead>
+			<tr>
+				<th>No</th>
+				<th>Photo</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for (int i = 0; i < Model.ProductImagesDto.Count(); i++)
+			{
+				<tr>
+					<td>@(i + 1)</td>
+					<td><img src="~/Images/@Model.ProductImagesDto[i].ThumbNailName" class="img-responsive" alt=@Model.ProductImagesDto[i].ThumbNailName height="37" width="54"></td>
+					<td>
+						@Html.ActionLink("Delete", "DeletePhoto", new { productId = Model.Id, imageId = Model.ProductImagesDto[i].Id })
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+	if (Model.ProductImagesDto.Count() < 5)
+	{
+		<div>
+			@Html.LabelFor(m => m.Files)
+			@Html.TextBoxFor(m => m.Files, new { type = "file", multiple = "multiple" })
+			@Html.ValidationMessageFor(m => m.Files)
+		</div>
+	}
+
+	<br />
+
+	<button type="submit" value="Save" class="btn btn-primary">@Model.Heading</button>
+}
+

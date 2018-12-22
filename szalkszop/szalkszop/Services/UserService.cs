@@ -27,34 +27,34 @@ namespace szalkszop.Services
 			return UserMapper.MapToDto(users);
 		}
 
-		public UsersViewModel GetUsersViewModel(string searchTerm)
+		public UserListViewModel GetUserList(string searchTerm)
 		{
-			var viewModel = new UsersViewModel();
-			viewModel.Users = GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime);
+			var viewModel = new UserListViewModel();
+			viewModel.UserList = GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime);
 
 			return viewModel;
 		}
 
-		public UsersViewModel GetUsersViewModelPost(string searchTerm)
+		public UserListViewModel GetUserSearchResultList(string searchTerm)
 		{
 			var users = _userRepository.SearchUserWithStoredProcedure(searchTerm);
 
-			var viewModel = new UsersViewModel();
+			var viewModel = new UserListViewModel();
 			if (!string.IsNullOrWhiteSpace(searchTerm))
 			{
 				viewModel.SearchTerm = searchTerm;
-				viewModel.UsersSearch = users;
+				viewModel.UserSearchResultList = users;
 				return viewModel;
 			}
 			else
 
 				viewModel.SearchTerm = null;
-			viewModel.UsersSearch = _userRepository.SearchUserWithStoredProcedure(searchTerm);
+			viewModel.UserSearchResultList = _userRepository.SearchUserWithStoredProcedure(searchTerm);
 
 			return viewModel;
 		}
 
-		public EditUserViewModel EditUserViewModel(string id)
+		public EditUserViewModel EditUser(string id)
 		{
 			var user = _userRepository.Get(id);
 
@@ -99,7 +99,7 @@ namespace szalkszop.Services
 			user.Name = viewModel.Name;
 			user.Surname = viewModel.Surname;
 
-			
+
 			if (!String.IsNullOrWhiteSpace(viewModel.NewPassword) && !String.IsNullOrWhiteSpace(viewModel.ConfirmPassword))
 			{
 				user.PasswordHash = _userManager.PasswordHasher.HashPassword(viewModel.NewPassword);
@@ -108,9 +108,26 @@ namespace szalkszop.Services
 			_userRepository.SaveChanges();
 		}
 
-		public bool UserExist(string id)
+		public bool DoesUserExist(string id)
 		{
 			return _userRepository.Exists(id);
+		}
+
+		public UserContactDetailsViewModel GetUserContactDetails(string userId)
+		{
+			var user = _userRepository.Get(userId);
+
+			var userContactDetails = new UserContactDetailsViewModel
+			{
+				Name = user.Name,
+				Surname = user.Surname,
+				Email = user.Email,
+				Address = user.Address,
+				PostalCode = user.PostalCode,
+				City = user.City,
+			};
+
+			return userContactDetails;
 		}
 	}
 }

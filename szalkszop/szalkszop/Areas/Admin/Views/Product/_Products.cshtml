@@ -1,4 +1,4 @@
-﻿@model szalkszop.ViewModels.ProductsWithSearchViewModel
+﻿@model szalkszop.ViewModels.ProductListSearchViewModel
 @{
 	Layout = null;
 }
@@ -13,12 +13,10 @@
             <th>Price</th>
             <th>Description</th>
             <th>Action</th>
-            @* CR5 Ta kolumna do wywalenia *@
-            <th>Picture</th>
         </tr>
 	</thead>
 	<tbody>
-		@foreach (var product in Model.ProductsDto)
+		@foreach (var product in Model.ProductList)
 		{
         <tr>
             <td>@product.Name</td>
@@ -31,13 +29,6 @@
                 @Html.ActionLink("Edit", "Edit", new { id = product.Id })
                 <br />
                 @Html.ActionLink("Delete", "Delete", new { id = product.Id })
-            </td>
-            @* CR5 no niestety to mi sie wpicz nie podoba, trzeba to zmienic. Cala ta kolumne wywal a mangowanie zdjeciami przenies do ProductForm *@
-            <td>
-                @if (product.Images.Any())
-                {
-                    @Html.ActionLink("Edit", "EditPhotos", new { productId = product.Id })
-                }
             </td>
         </tr>
 		}

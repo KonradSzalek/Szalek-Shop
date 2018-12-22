@@ -6,7 +6,7 @@ using szalkszop.DTO;
 
 namespace szalkszop.ViewModels
 {
-	public class ProductSearchViewModel
+	public class ProductFiltersViewModel
 	{
 		[StringLength(100)]
 		public string Name { get; set; }

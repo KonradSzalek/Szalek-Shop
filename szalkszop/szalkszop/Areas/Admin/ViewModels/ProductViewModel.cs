@@ -37,7 +37,7 @@ namespace szalkszop.ViewModels
 		[StringLength(255)]
 		public string Description { get; set; }
 
-		[DisplayName("Upload product photos")]
+		[DisplayName("Upload product photos (Maximum 5 in total)")]
 		[ImageFormat(".jpg", ".jpeg", ".png", "gif")]
 		[MaximumImageSize(1500000)]
 		[MaximumImageFormat(3840, 2160)]
@@ -46,7 +46,8 @@ namespace szalkszop.ViewModels
 
 		public string Heading { get; set; }
 
-        //CR5 czy jest to gdzies uzywane? Jak nie to wywal.
+		//CR5Fixed czy jest to gdzies uzywane? Jak nie to wywal.
+		// - jest używane w widoku product form do wyboru odpowiedniego formularza: edit / create
 		public string Action
 		{
 			get
@@ -62,6 +63,6 @@ namespace szalkszop.ViewModels
 		}
 		public List<ProductImageDto> ProductImagesDto { get; set; }
 
-		public IEnumerable<ProductCategoryDto> ProductCategoriesDto { get; set; }
+		public IEnumerable<ProductCategoryDto> ProductCategoryList { get; set; }
 	}
 }

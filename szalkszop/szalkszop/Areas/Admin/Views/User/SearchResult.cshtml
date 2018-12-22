@@ -1,4 +1,4 @@
-﻿@model szalkszop.ViewModels.UsersViewModel
+﻿@model szalkszop.ViewModels.UserListViewModel
 @{
 	ViewBag.Title = "Manage users";
 	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
@@ -27,7 +27,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var user in Model.UsersSearch)
+		@foreach (var user in Model.UserSearchResultList)
 		{
 			<tr>
 				<td>@user.Email</td>
