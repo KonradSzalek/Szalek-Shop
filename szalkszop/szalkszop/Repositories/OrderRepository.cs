@@ -33,6 +33,16 @@ namespace szalkszop.Repositories
 			_context.OrdersItems.Add(orderItem);
 		}
 
+		public IEnumerable<Order> GetOrderList(string userId)
+		{
+			return _context.Orders.Where(o => o.CustomerId == userId);
+		}
+
+		public IEnumerable<OrderItem> GetOrderItemList(int id)
+		{
+			return _context.OrdersItems.Where(oi => oi.OrderId == id);
+		}
+
 		public void Delete(int id)
 		{
 			_context.Orders.Remove(_context.Orders.Single(p => p.Id == id));

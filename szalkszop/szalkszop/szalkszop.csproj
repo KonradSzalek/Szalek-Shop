@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -261,6 +262,8 @@
     <Compile Include="Core\Models\Order.cs" />
     <Compile Include="Core\Models\PaymentMethod.cs" />
     <Compile Include="DTO\DeliveryTypeDto.cs" />
+    <Compile Include="DTO\OrderDto.cs" />
+    <Compile Include="DTO\OrderItemDto.cs" />
     <Compile Include="DTO\PaymentMethodDto.cs" />
     <Compile Include="DTO\UserSearchResultDto.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -303,6 +306,10 @@
     <Compile Include="Migrations\201812202303349_AddingOrderProductsFunctionalityToProject.Designer.cs">
       <DependentUpon>201812202303349_AddingOrderProductsFunctionalityToProject.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812261748043_AddingCustomerIdToOrderModel.cs" />
+    <Compile Include="Migrations\201812261748043_AddingCustomerIdToOrderModel.Designer.cs">
+      <DependentUpon>201812261748043_AddingCustomerIdToOrderModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repositories\IOrderRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
@@ -340,6 +347,7 @@
     <Compile Include="Areas\Admin\ViewModels\AdminProductCategoryViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\AdminProductCategoryListViewModel.cs" />
     <Compile Include="DTO\ProductSearchResultDto.cs" />
+    <Compile Include="ViewModels\OrderListViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
     <Compile Include="ViewModels\ProductFiltersViewModel.cs" />
     <Compile Include="ViewModels\ProductListViewModel.cs" />
@@ -443,6 +451,7 @@
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\CartDropdownList.cshtml" />
     <Content Include="Views\Order\MakeOrder.cshtml" />
+    <Content Include="Views\Order\MyOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -473,6 +482,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812202303349_AddingOrderProductsFunctionalityToProject.resx">
       <DependentUpon>201812202303349_AddingOrderProductsFunctionalityToProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812261748043_AddingCustomerIdToOrderModel.resx">
+      <DependentUpon>201812261748043_AddingCustomerIdToOrderModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -46,11 +46,18 @@ namespace szalkszop.Controllers
 
 			viewModel.OrderedItemList = (List<Item>)System.Web.HttpContext.Current.Session["cart" + userId];
 
-			_orderService.CompleteOrder(viewModel);
+			_orderService.CompleteOrder(viewModel, userId);
 
 			Session.Remove("cart" + userId);
 
 			return RedirectToAction("Index", "Home");
+		}
+
+		public ActionResult MyOrders()
+		{
+			var userId = User.Identity.GetUserId();
+			var viewModel = _orderService.GetUserOrderList(User.Identity.GetUserId());
+			return View(viewModel);
 		}
 	}
 }

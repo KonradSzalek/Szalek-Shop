@@ -1,0 +1,41 @@
+﻿@model szalkszop.ViewModels.OrderListViewModel
+@{
+	ViewBag.Title = "Orders";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table cellpadding="10">
+	<thead>
+		<tr>
+			<th>Product Name</th>
+			<th>Product category</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th>Total price</th>
+			<th>Order date</th>
+			<th>Status</th>
+			<th>Shipping address</th>
+		</tr>
+	</thead>
+	<tbody>
+		@{int rowspan;}
+		@foreach (var item in Model.OrdersItems)
+		{
+			@Html.Raw("<tr>")
+		<td>@item.Name</td>
+		<td>@item.CategoryName</td>
+		<td>@item.Quantity</td>
+		<td>@item.Price</td>
+		<td>mnozenie</td>
+		}
+
+		@foreach (var order in Model.Orders)
+		{
+			<td>@order.OrderDate</td>
+			<td>@order.Status</td>
+			<td rowspan="@">@order.ShippingAddress</td>
+			@Html.Raw("</tr>")
+		}
+		</tbody>
+	</table>
+

@@ -12,6 +12,7 @@ namespace szalkszop.Services
 		void DeleteDeliveryType();
 		IEnumerable<PaymentMethodDto> GetPaymentMethodList();
 		IEnumerable<DeliveryTypeDto> GetDeliveryTypeList();
-		void CompleteOrder(OrderViewModel viewModel);
+		void CompleteOrder(OrderViewModel viewModel, string userId);
+		OrderListViewModel GetUserOrderList(string userId);
 	}
 }

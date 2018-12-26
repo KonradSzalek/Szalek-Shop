@@ -11,6 +11,9 @@ namespace szalkszop.Core.Models
 		public DateTime OrderDate { get; set; }
 
 		[Required]
+		public string CustomerId { get; set; }
+
+		[Required]
 		[EmailAddress]
 		[StringLength(100)]
 		public string Email { get; set; }
@@ -39,7 +42,7 @@ namespace szalkszop.Core.Models
 
 		private OrderStatus _orderStatus;
 
-		public OrderStatus SetOrderStatus
+		public OrderStatus Status
 		{
 			get
 			{

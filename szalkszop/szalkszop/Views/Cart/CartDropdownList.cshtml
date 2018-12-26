@@ -1,87 +1,62 @@
 ﻿@model szalkszop.ViewModels.CartViewModel
-@using szalkszop.Core.Models;
 @{
 	Layout = null;
 }
 
-@if (Model.ItemList != null)
+<HEAD>
+	<link rel="stylesheet" type="text/css" href="~/Content/Site.css">
+</HEAD>
+
+@if (Model.ItemList?.Any() ?? false)
 {
-	<ul class="dropdown-menu">
-		<ul class="cart">
-			@foreach (var item in Model.ItemList)
-			{
-				<li>
-					<div class="photo">
-						@if (item.Product.Images.Any())
-						{
-							<img src="~/Images/@item.Product.Images.FirstOrDefault().ThumbNailName" alt="Product image" height="66" width="100">
-						}
-						else
-						{
-							<img src="~/Images/no-image.jpg" alt="Product image">
-						}
-					</div>
-					<div class="details">
-						<span class="productname">
-							@item.Quantity x @item.Product.Name
-						</span>
-						<span class="productprice">
-							@item.Product.Price €
-						</span>
-					</div>
-					<div role="separator" class="divider"></div>
-				</li>
-			}
-			@{
-				List<Item> cart = (List<Item>)Session["cart" + Model.UserId];
-				var total = cart.Sum(item => item.Product.Price * item.Quantity);
-			}
-
-			<li class="summary">
-				Sending cost 10 €
+	<li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cart (@(Model.ItemList.Count()))<span class="caret"></span></a>
+		<ul class="dropdown-menu">
+			<ul class="cart">
+				@foreach (var item in Model.ItemList)
+	{
+			<li>
+				<div class="photo">
+					@if (item.Product.Images.Any())
+		{
+			<img src="~/Images/@item.Product.Images.FirstOrDefault().ThumbNailName" alt="Product image" height="66" width="100">
+}
+else
+{
+			<img src="~/Images/no-image.jpg" alt="Product image" height="66" width="100">
+}
+				</div>
+				<div class="details">
+					<span class="productname">
+						@item.Quantity x @item.Product.Name
+					</span>
+					<span class="productprice">
+						@item.Product.Price €
+					</span>
+				</div>
 				<div role="separator" class="divider"></div>
 			</li>
-
-			<li class="summary">
-				Total @(total+10) €
-				<div role="separator" class="divider"></div>
-			</li>
-		</ul>
-		<li><a href="@Url.Action("MakeOrder", "Order", new { area = string.Empty })">Make an order</a></li>
-	</ul>
 }
 
+				<li class="summary">
+					Sending cost 10 €
+					<div role="separator" class="divider"></div>
+				</li>
 
-
-<style>
-	.cart {
-		list-style: none;
-		width: 250px;
-		padding-left: 10px;
-		padding-top: 10px;
+				<li class="summary">
+					Total @(Model.ItemList.Sum(item => item.Product.Price * item.Quantity) + 10) €
+					<div role="separator" class="divider"></div>
+				</li>
+			</ul>
+				<li><a href="@Url.Action("MakeOrder", "Order", new { area = string.Empty })">Make an order</a></li>
+		</ul>
+	</li>
 	}
 
-		.cart > li {
-			position: relative;
-			margin-bottom: 10px;
-		}
-
-	.summary {
-		padding-left: 20px;
+	else
+	{
+		<li>
+			<a href="#" role="button">Cart (0)</a>
+		</li>
 	}
 
-
-	.cart > li .details {
-		position: absolute;
-		top: 0;
-		left: 120px;
-	}
-
-		.cart > li .details .productname {
-			font-weight: bold;
-			display: block;
-		}
-
-		.cart > li .details .productprice {
-		}
-</style>

@@ -4,16 +4,19 @@ using szalkszop.Core.Models;
 using szalkszop.DTO;
 using szalkszop.Repositories;
 using szalkszop.ViewModels;
+using System.Linq;
 
 namespace szalkszop.Services
 {
 	public class OrderService : IOrderService
 	{
 		private readonly IOrderRepository _orderRepository;
+		private readonly IProductService _productService;
 
-		public OrderService(IOrderRepository orderRepository)
+		public OrderService(IOrderRepository orderRepository, IProductService productService)
 		{
 			_orderRepository = orderRepository;
+			_productService = productService;
 		}
 
 		public void AddPaymentMethod()
@@ -48,7 +51,7 @@ namespace szalkszop.Services
 			return Mappers.DeliveryTypeMapper.MapToDto(deliveryTypeList);
 		}
 
-		public void CompleteOrder(OrderViewModel viewModel)
+		public void CompleteOrder(OrderViewModel viewModel, string userId)
 		{
 			var order = new Order
 			{
@@ -59,9 +62,10 @@ namespace szalkszop.Services
 				PostalCode = viewModel.UserContactDetails.PostalCode,
 				City = viewModel.UserContactDetails.City,
 				OrderDate = DateTime.Now,
+				CustomerId = userId,
 			};
 
-			order.SetOrderStatus = Order.OrderStatus.Pending;
+			order.Status = Order.OrderStatus.Pending;
 
 			_orderRepository.Add(order);
 			_orderRepository.SaveChanges();
@@ -87,6 +91,45 @@ namespace szalkszop.Services
 		public void SendOrderConfirmation()
 		{
 			// send email to user
+		}
+
+		public OrderListViewModel GetUserOrderList(string userId)
+		{
+			var orderList = _orderRepository.GetOrderList(userId).ToList();
+			var orderDtoList = new List<OrderDto>();
+			var ordersItemDtoList = new List<OrderItemDto>();
+
+			foreach (var order in orderList)
+			{
+				var orderItems = _orderRepository.GetOrderItemList(order.Id).ToList();
+
+				foreach (var orderItem in orderItems)
+				{
+					var orderItemDto = new OrderItemDto
+					{
+						Name = _productService.GetProduct(orderItem.ProductId).Name,
+						CategoryName = _productService.GetProduct(orderItem.ProductId).ProductCategory.Name,
+						Quantity = orderItem.Quantity,
+						Price = orderItem.Price,
+					};
+					ordersItemDtoList.Add(orderItemDto);
+				}
+				var orderDto = new OrderDto
+				{
+					Status = order.Status,
+					ShippingAddress = order.Surname + " " + order.Name + ", "
+									+ order.Address + ", " + order.PostalCode + " "
+									+ order.City,
+					OrderDate = order.OrderDate,
+				};
+				orderDtoList.Add(orderDto);
+			}
+			var viewModel = new OrderListViewModel
+			{
+				Orders = orderDtoList,
+				OrdersItems = ordersItemDtoList,
+			};
+			return viewModel;
 		}
 	}
 }

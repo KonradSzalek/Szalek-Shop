@@ -169,17 +169,29 @@ img.details {
 
 /* Page-level styles*/
 
-/*.cart {
+.cart {
 	list-style: none;
+	width: 250px;
+	padding-left: 10px;
+	padding-top: 10px;
 }
 
 .cart > li {
 	position: relative;
-	margin-bottom: 40px;
+	margin-bottom: 10px;
+}
+
+.summary {
+	padding-left: 0px;
 }
 
 .cart > li .details {
 	position: absolute;
 	top: 0;
-	left: 70px;
-}*/
+	left: 120px;
+}
+
+.cart > li .details .productname {
+	font-weight: bold;
+	display: block;
+}
