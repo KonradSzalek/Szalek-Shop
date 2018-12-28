@@ -59,5 +59,11 @@ namespace szalkszop.Controllers
 			var viewModel = _orderService.GetUserOrderList(User.Identity.GetUserId());
 			return View(viewModel);
 		}
+
+		public ActionResult Details(int orderId)
+		{
+			var viewModel = _orderService.GetUserOrderItemList(orderId);
+			return View(viewModel);
+		}
 	}
 }

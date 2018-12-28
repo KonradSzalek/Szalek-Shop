@@ -1,0 +1,33 @@
+﻿@using szalkszop.DTO;
+@model	IEnumerable<OrderItemDto>
+@{
+	ViewBag.Title = "Orders";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table cellpadding="10">
+	<thead>
+		<tr>
+			<th>Order Id</th>
+			<th>Name</th>
+			<th>Category Name</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th>Total price</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var orderItem in Model)
+		{
+		<tr>
+			<td>@orderItem.OrderId</td>
+			<td>@orderItem.Name</td>
+			<td>@orderItem.CategoryName</td>
+			<td>@orderItem.Quantity</td>
+			<td>@orderItem.Price</td>
+			<td>@(orderItem.Quantity * orderItem.Price)</td>
+		</tr>
+		}
+	</tbody>
+</table>
+

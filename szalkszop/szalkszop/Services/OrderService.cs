@@ -53,6 +53,16 @@ namespace szalkszop.Services
 
 		public void CompleteOrder(OrderViewModel viewModel, string userId)
 		{
+			double? totalPrice = 0;
+			foreach (var item in viewModel.OrderedItemList)
+			{
+				double? itemPrice = item.Quantity * item.Product.Price;
+				totalPrice += itemPrice;
+			};
+
+			totalPrice += viewModel.PaymentMethod.Cost;
+			totalPrice += viewModel.DeliveryType.Cost;
+
 			var order = new Order
 			{
 				Name = viewModel.UserContactDetails.Name,
@@ -63,6 +73,9 @@ namespace szalkszop.Services
 				City = viewModel.UserContactDetails.City,
 				OrderDate = DateTime.Now,
 				CustomerId = userId,
+				PaymentMethodId = viewModel.PaymentMethod.Id,
+				DeliveryTypeId = viewModel.DeliveryType.Id,
+				TotalPrice = totalPrice,
 			};
 
 			order.Status = Order.OrderStatus.Pending;
@@ -93,43 +106,49 @@ namespace szalkszop.Services
 			// send email to user
 		}
 
-		public OrderListViewModel GetUserOrderList(string userId)
+		public IEnumerable<OrderDto> GetUserOrderList(string userId)
 		{
 			var orderList = _orderRepository.GetOrderList(userId).ToList();
 			var orderDtoList = new List<OrderDto>();
-			var ordersItemDtoList = new List<OrderItemDto>();
 
 			foreach (var order in orderList)
 			{
-				var orderItems = _orderRepository.GetOrderItemList(order.Id).ToList();
-
-				foreach (var orderItem in orderItems)
-				{
-					var orderItemDto = new OrderItemDto
-					{
-						Name = _productService.GetProduct(orderItem.ProductId).Name,
-						CategoryName = _productService.GetProduct(orderItem.ProductId).ProductCategory.Name,
-						Quantity = orderItem.Quantity,
-						Price = orderItem.Price,
-					};
-					ordersItemDtoList.Add(orderItemDto);
-				}
 				var orderDto = new OrderDto
 				{
+					OrderId = order.Id,
 					Status = order.Status,
+					TotalPrice = order.TotalPrice,
 					ShippingAddress = order.Surname + " " + order.Name + ", "
 									+ order.Address + ", " + order.PostalCode + " "
 									+ order.City,
 					OrderDate = order.OrderDate,
+					PaymentMethodId = order.PaymentMethodId,
+					DeliveryTypeId = order.DeliveryTypeId,
 				};
 				orderDtoList.Add(orderDto);
 			}
-			var viewModel = new OrderListViewModel
+			return orderDtoList; 
+		}
+
+		public IEnumerable<OrderItemDto> GetUserOrderItemList(int orderId)
+		{
+			var orderDtoList = new List<OrderDto>();
+			var ordersItemDtoList = new List<OrderItemDto>();
+
+			var orderItems = _orderRepository.GetOrderItemList(orderId).ToList();
+
+			foreach (var orderItem in orderItems)
 			{
-				Orders = orderDtoList,
-				OrdersItems = ordersItemDtoList,
-			};
-			return viewModel;
+				var orderItemDto = new OrderItemDto
+				{
+					Name = _productService.GetProduct(orderItem.ProductId).Name,
+					CategoryName = _productService.GetProduct(orderItem.ProductId).ProductCategory.Name,
+					Quantity = orderItem.Quantity,
+					Price = orderItem.Price,
+				};
+				ordersItemDtoList.Add(orderItemDto);
+			}
+			return ordersItemDtoList;
 		}
 	}
 }

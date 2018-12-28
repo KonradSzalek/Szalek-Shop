@@ -1,4 +1,5 @@
-﻿@model szalkszop.ViewModels.OrderListViewModel
+﻿@using szalkszop.DTO;
+@model	IEnumerable<OrderDto>
 @{
 	ViewBag.Title = "Orders";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,35 +8,24 @@
 <table cellpadding="10">
 	<thead>
 		<tr>
-			<th>Product Name</th>
-			<th>Product category</th>
-			<th>Quantity</th>
-			<th>Price</th>
-			<th>Total price</th>
-			<th>Order date</th>
+			<th>Order Id</th>
+			<th>Order Date</th>
 			<th>Status</th>
-			<th>Shipping address</th>
+			<th>Total Price</th>
+			<th>Shipping Address</th>
 		</tr>
 	</thead>
 	<tbody>
-		@{int rowspan;}
-		@foreach (var item in Model.OrdersItems)
+		@foreach (var order in Model)
 		{
-			@Html.Raw("<tr>")
-		<td>@item.Name</td>
-		<td>@item.CategoryName</td>
-		<td>@item.Quantity</td>
-		<td>@item.Price</td>
-		<td>mnozenie</td>
-		}
-
-		@foreach (var order in Model.Orders)
-		{
+		<tr>
+			<td><a href="@Url.Action("Details", "Order", new { area = string.Empty }, FormMethod.Post, new { orderId = order.OrderId }</a></td>
 			<td>@order.OrderDate</td>
 			<td>@order.Status</td>
-			<td rowspan="@">@order.ShippingAddress</td>
-			@Html.Raw("</tr>")
+			<td>@order.TotalPrice</td>
+			<td>@order.ShippingAddress</td>
+		</tr>
 		}
-		</tbody>
-	</table>
+	</tbody>
+</table>
 

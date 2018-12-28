@@ -14,6 +14,19 @@ namespace szalkszop.Core.Models
 		public string CustomerId { get; set; }
 
 		[Required]
+		public int DeliveryTypeId { get; set; }
+
+		[Required]
+		public int PaymentMethodId { get; set; }
+
+		public DeliveryType DeliveryType { get; set; }
+
+		public PaymentMethod PaymentMethod { get; set; }
+
+		[Required]
+		public double? TotalPrice { get; set; }
+
+		[Required]
 		[EmailAddress]
 		[StringLength(100)]
 		public string Email { get; set; }
