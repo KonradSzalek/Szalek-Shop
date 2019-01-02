@@ -32,7 +32,7 @@
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.ProductCategory)
-		@Html.DropDownListFor(m => m.ProductCategory, new SelectList(Model.ProductCategoriesDto, "Id", "Name", Model.ProductCategoriesDto), "Select Category", new { @class = "form-control" })
+		@Html.DropDownListFor(m => m.ProductCategory, new SelectList(Model.ProductCategoryList, "Id", "Name", Model.ProductCategoryList), "Select Category", new { @class = "form-control" })
 	</div>
 	<div>
 		@Html.LabelFor(m => m.Files)

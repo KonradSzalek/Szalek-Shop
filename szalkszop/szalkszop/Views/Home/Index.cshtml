@@ -2,15 +2,11 @@
 	ViewBag.Title = "Home Page";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Our products and categories</h2>
-<h3>Product categories</h3>
-
-@{ Html.RenderAction("Categories", "ProductCategory");}
  
-<h3>Top 3 newest products</h3>
+<h2>Top 3 newest products</h2>
+<hr />
 
 @{ Html.RenderAction("TopThreeProducts", "Product");}
-
 
 
 

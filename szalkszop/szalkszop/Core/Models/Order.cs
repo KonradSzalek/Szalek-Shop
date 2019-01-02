@@ -51,20 +51,16 @@ namespace szalkszop.Core.Models
 		[StringLength(100)]
 		public string City { get; set; }
 
-		public enum OrderStatus { Pending, PaymentReceived, Dispatched, Delivered, Canceled };
-
-		private OrderStatus _orderStatus;
-
-		public OrderStatus Status
+		public enum OrderStatus
 		{
-			get
-			{
-				return _orderStatus;
-			}
-			set
-			{
-				_orderStatus = value;
-			}
-		}
+			Pending,
+			[Display(Name = "Payment received")]
+			PaymentReceived,
+			Dispatched,
+			Delivered,
+			Canceled
+		};
+
+		public OrderStatus Status { get; set; }
 	}
 }

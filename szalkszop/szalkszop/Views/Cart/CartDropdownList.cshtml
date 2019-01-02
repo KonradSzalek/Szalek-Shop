@@ -20,11 +20,11 @@
 					@if (item.Product.Images.Any())
 		{
 			<img src="~/Images/@item.Product.Images.FirstOrDefault().ThumbNailName" alt="Product image" height="66" width="100">
-}
-else
-{
+		}
+			else
+			{
 			<img src="~/Images/no-image.jpg" alt="Product image" height="66" width="100">
-}
+			}
 				</div>
 				<div class="details">
 					<span class="productname">
@@ -33,25 +33,25 @@ else
 					<span class="productprice">
 						@item.Product.Price €
 					</span>
+					<span class="addorremove">
+						<a href="@Url.Action("Buy", "Cart", new { id = item.Product.Id} )" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-plus"></i></a>
+						<a href="@Url.Action("Remove", "Cart", new { id = item.Product.Id})" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-remove"></i></a>
+					</span>
 				</div>
 				<div role="separator" class="divider"></div>
 			</li>
 }
-
 				<li class="summary">
-					Sending cost 10 €
-					<div role="separator" class="divider"></div>
-				</li>
-
-				<li class="summary">
-					Total @(Model.ItemList.Sum(item => item.Product.Price * item.Quantity) + 10) €
+					Total price: @(Model.ItemList.Sum(item => item.Product.Price * item.Quantity)) €
 					<div role="separator" class="divider"></div>
 				</li>
 			</ul>
-				<li><a href="@Url.Action("MakeOrder", "Order", new { area = string.Empty })">Make an order</a></li>
+			<li><a href="@Url.Action("MakeOrder", "Order", new { area = string.Empty })" class="btn btn-success" id="makeOrder">
+				<strong>Make an order </strong><i class="glyphicon glyphicon-chevron-right"></i>
+</a></li>
 		</ul>
 	</li>
-	}
+}
 
 	else
 	{
@@ -59,4 +59,3 @@ else
 			<a href="#" role="button">Cart (0)</a>
 		</li>
 	}
-

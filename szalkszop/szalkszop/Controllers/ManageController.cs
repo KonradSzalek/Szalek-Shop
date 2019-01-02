@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using szalkszop.Services;
 using szalkszop.ViewModels;
 
 namespace szalkszop.Controllers
@@ -14,9 +15,11 @@ namespace szalkszop.Controllers
 	{
 		private ApplicationSignInManager _signInManager;
 		private ApplicationUserManager _userManager;
+		private readonly IUserService _userService;
 
-		public ManageController()
+		public ManageController(IUserService userService)
 		{
+			_userService = userService;
 		}
 
 		public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -49,6 +52,23 @@ namespace szalkszop.Controllers
 			}
 		}
 
+		public ActionResult ChangeContactDetails()
+		{
+			var userId = User.Identity.GetUserId();
+			var viewModel = _userService.GetUserContactDetails(userId);
+
+			return View("UserContactForm", viewModel);
+		}
+
+		[HttpPost]
+		public ActionResult ChangeContactDetails(UserContactDetailsViewModel viewModel)
+		{
+			var userId = User.Identity.GetUserId();
+			_userService.ChangeUserContactDetails(viewModel, userId);
+
+			return RedirectToAction("Index");
+		}
+
 		//
 		// GET: /Manage/Index
 		public async Task<ActionResult> Index(ManageMessageId? message)
@@ -63,15 +83,9 @@ namespace szalkszop.Controllers
 				: "";
 
 			var userId = User.Identity.GetUserId();
-			var model = new IndexViewModel
-			{
-				HasPassword = HasPassword(),
-				PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-				TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-				Logins = await UserManager.GetLoginsAsync(userId),
-				BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-			};
-			return View(model);
+			var viewModel = _userService.GetUserContactDetails(userId);
+
+			return View(viewModel);
 		}
 
 		//

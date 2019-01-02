@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
 using szalkszop.Core.Models;
+using szalkszop.DTO;
 using szalkszop.ViewModels;
 
 namespace szalkszop.Repositories

@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
 using szalkszop.DTO;
 using szalkszop.ViewModels;
+using static szalkszop.Core.Models.Order;
 
 namespace szalkszop.Services
 {
 	public interface IOrderService
 	{
-		void AddPaymentMethod();
-		void AddDeliveryType();
-		void DeletePaymentMethod();
-		void DeleteDeliveryType();
-		void CompleteOrder(OrderViewModel viewModel, string userId);
-		IEnumerable<PaymentMethodDto> GetPaymentMethodList();
-		IEnumerable<DeliveryTypeDto> GetDeliveryTypeList();
+		void CompleteOrder(CreateOrderViewModel viewModel, string userId);
 		IEnumerable<OrderDto> GetUserOrderList(string userId);
-		IEnumerable<OrderItemDto> GetUserOrderItemList(int orderId);
+		IEnumerable<OrderDto> GetOrderList();
+		IEnumerable<OrderItemDto> GetOrderItemList(int orderId);
+		void UpdateStatus(int orderId, OrderStatus? status);
 	}
 }

@@ -6,6 +6,8 @@
 
 		public string Name { get; set; }
 
-		public double Cost { get; set; }
+		public double? Cost { get; set; }
+
+		public string ListDisplayName { get; set; }
 	}
 }

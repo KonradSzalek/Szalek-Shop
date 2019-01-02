@@ -9,6 +9,6 @@ namespace szalkszop.Core.Models
 		[Required]
 		public string Name { get; set; }
 
-		public double Cost { get; set; }
+		public double? Cost { get; set; }
 	}
 }

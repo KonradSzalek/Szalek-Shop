@@ -67,6 +67,10 @@ namespace szalkszop.App_Start
 				kernel.Bind<IProductImageService>().To<ProductImageService>();
 				kernel.Bind<IOrderService>().To<OrderService>();
 				kernel.Bind<IOrderRepository>().To<OrderRepository>();
+				kernel.Bind<IDeliveryTypeRepository>().To<DeliveryTypeRepository>();
+				kernel.Bind<IPaymentMethodRepository>().To<PaymentMethodRepository>();
+				kernel.Bind<IPaymentMethodService>().To<PaymentMethodService>();
+				kernel.Bind<IDeliveryTypeService>().To<DeliveryTypeService>();
 
 				return kernel;
 			}

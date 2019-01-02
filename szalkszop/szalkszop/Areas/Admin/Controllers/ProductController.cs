@@ -102,6 +102,7 @@ namespace szalkszop.Areas.Admin.Controllers
 			if (!ModelState.IsValid)
 			{
 				viewModel.Heading = "Edit a product";
+				viewModel.ProductImagesDto = _productService.GetProductImages(viewModel.Id);
 				viewModel.ProductCategoryList = _productCategoryService.GetProductCategoryList();
 				return View("EditProductForm", viewModel);
 			}

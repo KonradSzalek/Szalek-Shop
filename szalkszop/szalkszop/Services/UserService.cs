@@ -129,5 +129,18 @@ namespace szalkszop.Services
 
 			return userContactDetails;
 		}
+
+		public void ChangeUserContactDetails(UserContactDetailsViewModel viewModel, string userId)
+		{
+			var user = _userRepository.Get(userId);
+
+			user.Name = viewModel.Name;
+			user.Surname = viewModel.Surname;
+			user.Address = viewModel.Address;
+			user.PostalCode = viewModel.PostalCode;
+			user.City = viewModel.City;
+
+			_userRepository.SaveChanges();
+		}
 	}
 }

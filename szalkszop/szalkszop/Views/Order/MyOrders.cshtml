@@ -5,27 +5,36 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<table cellpadding="10">
-	<thead>
-		<tr>
-			<th>Order Id</th>
-			<th>Order Date</th>
-			<th>Status</th>
-			<th>Total Price</th>
-			<th>Shipping Address</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var order in Model)
-		{
-		<tr>
-			<td><a href="@Url.Action("Details", "Order", new { area = string.Empty }, FormMethod.Post, new { orderId = order.OrderId }</a></td>
-			<td>@order.OrderDate</td>
-			<td>@order.Status</td>
-			<td>@order.TotalPrice</td>
-			<td>@order.ShippingAddress</td>
-		</tr>
-		}
-	</tbody>
-</table>
+<h2>My orders</h2>
+<hr />
+
+<div class="table-responsive">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Order Id</th>
+				<th>Order Date</th>
+				<th>Status</th>
+				<th>Payment Method</th>
+				<th>Delivery Type</th>
+				<th>Total Price</th>
+				<th>Shipping Address</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var order in Model)
+			{
+				<tr>
+					<td><a href="@Url.Action("Details", "Order", new { area = string.Empty, orderId = order.Id })">@order.Id</a></td>
+					<td>@order.OrderDate</td>
+					<td>@order.Status</td>
+					<td>@order.PaymentMethod.Name</td>
+					<td>@order.DeliveryType.Name</td>
+					<td>@order.TotalPrice</td>
+					<td>@order.ShippingAddress</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	</div>
 

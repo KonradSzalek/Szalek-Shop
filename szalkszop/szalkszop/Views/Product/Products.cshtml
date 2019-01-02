@@ -4,7 +4,8 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br />
+<h2>@Model.ProductList.FirstOrDefault().ProductCategory.Name - products</h2>
+
 <br />
 
 @foreach (var product in Model.ProductList)
@@ -28,6 +29,8 @@
 		</div>
 	</div>
 }
+
+
 
 
 

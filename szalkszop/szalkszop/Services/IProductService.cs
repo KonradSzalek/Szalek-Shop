@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using szalkszop.Core.Models;
 using szalkszop.DTO;
 using szalkszop.ViewModels;
 
@@ -16,6 +17,7 @@ namespace szalkszop.Services
 		ProductViewModel EditProduct(int id);
 		ProductDetailViewModel GetProductDetail(int id);
 		ProductDto GetProduct(int id);
+		List<ProductImageDto> GetProductImages(int id);
 		void AddProduct(ProductViewModel viewModel);
 		void EditProduct(ProductViewModel viewModel);
 		void DeleteProduct(int id);

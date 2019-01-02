@@ -5,13 +5,9 @@ using szalkszop.DTO;
 
 namespace szalkszop.ViewModels
 {
-	public class OrderViewModel
+	public class CreateOrderViewModel
 	{
 		public UserContactDetailsViewModel UserContactDetails { get; set; }
-
-		public IEnumerable<PaymentMethodDto> PaymentMethods { get; set; }
-
-		public IEnumerable<DeliveryTypeDto> DeliveryTypes { get; set; }
 
 		public List<Item> OrderedItemList { get; set; }
 
@@ -20,5 +16,9 @@ namespace szalkszop.ViewModels
 
 		[DisplayName("Delivery Type")]
 		public DeliveryTypeDto DeliveryType { get; set; }
+
+		public IEnumerable<PaymentMethodDto> PaymentMethods { get; set; }
+
+		public IEnumerable<DeliveryTypeDto> DeliveryTypes { get; set; }
 	}
 }

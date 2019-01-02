@@ -4,35 +4,55 @@
 	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Manage product categories</h2>
+<div id="div1">
+	<h2>Manage categories</h2>
+</div>
+<div id="div2">
+	<a href="@Url.Action("Create", "ProductCategory")"
+	   class="btn btn-primary">
+		<span>
+			<strong>Add</strong>
+		</span>
+	</a>
+</div>
 
-<table cellpadding="10">
-	<thead>
-		<tr>
-			<th>Category Id</th>
-			<th>Category Name</th>
-			<th>Amount of Products</th>
-			<th>Action</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var category in Model.ProductCategoryWithProductCountList)
-		{
-			<tr>
-				<td>@category.Id</td>
-				<td>@category.Name</td>
-				<td>@category.AmountOfProducts</td>
-				<td>
-					@Html.ActionLink("Edit", "Edit", new { id = category.Id })
-					<br />
-					@Html.ActionLink("Delete", "Delete", new { id = category.Id })
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
 <br />
-@Html.ActionLink("Add a category", "Create")
+<br />
+
+<div class="table-responsive">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Category Id</th>
+				<th>Category Name</th>
+				<th>Amount of Products</th>
+				<th>Edit</th>
+				<th>Remove</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var category in Model.ProductCategoryWithProductCountList)
+			{
+				<tr>
+					<td>@category.Id</td>
+					<td>@category.Name</td>
+					<td>@category.AmountOfProducts</td>
+					<td>
+						<a href="@Url.Action("Edit", "ProductCategory", new { id = category.Id } )" class="btn btn-primary">
+							<i class="glyphicon glyphicon-pencil"></i>
+						</a>
+					</td>
+					<td>
+						<a href="@Url.Action("Delete", "ProductCategory", new { id = category.Id } )" class="btn btn-primary">
+							<i class="glyphicon glyphicon-remove"></i>
+						</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	</div>
+	<br />
 
 
 

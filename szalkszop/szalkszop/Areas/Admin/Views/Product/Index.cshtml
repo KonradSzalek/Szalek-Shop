@@ -2,7 +2,21 @@
 	ViewBag.Title = "Manage products";
 	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
-<h2>Manage products</h2>
+
+<div id="div1">
+	<h2>Manage products</h2>
+</div>
+<div id="div2">
+	<a href="@Url.Action("Create", "Product")"
+	   class="btn btn-primary">
+		<span>
+			<strong>Add</strong>
+		</span>
+	</a>
+</div>
+
+<br />
+<br />
 
 @Html.Partial("~/Views/Product/_Search.cshtml")
 

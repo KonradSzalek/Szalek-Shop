@@ -8,5 +8,10 @@ namespace szalkszop.Controllers
 		{
 			return View();
 		}
+
+		public ActionResult AboutUs()
+		{
+			return View();
+		}
 	}
 }

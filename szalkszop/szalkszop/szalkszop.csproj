@@ -244,7 +244,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Admin\Controllers\DeliveryTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PaymentMethodController.cs" />
+    <Compile Include="Areas\Admin\ViewModels\AdminOrderViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\CreateUserViewModel.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -256,6 +259,8 @@
     <Compile Include="Areas\Admin\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\ViewModels\DeliveryTypeViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\PaymentMethodViewModel.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Core\Models\DeliveryType.cs" />
     <Compile Include="Core\Models\OrderItems.cs" />
@@ -281,6 +286,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Mappers\DeliveryTypeMapper.cs" />
+    <Compile Include="Mappers\OrderMapper.cs" />
     <Compile Include="Mappers\PaymentMethodMapper.cs" />
     <Compile Include="Migrations\201812011340143_WholeProjectMigration.cs" />
     <Compile Include="Migrations\201812011340143_WholeProjectMigration.Designer.cs">
@@ -314,11 +320,23 @@
     <Compile Include="Migrations\201812271608061_UpdatingOrderModel.Designer.cs">
       <DependentUpon>201812271608061_UpdatingOrderModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812281811211_ChangingPaymentMethodAndDeliveryTypeModels.cs" />
+    <Compile Include="Migrations\201812281811211_ChangingPaymentMethodAndDeliveryTypeModels.Designer.cs">
+      <DependentUpon>201812281811211_ChangingPaymentMethodAndDeliveryTypeModels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Repositories\DeliveryTypeRepostiory.cs" />
+    <Compile Include="Repositories\IDeliveryTypeRepository.cs" />
     <Compile Include="Repositories\IOrderRepository.cs" />
+    <Compile Include="Repositories\IPaymentMethodRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
+    <Compile Include="Repositories\PaymentMethodRepository.cs" />
+    <Compile Include="Services\DeliveryTypeService.cs" />
+    <Compile Include="Services\IDeliveryTypeService.cs" />
     <Compile Include="Services\IOrderService.cs" />
+    <Compile Include="Services\IPaymentMethodService.cs" />
     <Compile Include="Services\OrderService.cs" />
+    <Compile Include="Services\PaymentMethodService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Core\Models\IdentityModels.cs" />
     <Compile Include="ViewModels\CartViewModel.cs" />
@@ -352,7 +370,7 @@
     <Compile Include="Areas\Admin\ViewModels\AdminProductCategoryListViewModel.cs" />
     <Compile Include="DTO\ProductSearchResultDto.cs" />
     <Compile Include="ViewModels\OrderListViewModel.cs" />
-    <Compile Include="ViewModels\OrderViewModel.cs" />
+    <Compile Include="ViewModels\CreateOrderViewModel.cs" />
     <Compile Include="ViewModels\ProductFiltersViewModel.cs" />
     <Compile Include="ViewModels\ProductListViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ProductViewModel.cs" />
@@ -390,9 +408,14 @@
     <Content Include="Areas\Admin\Views\Product\AdminSearchResult.cshtml" />
     <Content Include="Areas\Admin\Views\Product\_AdminProductSearchResult.cshtml" />
     <Content Include="Areas\Admin\Views\Product\CreateProductForm.cshtml" />
+    <Content Include="Areas\Admin\Views\DeliveryType\DeliveryTypeForm.cshtml" />
+    <Content Include="Areas\Admin\Views\PaymentMethod\PaymentMethodForm.cshtml" />
+    <Content Include="Areas\Admin\Views\DeliveryType\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PaymentMethod\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\View.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\_LeftPanelAdmin.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -452,11 +475,12 @@
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Product\_ProductSearchResult.cshtml" />
     <Content Include="Views\Product\SearchResult.cshtml" />
-    <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\CartDropdownList.cshtml" />
     <Content Include="Views\Order\MakeOrder.cshtml" />
     <Content Include="Views\Order\MyOrders.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
+    <Content Include="Views\Home\AboutUs.cshtml" />
+    <Content Include="Views\Manage\UserContactForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -493,6 +517,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812271608061_UpdatingOrderModel.resx">
       <DependentUpon>201812271608061_UpdatingOrderModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812281811211_ChangingPaymentMethodAndDeliveryTypeModels.resx">
+      <DependentUpon>201812281811211_ChangingPaymentMethodAndDeliveryTypeModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

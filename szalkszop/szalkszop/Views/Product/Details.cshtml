@@ -5,17 +5,18 @@
 }
 
 <h2>Details</h2>
+<hr />
 
 <div class="vert-offset-bottom-1 col-sm-9">
 
-	@if (Model.ProductImagesDto.Any())
+	@if (Model.ProductImageList?.Any() ?? false)
 			{
 		<div id="myCarousel" class="carousel slide" data-ride="carousel">
 
 			<!-- Indicators -->
 
 			<ol class="carousel-indicators">
-				@for (int i = 0; i < Model.ProductImagesDto.Count(); i++)
+				@for (int i = 0; i < Model.ProductImageList.Count(); i++)
 				{
 					if (i == 0)
 					{
@@ -32,9 +33,9 @@
 
 			<!-- Wrapper for slides -->
 			<div class="carousel-inner">
-				@foreach (var image in Model.ProductImagesDto)
+				@foreach (var image in Model.ProductImageList)
 				{
-					if (image == Model.ProductImagesDto.First())
+					if (image == Model.ProductImageList.First())
 					{
 						<div class="item active">
 							<img id="myImg" img src="~/Images/@image.ImageName" max-height="300px" alt="@image.ImageName">

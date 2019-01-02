@@ -1,0 +1,60 @@
+﻿@using szalkszop.DTO;
+@model IEnumerable<PaymentMethodDto>
+@{
+	ViewBag.Title = "Manage payment methods";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div id="div1">
+	<h2>Manage payments</h2>
+</div>
+<div id="div2">
+	<a href="@Url.Action("Create", "PaymentMethod")"
+	   class="btn btn-primary">
+		<span>
+			<strong>Add</strong>
+		</span>
+	</a>
+</div>
+
+<br />
+<br />
+
+<div class="table-responsive">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Cost</th>
+				<th>Edit</th>
+				<th>Remove</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var paymentMethod in Model)
+			{
+				<tr>
+					<td>@paymentMethod.Id</td>
+					<td>@paymentMethod.Name</td>
+					<td>@paymentMethod.Cost</td>
+					<td>
+						<a href="@Url.Action("Edit", "PaymentMethod", new { id = paymentMethod.Id } )" class="btn btn-primary">
+							<i class="glyphicon glyphicon-pencil"></i>
+						</a>
+					</td>
+					<td>
+						<a href="@Url.Action("Delete", "PaymentMethod", new { id = paymentMethod.Id } )" class="btn btn-primary">
+							<i class="glyphicon glyphicon-remove"></i>
+						</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	</div>
+	<br />
+
+
+
+

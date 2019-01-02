@@ -22,8 +22,8 @@ namespace szalkszop.ViewModels
 
 		public string Description { get; set; }
 
-		public IEnumerable<ProductCategoryDto> ProductCategoriesDto { get; set; }
+		public IEnumerable<ProductCategoryDto> ProductCategoryList { get; set; }
 
-		public List<ProductImageDto> ProductImagesDto { get; set; }
+		public List<ProductImageDto> ProductImageList { get; set; }
 	}
 }

@@ -164,16 +164,25 @@ namespace szalkszop.Services
 			{
 				Id = productDto.Id,
 				Name = productDto.Name,
-				ProductCategoriesDto = _productCategoryService.GetProductCategoryList(),
+				ProductCategoryList = _productCategoryService.GetProductCategoryList(),
 				ProductCategory = productDto.ProductCategoryId,
 				AmountInStock = productDto.AmountInStock,
 				Price = productDto.Price,
 				Description = productDto.Description,
 				DateOfAdding = productDto.DateOfAdding,
-				ProductImagesDto = productDto.Images,
+				ProductImageList = productDto.Images,
 			};
 
 			return viewModel;
+		}
+
+		public List<ProductImageDto> GetProductImages(int id)
+		{
+			var product = _productRepository.Get(id);
+
+			var productDto = ProductMapper.MapToDto(product);
+
+			return productDto.Images;
 		}
 
 		public ProductDto GetProduct(int id)

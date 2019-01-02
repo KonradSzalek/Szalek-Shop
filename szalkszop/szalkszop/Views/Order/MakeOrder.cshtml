@@ -1,10 +1,11 @@
-﻿@model szalkszop.ViewModels.OrderViewModel
+﻿@model szalkszop.ViewModels.CreateOrderViewModel
 @{
 	ViewBag.Title = "Order";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Make an order</h2>
+<hr />
 
 @using (Html.BeginForm("MakeOrder", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -41,11 +42,11 @@
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.DeliveryType)
-		@Html.DropDownListFor(m => m.DeliveryType.Id, new SelectList(Model.DeliveryTypes, "Id", "Name", Model.DeliveryType), "Select delivery type", new { @class = "form-control" })
+		@Html.DropDownListFor(m => m.DeliveryType.Id, new SelectList(Model.DeliveryTypes, "Id", "ListDisplayName", Model.DeliveryType), "Select delivery type", new { @class = "form-control" })
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.PaymentMethod)
-		@Html.DropDownListFor(m => m.PaymentMethod.Id, new SelectList(Model.PaymentMethods, "Id", "Name", Model.PaymentMethod), "Select payment method", new { @class = "form-control" })
+		@Html.DropDownListFor(m => m.PaymentMethod.Id, new SelectList(Model.PaymentMethods, "Id", "ListDisplayName", Model.PaymentMethod), "Select payment method", new { @class = "form-control" })
 	</div>
 
 	<br />

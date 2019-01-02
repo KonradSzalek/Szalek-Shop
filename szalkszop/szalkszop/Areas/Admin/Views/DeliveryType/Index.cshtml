@@ -1,0 +1,60 @@
+﻿@using szalkszop.DTO;
+@model IEnumerable<DeliveryTypeDto>
+@{
+	ViewBag.Title = "Manage delivery types";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div id="div1">
+	<h2>Manage deliveries</h2>
+</div>
+<div id="div2">
+	<a href="@Url.Action("Create", "DeliveryType")"
+	   class="btn btn-primary">
+		<span>
+			<strong>Add</strong>
+		</span>
+	</a>
+</div>
+<br />
+<br />
+
+<div class="table-responsive">
+	<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Cost</th>
+					<th>Edit</th>
+					<th>Remove</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var deliveryType in Model)
+				{
+					<tr>
+						<td>@deliveryType.Id</td>
+						<td>@deliveryType.Name</td>
+						<td>@deliveryType.Cost</td>
+						<td>
+							<a href="@Url.Action("Edit", "DeliveryType", new { id = deliveryType.Id } )" class="btn btn-primary">
+								<i class="glyphicon glyphicon-pencil"></i>
+							</a>
+						</td>
+						<td>
+							<a href="@Url.Action("Delete", "DeliveryType", new { id = deliveryType.Id } )" class="btn btn-primary">
+								<i class="glyphicon glyphicon-remove"></i>
+							</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+<br />
+
+
+
+
+

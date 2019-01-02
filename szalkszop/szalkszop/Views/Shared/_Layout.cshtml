@@ -23,7 +23,6 @@
 			<ul class="nav navbar-nav">
 				<li>@Html.ActionLink("Home", "Index", "Home")</li>
 				<li>@Html.ActionLink("Products", "Index", "Product")</li>
-				<li>@Html.ActionLink("Categories", "Index", "ProductCategory")</li>
 				<li>@Html.ActionLink("About Us", "AboutUs", "Home")</li>
 			</ul>
 			@Html.Partial("_LoginPartial")
@@ -38,10 +37,11 @@
 		</div>
 		<div class="col-lg-10">
 			<div class="container body-content">
+				<br />
 				@RenderBody()
-				<hr/>
 				<footer class="footer">
-					<p>&copy; @DateTime.Now.Year - Designed by Konrad Szalek </p>
+					<hr />
+					@*<p>&copy; @DateTime.Now.Year - Designed by Konrad Szalek </p>*@
 				</footer>
 			</div>
 		</div>

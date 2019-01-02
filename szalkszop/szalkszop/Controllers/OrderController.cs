@@ -11,36 +11,40 @@ namespace szalkszop.Controllers
 	{
 		private readonly IUserService _userService;
 		private readonly IOrderService _orderService;
+		private readonly IPaymentMethodService _paymentMethodService;
+		private readonly IDeliveryTypeService _deliveryTypeService;
 
-		public OrderController(UserService userService, OrderService orderService)
+		public OrderController(UserService userService, OrderService orderService, PaymentMethodService paymentMethodService, DeliveryTypeService deliveryTypeService)
 		{
 			_userService = userService;
 			_orderService = orderService;
+			_paymentMethodService = paymentMethodService;
+			_deliveryTypeService = deliveryTypeService;
 		}
 
 		public ActionResult MakeOrder()
 		{
 			var userId = User.Identity.GetUserId();
 
-			var viewModel = new OrderViewModel
+			var viewModel = new CreateOrderViewModel
 			{
 				UserContactDetails = _userService.GetUserContactDetails(userId),
-				PaymentMethods = _orderService.GetPaymentMethodList(),
-				DeliveryTypes = _orderService.GetDeliveryTypeList(),
+				PaymentMethods = _paymentMethodService.GetList(),
+				DeliveryTypes = _deliveryTypeService.GetList(),
 			};
 
 			return View(viewModel);
 		}
 
 		[HttpPost]
-		public ActionResult MakeOrder(OrderViewModel viewModel)
+		public ActionResult MakeOrder(CreateOrderViewModel viewModel)
 		{
 			var userId = User.Identity.GetUserId();
 
 			if (!ModelState.IsValid)
 			{
-				viewModel.PaymentMethods = _orderService.GetPaymentMethodList();
-				viewModel.DeliveryTypes = _orderService.GetDeliveryTypeList();
+				viewModel.PaymentMethods = _paymentMethodService.GetList();
+				viewModel.DeliveryTypes = _deliveryTypeService.GetList();
 				return View(viewModel);
 			}
 
@@ -62,7 +66,7 @@ namespace szalkszop.Controllers
 
 		public ActionResult Details(int orderId)
 		{
-			var viewModel = _orderService.GetUserOrderItemList(orderId);
+			var viewModel = _orderService.GetOrderItemList(orderId);
 			return View(viewModel);
 		}
 	}

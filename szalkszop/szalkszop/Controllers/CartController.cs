@@ -66,7 +66,7 @@ namespace szalkszop.Controllers
 				}
 				System.Web.HttpContext.Current.Session["cart" + userId] = cart;
 			}
-			return RedirectToAction("Index");
+			return RedirectToAction("Index", "Product");
 		}
 
 		public ActionResult Remove(int id)
@@ -78,7 +78,7 @@ namespace szalkszop.Controllers
 			cart.RemoveAt(index);
 			Session["cart" + userId] = cart;
 
-			return RedirectToAction("Index");
+			return RedirectToAction("Index", "Product");
 		}
 
 		private int DoesExist(int id)

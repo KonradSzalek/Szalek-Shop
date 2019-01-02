@@ -1,0 +1,24 @@
+﻿@model szalkszop.Areas.Admin.ViewModels.DeliveryTypeViewModel
+@{
+	ViewBag.Title = "DeliveryTypeForm";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>@Model.Heading</h2>
+
+@using (Html.BeginForm(Model.Action, "DeliveryType"))
+{
+	@Html.AntiForgeryToken()
+	<div class="form-group">
+		@Html.LabelFor(m => m.Name)
+		@Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Name of delivery type" })
+		@Html.ValidationMessageFor(m => m.Name)
+	</div>
+
+	<div class="form-group">
+		@Html.LabelFor(m => m.Cost)
+		@Html.TextBoxFor(m => m.Cost, new { @class = "form-control", placeholder = "Cost of delivery type" })
+		@Html.ValidationMessageFor(m => m.Cost)
+	</div>
+	<button type="submit" value="Save" class="btn btn-primary">@(Model.Action == "Edit" ? "Update" : "Add")</button>
+}

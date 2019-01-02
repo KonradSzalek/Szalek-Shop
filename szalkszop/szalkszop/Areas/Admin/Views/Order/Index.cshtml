@@ -1,41 +1,70 @@
-﻿@model szalkszop.ViewModels.OrderListViewModel
+﻿@model szalkszop.Areas.Admin.ViewModels.AdminOrderViewModel
 @{
-	Layout = null;
+	ViewBag.Title = "Orders";
+	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>View</h2>
+<div id="div1">
+	<h2>Manage orders</h2>
+</div>
 
-
-<table cellpadding="10">
-	<thead>
-		<tr>
-			<th>Product Name</th>
-			<th>Product category</th>
-			<th>Amount in stock</th>
-			<th>Date of adding</th>
-			<th>Price</th>
-			<th>Description</th>
-			<th>Action</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var user in Model.UserContactDetails)
-		{
-			<tr>
-				<td>@UserContactDetails.Name</td>
-				<td>@product.ProductCategory.Name</td>
-				<td>@product.AmountInStock</td>
-				<td>@product.DateOfAdding</td>
-				<td>@product.Price</td>
-				<td>@product.Description</td>
-				<td>
-					@Html.ActionLink("Edit", "Edit", new { id = product.Id })
-					<br />
-					@Html.ActionLink("Delete", "Delete", new { id = product.Id })
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
 <br />
-@Html.ActionLink("Add a product", "Create")
+<br />
+
+<div class="table-responsive">
+	<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Order Id</th>
+					<th>Order Date</th>
+					<th>Payment Method</th>
+					<th>Delivery Type</th>
+					<th>Total Price [€]</th>
+					<th width="200">Shipping Address</th>
+					<th width="180">Status</th>
+					<th>Save changes</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var order in Model.Orders)
+				{
+					<tr>
+						<td><a href="@Url.Action("Details", "Order", new {orderId = order.Id })">@order.Id</a></td>
+						<td>@order.OrderDate</td>
+						<td >@order.PaymentMethod.Name</td>
+						<td>@order.DeliveryType.Name</td>
+						<td>@order.TotalPrice</td>
+						<td>@order.ShippingAddress</td>
+						@using (Html.BeginForm("Update", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+				{
+					{
+						Model.OrderId = order.Id;
+					}
+							@Html.HiddenFor(m => m.OrderId)
+							<td>@Html.EnumDropDownListFor(m => m.Orders.Single(o => o.Id == order.Id).Status, new { @class = "form-control" })</td>
+							<td><button type="submit" value="Save" class="btn btn-primary">Update</button></td>
+				}
+
+					</tr>
+				}
+			</tbody>
+	</table>
+</div>
+
+		@*<script>
+			var updateOrderStatus = function (orderId) {
+				var statusId = document.getElementById(orderId).value;
+
+				var myUrl = '/Order/Update';
+
+				$.ajax({
+					url: myUrl,
+					type: "GET",
+					contentType: "application/json",
+					data: { orderId: orderId, orderStatus: status },
+					//success: $('#myModal').modal('show')
+				});
+			}
+		</script>*@
+
+

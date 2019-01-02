@@ -19,7 +19,8 @@ namespace szalkszop.Mappers
 				Id = paymentMethod.Id,
 				Name = paymentMethod.Name,
 				Cost = paymentMethod.Cost,
-			};
+				ListDisplayName = paymentMethod.Name + " (+ " + paymentMethod.Cost + " EUR)",
+		};
 
 			return paymentMethodDto;
 		}

@@ -13,7 +13,6 @@
 			<th>Price</th>
 			<th>Description</th>
 			<th>Action</th>
-			<th>Picture</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -27,15 +26,9 @@
 				<td>@product.Price</td>
 				<td>@product.Description</td>
 				<td>
-					@Html.ActionLink("Edit", "Edit", new { id = product.Id })
+					@Html.ActionLink("Edit", "Product", new { id = product.Id })
 					<br />
-					@Html.ActionLink("Delete", "Delete", new { id = product.Id })
-				</td>
-				<td>
-					@if (product.ImageName != null)
-					{
-						@Html.ActionLink("Edit", "EditPhotos", new { productId = product.Id })
-					}
+					@Html.ActionLink("Delete", "Product", new { id = product.Id })
 				</td>
 			</tr>
 		}
