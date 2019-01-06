@@ -203,8 +203,8 @@ img.details {
 }
 
 /*.cart > li .details .btn-primary {
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-left: 4px;
+    padding-right: 4px;
     padding-top: 1px;
     padding-bottom: 1px;
 }*/
@@ -350,3 +350,103 @@ body>.container {
     border-color: #6fb85c;
 }
 
+.toRightSide > p {
+    margin: 0 0 2px;
+}
+
+.modal-body {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.modal-body .alert {
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+	margin-bottom: 0px;
+}
+
+.modal-footer {
+    border-top: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    margin-top: 0px;
+}
+
+		#left-column .left-nav-categories {
+			font-size: 12px;
+			line-height: normal;
+			text-align: left !important;
+		}
+
+		#left-column div {
+			margin-bottom: 10px;
+		}
+
+		.small-box {
+			background-color: #fff;
+			border: 1px solid #d5d5d5;
+			overflow: hidden;
+			margin: 0 0 20px;
+			padding: 0;
+			border-radius: 4px;
+		}
+
+		.hidden-xs {
+			display: block !important;
+		}
+
+		#left-column .left-nav-categories .inner-box {
+			padding: 0;
+			margin-bottom: 0;
+		}
+
+		#left-column .left-nav-categories .title {
+			background-color: black;
+			font-size: 15px;
+			padding: 6px 12px !important;
+		}
+
+			#left-column .left-nav-categories .title a {
+				color: #999999;
+			}
+
+				#left-column .left-nav-categories .title a:hover {
+					text-decoration: none;
+				}
+
+		#left-column .left-nav-categories ul {
+			padding: 0;
+			margin: 0;
+		}
+
+		#left-column .left-nav-categories > .inner-box > ul > li {
+			background-color: #f1f1f1;
+			border-bottom: 1px solid #d5d5d5;
+		}
+
+		#left-column .left-nav-categories ul li {
+			padding: 0;
+			list-style-type: none;
+			background-color: #fff;
+		}
+
+		#left-column .left-nav-categories ul li a {
+				display: block;
+				padding: 6px 2px 6px 12px;
+				color: #222;
+				border-bottom: 1px solid #f1f1f1;
+			}
+
+				#left-column .left-nav-categories ul li a:hover {
+					color: gray;
+					text-decoration: none;
+				}
+
+		#title {
+			color: white;
+		}

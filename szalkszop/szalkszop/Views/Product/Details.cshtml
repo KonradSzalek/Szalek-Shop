@@ -8,13 +8,10 @@
 <hr />
 
 <div class="vert-offset-bottom-1 col-sm-9">
-
 	@if (Model.ProductImageList?.Any() ?? false)
-			{
+		{
 		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-
-			<!-- Indicators -->
-
+		
 			<ol class="carousel-indicators">
 				@for (int i = 0; i < Model.ProductImageList.Count(); i++)
 				{
@@ -30,28 +27,25 @@
 				}
 			</ol>
 
-
-			<!-- Wrapper for slides -->
 			<div class="carousel-inner">
 				@foreach (var image in Model.ProductImageList)
 				{
 					if (image == Model.ProductImageList.First())
 					{
 						<div class="item active">
-							<img id="myImg" img src="~/Images/@image.ImageName" max-height="300px" alt="@image.ImageName">
+							<img id="myImg" rel="prettyPhoto" img src="~/Images/@image.ImageName" max-height="300px" alt="@image.ImageName">
 						</div>
 					}
 
 					else
 					{
 						<div class="item">
-							<img id="myImg1" img src="~/Images/@image.ImageName" alt="@image.ImageName">
+							<img id="myImg1" rel="prettyPhoto" img src="~/Images/@image.ImageName" alt="@image.ImageName">
 						</div>
 					}
 				}
 			</div>
 
-			<!-- Left and right controls -->
 			<a class="left carousel-control" href="#myCarousel" data-slide="prev">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 				<span class="sr-only">Previous</span>
@@ -61,28 +55,24 @@
 				<span class="sr-only">Next</span>
 			</a>
 		</div>
-			}
+		}
 
-			else
-			{
+		else
+		{
 		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-
-			<!-- Indicators -->
 
 			<ol class="carousel-indicators">
 				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 			</ol>
 
-			<!-- Wrapper for slides -->
 			<div class="carousel-inner">
 				
 				<div class="item active">
-					<img id="myImg" img src="~/Images/no-image1.jpg" max-height="300px" alt="No image">
+					<img id="myImg" img src="~/Images/no-image.jpg" max-height="300px" alt="No image">
 				</div>
 					
 			</div>
 
-			<!-- Left and right controls -->
 			<a class="left carousel-control" href="#myCarousel" data-slide="prev">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 				<span class="sr-only">Previous</span>
@@ -96,7 +86,7 @@
 				<img class="modal-content" id="img01">
 			</div>
 		</div>
-			}
+		}
 
 	<div class="caption">
 		<h3>@Model.Name</h3>
@@ -108,3 +98,55 @@
 		<p><a href="#" class="btn btn-primary" role="button">To Cart</a></p>
 	</div>	
 </div>
+
+@*<div>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+			</div>
+			<div class="modal-body">
+				<div class="owl-carousel owl-theme">
+					@foreach (var image in Model.ProductImageList)
+					{
+						<div class="item">
+							<a href="~/Images/@image.ImageName"><img rel="prettyPhoto" src="~/Images/@image.ThumbNailName" /></a>
+						</div>
+					}
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(function() {
+  $("a").prettyPhoto();
+  $('.owl-carousel').owlCarousel({
+	loop: true,
+	margin: 10,
+	responsiveClass: true,
+	responsive: {
+	  0: {
+		items: 1,
+		nav: true
+	  },
+	  600: {
+		items: 3,
+		nav: false
+	  },
+	  1000: {
+		items: 5,
+		nav: true,
+		loop: false,
+		margin: 20
+	  }
+	}
+  })
+})
+</script>*@

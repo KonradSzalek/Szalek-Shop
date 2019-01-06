@@ -24,7 +24,7 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Create()
 		{
-			var viewModel = new AdminProductCategoryViewModel
+			var viewModel = new ProductCategoryViewModel
 			{
 				Heading = "Add category",
 			};
@@ -33,11 +33,12 @@ namespace szalkszop.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Create([Bind(Exclude = "Id")] AdminProductCategoryViewModel viewModel)
+		public ActionResult Create([Bind(Exclude = "Id")] ProductCategoryViewModel viewModel)
 		{
 			if (!ModelState.IsValid)
 			{
 				viewModel.Heading = "Add category";
+
 				return View("CategoryForm", viewModel);
 			}
 
@@ -69,13 +70,15 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(AdminProductCategoryViewModel viewModel)
+		public ActionResult Edit(ProductCategoryViewModel viewModel)
 		{
 			if (!_productCategoryService.DoesProductCategoryExist(viewModel.Id))
 				return HttpNotFound();
 
 			if (!ModelState.IsValid)
 			{
+				viewModel.Heading = "Update Category";
+				
 				return View(viewModel);
 			}
 

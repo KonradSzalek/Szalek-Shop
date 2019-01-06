@@ -1,0 +1,71 @@
+﻿@model szalkszop.ViewModels.ProductListSearchViewModel
+@{
+	Layout = null;
+}
+
+@using (Html.BeginForm("Search", "Product", new { Area = "Admin" }))
+{
+	<div class="row">
+		<div class="vert-offset-bottom-1 col-sm-3">
+			<div class="form-control-inline">
+				@Html.LabelFor(m => m.ProductFiltersViewModel.Name)
+				@Html.TextBoxFor(m => m.ProductFiltersViewModel.Name, new { @class = "form-control", placeholder = "Name of a product" })
+				@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.Name)
+			</div>
+		</div>
+		<div class="vert-offset-bottom-1 col-sm-3">
+			<div class="form-control-inline">
+				@Html.LabelFor(m => m.ProductFiltersViewModel.ProductCategory)
+				@Html.DropDownListFor(m => m.ProductFiltersViewModel.ProductCategory.Id,
+				new SelectList(Model.ProductFiltersViewModel.ProductCategories,
+				"Id", "Name", Model.ProductFiltersViewModel.ProductCategory), "Select Category",
+				new { @class = "form-control" })
+			</div>
+		</div>
+	</div>
+
+	<p>
+		<a data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+			Advanced search
+		</a>
+	</p>
+
+	<div class="collapse" id="collapseExample">
+		<div class="card card-body">
+			<div class="row">
+				<div class="vert-offset-bottom-1 col-sm-3">
+					<div class="form-control-inline">
+						@Html.LabelFor(m => m.ProductFiltersViewModel.DateTimeFrom)
+						@Html.TextBoxFor(m => m.ProductFiltersViewModel.DateTimeFrom, new { @class = "form-control", placeholder = "YYYY-MM-DD" })
+						@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.DateTimeFrom)
+					</div>
+				</div>
+				<div class="vert-offset-bottom-1 col-sm-3">
+					<div class="form-control-inline">
+						@Html.LabelFor(m => m.ProductFiltersViewModel.DateTimeTo)
+						@Html.TextBoxFor(m => m.ProductFiltersViewModel.DateTimeTo, new { @class = "form-control", placeholder = "YYYY-MM-DD" })
+						@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.DateTimeTo)
+					</div>
+				</div>
+				<div class="vert-offset-bottom-1 col-sm-3">
+					<div class="form-control-inline">
+						@Html.LabelFor(m => m.ProductFiltersViewModel.PriceFrom)
+						@Html.TextBoxFor(m => m.ProductFiltersViewModel.PriceFrom, new { @class = "form-control", placeholder = "EUR" })
+						@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.PriceFrom)
+					</div>
+				</div>
+				<div class="vert-offset-bottom-1 col-sm-3">
+					<div class="form-control-inline">
+						@Html.LabelFor(m => m.ProductFiltersViewModel.PriceTo)
+						@Html.TextBoxFor(m => m.ProductFiltersViewModel.PriceTo, new { @class = "form-control", placeholder = "EUR" })
+						@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.PriceTo)
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<button type="submit" value="Save" class="btn btn-primary">Search</button>
+}
+<br />
+

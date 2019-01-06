@@ -9,7 +9,7 @@ using szalkszop.Areas.Admin.Controllers;
 using szalkszop.DTO;
 using static szalkszop.Services.CustomValidations;
 
-namespace szalkszop.ViewModels
+namespace szalkszop.Areas.Admin.ViewModels
 {
 	public class ProductViewModel
 	{
@@ -46,8 +46,6 @@ namespace szalkszop.ViewModels
 
 		public string Heading { get; set; }
 
-		//CR5Fixed czy jest to gdzies uzywane? Jak nie to wywal.
-		// - jest używane w widoku product form do wyboru odpowiedniego formularza: edit / create
 		public string Action
 		{
 			get

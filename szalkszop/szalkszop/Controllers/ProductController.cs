@@ -37,12 +37,12 @@ namespace szalkszop.Controllers
 		[HttpPost]
 		public ActionResult Search(ProductListSearchViewModel searchModel)
 		{
-			ModelState.Remove("ProductSearchViewModel.ProductCategory.Id");
+			ModelState.Remove("ProductFiltersViewModel.ProductCategory.Id");
+
 			if (!ModelState.IsValid)
 			{
 				return View("SearchResult", searchModel);
 			}
-			// CR5FIXED dodac modelstate.IsValid
             
 			var viewModel = new ProductListSearchViewModel
 			{

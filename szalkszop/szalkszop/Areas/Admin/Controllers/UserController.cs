@@ -4,7 +4,7 @@ using szalkszop.ViewModels;
 using static szalkszop.Core.Models.ApplicationUser;
 
 namespace szalkszop.Areas.Admin.Controllers
-{   //CR5FIXED prefix zbedny
+{  
 	[AuthorizeRedirectToHomePage(Roles = "Admin")]
 	public class UserController : Controller
 	{

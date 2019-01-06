@@ -27,17 +27,17 @@
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.UserContactDetails.Address)
-		@Html.TextBoxFor(m => m.UserContactDetails.Address, new { @class = "form-control", placeholder = "EUR" })
+		@Html.TextBoxFor(m => m.UserContactDetails.Address, new { @class = "form-control", placeholder = "Address for shipping" })
 		@Html.ValidationMessageFor(m => m.UserContactDetails.Address)
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.UserContactDetails.PostalCode)
-		@Html.TextBoxFor(m => m.UserContactDetails.PostalCode, new { @class = "form-control", placeholder = "Product description" })
+		@Html.TextBoxFor(m => m.UserContactDetails.PostalCode, new { @class = "form-control", placeholder = "Postal Code" })
 		@Html.ValidationMessageFor(m => m.UserContactDetails.PostalCode)
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.UserContactDetails.City)
-		@Html.TextBoxFor(m => m.UserContactDetails.City, new { @class = "form-control", placeholder = "Product description" })
+		@Html.TextBoxFor(m => m.UserContactDetails.City, new { @class = "form-control", placeholder = "City" })
 		@Html.ValidationMessageFor(m => m.UserContactDetails.City)
 	</div>
 	<div class="form-group">
@@ -51,6 +51,23 @@
 
 	<br />
 
-	<button type="submit" value="Save" class="btn btn-primary">Confirm Order</button>
+	<button type="submit" value="Save" class="btn btn-primary" data-target="#myModal">Confirm Order</button>
 }
+
+<div class="modal fade" id="myModal" role="dialog">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="alert alert-success" role="alert">
+					<p>Order <strong>successful!</strong></p>
+					<p>Order confirmation was sent to your email address.</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary btn-sm" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
+			</div>
+		</div>
+	</div>
+</div>
+
 

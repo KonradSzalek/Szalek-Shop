@@ -12,5 +12,6 @@ namespace szalkszop.Repositories
 		void Delete(int id);
 		void SaveChanges();
 		bool Exists(int id);
+		int GetProductCategoryCount();
 	}
 }

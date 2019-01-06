@@ -46,12 +46,27 @@ namespace szalkszop.Repositories
 
 		public Order GetOrder(int id)
 		{
-			return _context.Orders.Single(o => o.Id == id);
+			return _context.Orders.Include(pm => pm.PaymentMethod).Include(dt => dt.DeliveryType).Single(o => o.Id == id);
 		}
 
 		public void SaveChanges()
 		{
 			_context.SaveChanges();
+		}
+
+		public int GetPendingOrderCount()
+		{
+			return _context.Orders.Where(o => o.Status == 0).Count();
+		}
+
+		public int GetOrderCount()
+		{
+			return _context.Orders.Count();
+		}
+
+		public bool Exists(int id)
+		{
+			return _context.Orders.Any(o => o.Id == id);
 		}
 	}
 }

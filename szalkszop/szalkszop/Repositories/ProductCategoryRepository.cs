@@ -55,5 +55,10 @@ namespace szalkszop.Repositories
 		{
 			return _context.ProductsCategories.Any(p => p.Id == id);
 		}
+
+		public int GetProductCategoryCount()
+		{
+			return _context.ProductsCategories.Count();
+		}
 	}
 }

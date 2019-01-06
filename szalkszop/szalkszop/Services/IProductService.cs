@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using szalkszop.Core.Models;
+using szalkszop.Areas.Admin.ViewModels;
 using szalkszop.DTO;
 using szalkszop.ViewModels;
 
@@ -25,5 +25,6 @@ namespace szalkszop.Services
 		bool DoesProductPhotoExist(Guid id);
 		bool IsPhotoCountExceeded(int productId, int filesCount);
 		void DeletePhoto(Guid id);
+		int GetProductCount();
 	}
 }

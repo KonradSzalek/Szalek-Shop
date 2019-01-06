@@ -4,17 +4,23 @@
 	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Manage users</h2>
 <div id="div1">
+	<h2>Manage users</h2>
+</div>
+<div id="div2">
 	<a href="@Url.Action("Create", "User")"
 	   class="btn btn-primary">
 		<span>
-			<strong>Add user</strong>
+			<strong>Add</strong>
 		</span>
 	</a>
 </div>
-<div id="div2">
 
+<br />
+<br />
+
+
+<div id="div2">
 	@using (Html.BeginForm("Search", "User", FormMethod.Post))
 	{
 		<div class="form-group">
@@ -49,12 +55,12 @@
 					<td>@user.Name @user.Surname</td>
 					<td>@user.RegistrationDateTime</td>
 					<td>
-						<a href="@Url.Action("Edit", "Edit", new { id = user.Id } )" class="btn btn-primary">
+						<a href="@Url.Action("Edit", "User", new { id = user.Id } )" class="btn btn-primary">
 							<i class="glyphicon glyphicon-pencil"></i>
 						</a>
 					</td>
 					<td>
-						<a href="@Url.Action("Delete", "Delete", new { id = user.Id } )" class="btn btn-primary">
+						<a href="@Url.Action("Delete", "User", new { id = user.Id } )" class="btn btn-primary">
 							<i class="glyphicon glyphicon-remove"></i>
 						</a>
 					</td>

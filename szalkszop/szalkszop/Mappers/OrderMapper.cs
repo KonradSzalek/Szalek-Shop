@@ -2,7 +2,6 @@
 using System.Linq;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
-using static szalkszop.Core.Models.Order;
 
 namespace szalkszop.Mappers
 {

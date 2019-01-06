@@ -1,4 +1,4 @@
-﻿@model szalkszop.Areas.Admin.ViewModels.AdminOrderViewModel
+﻿@model szalkszop.Areas.Admin.ViewModels.OrderViewModel
 @{
 	ViewBag.Title = "Orders";
 	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
@@ -29,42 +29,21 @@
 				@foreach (var order in Model.Orders)
 				{
 					<tr>
-						<td><a href="@Url.Action("Details", "Order", new {orderId = order.Id })">@order.Id</a></td>
+						<td><a href="@Url.Action("Details", "Order", new { id = order.Id })">@order.Id</a></td>
 						<td>@order.OrderDate</td>
 						<td >@order.PaymentMethod.Name</td>
 						<td>@order.DeliveryType.Name</td>
 						<td>@order.TotalPrice</td>
 						<td>@order.ShippingAddress</td>
 						@using (Html.BeginForm("Update", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
-				{
-					{
-						Model.OrderId = order.Id;
-					}
+						{
+							Model.OrderId = order.Id;
 							@Html.HiddenFor(m => m.OrderId)
 							<td>@Html.EnumDropDownListFor(m => m.Orders.Single(o => o.Id == order.Id).Status, new { @class = "form-control" })</td>
 							<td><button type="submit" value="Save" class="btn btn-primary">Update</button></td>
-				}
-
+						}
 					</tr>
 				}
 			</tbody>
 	</table>
 </div>
-
-		@*<script>
-			var updateOrderStatus = function (orderId) {
-				var statusId = document.getElementById(orderId).value;
-
-				var myUrl = '/Order/Update';
-
-				$.ajax({
-					url: myUrl,
-					type: "GET",
-					contentType: "application/json",
-					data: { orderId: orderId, orderStatus: status },
-					//success: $('#myModal').modal('show')
-				});
-			}
-		</script>*@
-
-

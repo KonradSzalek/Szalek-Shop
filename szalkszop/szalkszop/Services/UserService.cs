@@ -142,5 +142,15 @@ namespace szalkszop.Services
 
 			_userRepository.SaveChanges();
 		}
+
+		public int GetUserCount()
+		{
+			return _userRepository.GetUserCount();
+		}
+
+		public int GetRecentlyUserCount()
+		{
+			return _userRepository.GetRecentlyUserCount();
+		}
 	}
 }

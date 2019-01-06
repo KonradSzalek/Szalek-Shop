@@ -13,5 +13,7 @@ namespace szalkszop.Services
 		bool DoesUserExist(string id);
 		UserContactDetailsViewModel GetUserContactDetails(string userId);
 		void ChangeUserContactDetails(UserContactDetailsViewModel viewModel, string userId);
+		int GetUserCount();
+		int GetRecentlyUserCount();
 	}
 }

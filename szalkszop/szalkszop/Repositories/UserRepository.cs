@@ -73,5 +73,16 @@ namespace szalkszop.Repositories
 		{
 			_context.SaveChanges();
 		}
+
+		public int GetUserCount()
+		{
+			return _context.Users.Count();
+		}
+
+		public int GetRecentlyUserCount()
+		{
+			DateTime dateTime = DateTime.Now.AddDays(-30);
+			return _context.Users.Where(u => u.RegistrationDateTime > dateTime).Count();
+		}
 	}
 }

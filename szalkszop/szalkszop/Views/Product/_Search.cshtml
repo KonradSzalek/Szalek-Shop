@@ -3,7 +3,7 @@
 	Layout = null;
 }
 
-@using (Html.BeginForm("Search", "Product"))
+@using (Html.BeginForm("Search", "Product", new { Area = string.Empty }))
 {
 	<div class="row">
 		<div class="vert-offset-bottom-1 col-sm-3">
@@ -29,6 +29,7 @@
 			Advanced search
 		</a>
 	</p>
+
 	<div class="collapse" id="collapseExample">
 		<div class="card card-body">
 			<div class="row">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using szalkszop.Areas.Admin.ViewModels;
 using szalkszop.Services;
 using szalkszop.ViewModels;
 using static szalkszop.Core.Models.ApplicationUser;
@@ -34,13 +35,12 @@ namespace szalkszop.Areas.Admin.Controllers
 		public ActionResult Search(ProductListSearchViewModel searchModel)
 		{
 			ModelState.Remove("ProductFiltersViewModel.ProductCategory.Id");
+
 			if (!ModelState.IsValid)
 			{
 				return View("AdminSearchResult", searchModel);
 			}
-			//CR5FIXED ModelState.IsValid
-			//CR5FIXED kompletnie nie rozumiem tego productswithsearchViewModel, dlaczego nie mogles zrobic po prostu ProductsViewModel
-			// - jak wyżej
+
 			var viewModel = new ProductListSearchViewModel
 			{
 				ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel),
@@ -66,6 +66,7 @@ namespace szalkszop.Areas.Admin.Controllers
 				viewModel.Files = null;
 				viewModel.ProductCategoryList = _productCategoryService.GetProductCategoryList();
 				viewModel.Heading = "Edit a product";
+
 				return View("CreateProductForm", viewModel);
 			}
 
@@ -129,7 +130,7 @@ namespace szalkszop.Areas.Admin.Controllers
 
 			_productService.DeletePhoto(imageId);
 
-			return RedirectToAction("EditPhotos", "Product", new { productId });
+			return RedirectToAction("Edit", "Product", new { productId });
 		}
 	}
 }

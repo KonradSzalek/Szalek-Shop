@@ -14,5 +14,7 @@ namespace szalkszop.Repositories
 		void Delete(string id);
 		bool Exists(string id);
 		void SaveChanges();
+		int GetUserCount();
+		int GetRecentlyUserCount();
 	}
 }

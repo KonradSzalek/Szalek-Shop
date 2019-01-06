@@ -13,5 +13,8 @@ namespace szalkszop.Repositories
 		void Delete(int id);
 		void SaveChanges();
 		Order GetOrder(int Id);
+		int GetPendingOrderCount();
+		int GetOrderCount();
+		bool Exists(int id);
 	}
 }

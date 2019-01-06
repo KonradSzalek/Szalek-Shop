@@ -14,7 +14,11 @@ namespace szalkszop.Controllers
 		private readonly IPaymentMethodService _paymentMethodService;
 		private readonly IDeliveryTypeService _deliveryTypeService;
 
-		public OrderController(UserService userService, OrderService orderService, PaymentMethodService paymentMethodService, DeliveryTypeService deliveryTypeService)
+		public OrderController(
+			UserService userService, 
+			OrderService orderService, 
+			PaymentMethodService paymentMethodService, 
+			DeliveryTypeService deliveryTypeService)
 		{
 			_userService = userService;
 			_orderService = orderService;
@@ -64,9 +68,17 @@ namespace szalkszop.Controllers
 			return View(viewModel);
 		}
 
-		public ActionResult Details(int orderId)
+		public ActionResult Details(int id)
 		{
-			var viewModel = _orderService.GetOrderItemList(orderId);
+			if (!_orderService.DoesOrderExist(id))
+				return HttpNotFound();
+
+			var viewModel = new OrderDetailsViewModel
+			{
+				OrderItems = _orderService.GetOrderItemList(id),
+				Order = _orderService.GetOrder(id),
+			};
+
 			return View(viewModel);
 		}
 	}

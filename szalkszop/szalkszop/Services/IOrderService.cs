@@ -12,5 +12,9 @@ namespace szalkszop.Services
 		IEnumerable<OrderDto> GetOrderList();
 		IEnumerable<OrderItemDto> GetOrderItemList(int orderId);
 		void UpdateStatus(int orderId, OrderStatus? status);
+		OrderDto GetOrder(int orderId);
+		int GetPendingOrderCount();
+		int GetOrderCount();
+		bool DoesOrderExist(int id);
 	}
 }

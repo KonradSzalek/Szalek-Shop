@@ -16,16 +16,19 @@ namespace szalkszop.Services
 		private readonly IProductService _productService;
 		private readonly IPaymentMethodService _paymentMethodService;
 		private readonly IDeliveryTypeService _deliveryTypeService;
+		private readonly IUserService _userService;
 
 		public OrderService(IOrderRepository orderRepository,
 			IProductService productService,
 			IPaymentMethodService paymentMethodService,
-			IDeliveryTypeService deliveryTypeService)
+			IDeliveryTypeService deliveryTypeService,
+			IUserService userService)
 		{
 			_orderRepository = orderRepository;
 			_deliveryTypeService = deliveryTypeService;
 			_paymentMethodService = paymentMethodService;
 			_productService = productService;
+			_userService = userService;
 		}
 
 		public void CompleteOrder(CreateOrderViewModel viewModel, string userId)
@@ -73,20 +76,69 @@ namespace szalkszop.Services
 				_orderRepository.AddOrderItem(orderItem);
 			}
 
-			SendOrderConfirmation(viewModel.UserContactDetails.Email, order.Id);
-
 			_orderRepository.SaveChanges();
+			SendEmailWithOrderStatus(order.Id);
 		}
 
-		public void SendOrderConfirmation(string email, int id)
+		public void SendEmailWithOrderStatus(int orderId)
 		{
 			MailMessage mail = new MailMessage();
 			SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
+			var order = GetOrder(orderId);
+			var user = _userService.GetUserContactDetails(order.CustomerId);
+			var orderItemList = GetOrderItemList(order.Id).ToList();
+
+
+			List<string> orderItemsTable = new List<string>();
+
+			for (int i = 0; i < orderItemList.Count(); i++)
+			{
+				if (i == 0)
+				{
+					orderItemsTable.Add("<table><tr><th>Product Name</th><th>Category</th><th>Product Price</th><th>Quantity</th></tr>");
+				}
+
+				string productName, productPrice, productCategory, quantity;
+				productName = "<td align=\"center\">" + orderItemList[i].Name + "</td>";
+				productCategory = "<td align=\"center\">" + orderItemList[i].CategoryName + "</td>";
+				productPrice = "<td align=\"center\">" + orderItemList[i].Price + " €</td>";
+				quantity = "<td align=\"center\">" + orderItemList[i].Quantity + "</td>";
+				orderItemsTable.Add("<tr>" + productName + productCategory + productPrice + quantity + "</tr>");
+
+				if (i == (orderItemList.Count() - 1))
+				{
+					orderItemsTable.Add("</table>");
+				}
+			}
+
+			string full = string.Empty;
+
+			foreach (string row in orderItemsTable)
+			{
+				full += row;
+			}
+
+			mail.IsBodyHtml = true;
 			mail.From = new MailAddress("szalekshop@gmail.com");
-			mail.To.Add(email);
-			mail.Subject = "Order confirmation - order no";
-			mail.Body = "This is for testing SMTP mail from GMAIL";
+			mail.To.Add(order.Email);
+
+			if (order.Status == 0)
+			{
+				mail.Subject = "Order confirmation - order №" + order.Id;
+				mail.Body = "<html><body>Hello " + user.Name + "! We would like to confirm your following order: <br><br>" + full + "<br> Shipping addres for this order is: <br>" + order.ShippingAddress
+					+ "<br><br>The parcel will be delivered by " + order.DeliveryType.Name + ". <br><br>Current status of your order is: <strong>" + order.Status +
+					"</strong>. We will be informing you about any changes to your order Status.</body></html>";
+			}
+
+			else
+			{
+				mail.Subject = "Order status change - order №" + order.Id + ": " + order.Status;
+				mail.Body = "<html><body>Hello " + user.Name + "! We would like to inform you that following order: <br><br>" + full + "<br> changed status to <strong>" + order.Status +
+					"</strong>.<br><br> Shipping addres for this order is: <br>" + order.ShippingAddress
+					+ ".<br><br>The parcel will be delivered by " + order.DeliveryType.Name +
+					". <br><br>We will be informing you about any changes to your order Status.</body></html>";
+			}
 
 			SmtpServer.Port = 587;
 			SmtpServer.Credentials = new System.Net.NetworkCredential("szalekshop@gmail.com", "sklepinternetowy1");
@@ -135,12 +187,35 @@ namespace szalkszop.Services
 			return ordersItemDtoList;
 		}
 
+		public OrderDto GetOrder(int orderId)
+		{
+			var order = _orderRepository.GetOrder(orderId);
+			return Mappers.OrderMapper.MapToDto(order);
+		}
+
 		public void UpdateStatus(int orderId, OrderStatus? status)
 		{
 			var order = _orderRepository.GetOrder(orderId);
 			order.Status = (OrderStatus) status;
 
+			SendEmailWithOrderStatus(order.Id);
+
 			_orderRepository.SaveChanges();
+		}
+
+		public int GetPendingOrderCount()
+		{
+			return _orderRepository.GetPendingOrderCount();
+		}
+
+		public int GetOrderCount()
+		{
+			return _orderRepository.GetOrderCount();
+		}
+
+		public bool DoesOrderExist(int id)
+		{
+			return _orderRepository.Exists(id);
 		}
 	}
 }

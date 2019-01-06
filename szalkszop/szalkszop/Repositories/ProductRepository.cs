@@ -87,6 +87,11 @@ namespace szalkszop.Repositories
 			_context.SaveChanges();
 		}
 
+		public int GetProductCount()
+		{
+			return _context.Products.Count();
+		}
+
 		public List<ProductSearchResultDto> SearchResultFromSqlStoredProcedure(string name, int? priceFrom, int? priceTo, DateTime? dateTimeFrom, DateTime? dateTimeTo, int productCategoryId)
 		{
 			int? categoryId;

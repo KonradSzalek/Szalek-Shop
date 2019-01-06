@@ -12,12 +12,12 @@
 	<table class="table table-bordered">
 		<thead>
 			<tr>
-				<th>Order Id</th>
+				<th>Order №</th>
 				<th>Order Date</th>
 				<th>Status</th>
 				<th>Payment Method</th>
 				<th>Delivery Type</th>
-				<th>Total Price</th>
+				<th>Total Price [€]</th>
 				<th>Shipping Address</th>
 			</tr>
 		</thead>
@@ -25,16 +25,16 @@
 			@foreach (var order in Model)
 			{
 				<tr>
-					<td><a href="@Url.Action("Details", "Order", new { area = string.Empty, orderId = order.Id })">@order.Id</a></td>
-					<td>@order.OrderDate</td>
+					<td><a href="@Url.Action("Details", "Order", new { area = string.Empty, id = order.Id })">@order.Id</a></td>
+					<td>@order.OrderDate.ToString("dd MMM yyyy")</td>
 					<td>@order.Status</td>
 					<td>@order.PaymentMethod.Name</td>
 					<td>@order.DeliveryType.Name</td>
-					<td>@order.TotalPrice</td>
+					<td>@string.Format("{0:0.00}", order.TotalPrice)</td>
 					<td>@order.ShippingAddress</td>
 				</tr>
 			}
 		</tbody>
 	</table>
-	</div>
+</div>
 

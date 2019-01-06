@@ -25,12 +25,12 @@ namespace szalkszop.Services
 			return ProductCategoryMapper.MapToDto(productCategories);
 		}
 
-		public AdminProductCategoryListViewModel GetProductCategoryWithProductCountList()
+		public ProductCategoryListViewModel GetProductCategoryWithProductCountList()
 		{
 			var products = _productRepository.GetList();
 			var categories = _productCategoryRepository.GetList();
 
-			var viewModel = new AdminProductCategoryListViewModel
+			var viewModel = new ProductCategoryListViewModel
 			{
 				ProductCategoryWithProductCountList = ProductCategoryMapper.MapToDtoWithProductCount(products, categories),
 			};
@@ -52,11 +52,11 @@ namespace szalkszop.Services
 			return viewModel;
 		}
 
-		public AdminProductCategoryViewModel EditProductCategory(int id)
+		public ProductCategoryViewModel EditProductCategory(int id)
 		{
 			var productCategory = _productCategoryRepository.Get(id);
 
-			var viewModel = new AdminProductCategoryViewModel
+			var viewModel = new ProductCategoryViewModel
 			{
 				Name = productCategory.Name,
 				Id = productCategory.Id,
@@ -65,7 +65,7 @@ namespace szalkszop.Services
 			return viewModel;
 		}
 
-		public void AddProductCategory(AdminProductCategoryViewModel viewModel)
+		public void AddProductCategory(ProductCategoryViewModel viewModel)
 		{
 			var category = new ProductCategory
 			{
@@ -76,7 +76,7 @@ namespace szalkszop.Services
 			_productCategoryRepository.SaveChanges();
 		}
 
-		public void EditProductCategory(AdminProductCategoryViewModel viewModel)
+		public void EditProductCategory(ProductCategoryViewModel viewModel)
 		{
 			var category = _productCategoryRepository.Get(viewModel.Id);
 
@@ -94,6 +94,11 @@ namespace szalkszop.Services
 		public bool DoesProductCategoryExist(int id)
 		{
 			return _productCategoryRepository.Exists(id);
+		}
+
+		public int GetProductCategoryCount()
+		{
+			return _productRepository.GetProductCount();
 		}
 	}
 }

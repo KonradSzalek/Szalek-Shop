@@ -1,10 +1,14 @@
-﻿@*CR5FIXED wywal pusty widok
-	- jest pusty póki co, na pewno coś w nim będzie*@
+﻿@model szalkszop.Areas.Admin.ViewModels.AdminViewModel
 @{
 	ViewBag.Title = "Admin Panel";
 	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 	
 <h2>Admin Panel</h2>
+<hr />
 
+<p>You have <strong>@Model.PendingOrderCount</strong> pending <a href="@Url.Action("Index","Order")">orders</a> <i>(@Model.OrderCount in total)</i>.</p>
+
+<p>Total amount of products in the shop is <strong>@Model.ProductCount</strong>, divded between <strong>@Model.ProductCategoryCount</strong> product categories.</p>
+<p>There are <strong>@Model.UserCount</strong> users registered in total, from which <strong>@Model.RecentlyUserCount</strong> registered last 30 days.</p>
 <br/>

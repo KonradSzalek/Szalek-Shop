@@ -19,6 +19,7 @@ namespace szalkszop.Repositories
 		bool PhotoExists(Guid id);
 		void DeletePhoto(Guid id);
 		List<string> GetPhotosNames(Guid id);
+		int GetProductCount();
 		List<ProductSearchResultDto> SearchResultFromSqlStoredProcedure(
 			string name, 
 			int? priceFrom, 

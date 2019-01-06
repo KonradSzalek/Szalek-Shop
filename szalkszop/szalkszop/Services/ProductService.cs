@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Hosting;
+using szalkszop.Areas.Admin.ViewModels;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
 using szalkszop.Repositories;
@@ -271,6 +272,11 @@ namespace szalkszop.Services
 
 			_productRepository.DeletePhoto(id);
 			_productRepository.SaveChanges();
+		}
+
+		public int GetProductCount()
+		{
+			return _productRepository.GetProductCount();
 		}
 	}
 }

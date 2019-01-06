@@ -18,11 +18,40 @@ namespace szalkszop.Areas.Admin.Controllers
 		public ActionResult Index()
 		{
 			var viewModel = _deliveryTypeService.GetList();
+
 			return View(viewModel);
+		}
+
+		public ActionResult Create()
+		{
+			var viewModel = new DeliveryTypeViewModel
+			{
+				Heading = "Create",
+			};
+
+			return View("DeliveryTypeForm", viewModel);
+		}
+
+		[HttpPost]
+		public ActionResult Create([Bind(Exclude = "Id")] DeliveryTypeViewModel viewModel)
+		{
+			if (!ModelState.IsValid)
+			{
+				viewModel.Heading = "Create";
+
+				return View("DeliveryTypeForm", viewModel);
+			}
+
+			_deliveryTypeService.AddDeliveryType(viewModel);
+
+			return RedirectToAction("Index");
 		}
 
 		public ActionResult Edit(int id)
 		{
+			if (!_deliveryTypeService.DoesDeliveryTypeExist(id))
+				return HttpNotFound();
+
 			var deliveryType = _deliveryTypeService.GetDeliveryType(id);
 
 			var viewModel = new DeliveryTypeViewModel
@@ -39,6 +68,15 @@ namespace szalkszop.Areas.Admin.Controllers
 		[HttpPost]
 		public ActionResult Edit(DeliveryTypeViewModel viewModel)
 		{
+			if (!_deliveryTypeService.DoesDeliveryTypeExist(viewModel.Id))
+				return HttpNotFound();
+
+			if (!ModelState.IsValid)
+			{
+				viewModel.Heading = "Edit";
+				return View("DeliveryTypeForm", viewModel);
+			}
+
 			_deliveryTypeService.Edit(viewModel);
 
 			return RedirectToAction("Index");
@@ -46,23 +84,10 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Delete(int id)
 		{
+			if (!_deliveryTypeService.DoesDeliveryTypeExist(id))
+				return HttpNotFound();
+
 			_deliveryTypeService.DeleteDeliveryType(id);
-
-			return RedirectToAction("Index");
-		}
-
-		public ActionResult Create()
-		{
-			var viewModel = new DeliveryTypeViewModel();
-			viewModel.Heading = "Create";
-			
-			return View("DeliveryTypeForm", viewModel);
-		}
-
-		[HttpPost]
-		public ActionResult Create(DeliveryTypeViewModel viewModel)
-		{
-			_deliveryTypeService.AddDeliveryType(viewModel);
 
 			return RedirectToAction("Index");
 		}

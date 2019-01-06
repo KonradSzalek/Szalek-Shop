@@ -63,6 +63,12 @@ namespace szalkszop.Controllers
 		[HttpPost]
 		public ActionResult ChangeContactDetails(UserContactDetailsViewModel viewModel)
 		{
+			ModelState.Remove("Email");
+			if (!ModelState.IsValid)
+			{
+				return View("UserContactForm", viewModel);
+			}
+
 			var userId = User.Identity.GetUserId();
 			_userService.ChangeUserContactDetails(viewModel, userId);
 

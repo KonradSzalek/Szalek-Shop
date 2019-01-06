@@ -247,7 +247,8 @@
     <Compile Include="Areas\Admin\Controllers\DeliveryTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\PaymentMethodController.cs" />
-    <Compile Include="Areas\Admin\ViewModels\AdminOrderViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\AdminViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\OrderViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\CreateUserViewModel.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\ViewModels\DeliveryTypeViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PaymentMethodViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ProductViewModel.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Core\Models\DeliveryType.cs" />
     <Compile Include="Core\Models\OrderItems.cs" />
@@ -366,18 +368,18 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="CustomAttributes\CustomValidations.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Areas\Admin\ViewModels\AdminProductCategoryViewModel.cs" />
-    <Compile Include="Areas\Admin\ViewModels\AdminProductCategoryListViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ProductCategoryViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\ProductCategoryListViewModel.cs" />
     <Compile Include="DTO\ProductSearchResultDto.cs" />
+    <Compile Include="ViewModels\OrderDetailsViewModel.cs" />
     <Compile Include="ViewModels\OrderListViewModel.cs" />
     <Compile Include="ViewModels\CreateOrderViewModel.cs" />
     <Compile Include="ViewModels\ProductFiltersViewModel.cs" />
     <Compile Include="ViewModels\ProductListViewModel.cs" />
-    <Compile Include="Areas\Admin\ViewModels\ProductViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\UserListViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\ProductListSearchViewModel.cs" />
-    <Compile Include="ViewModels\ProductViewModel.cs" />
+    <Compile Include="ViewModels\ProductDetailViewModel.cs" />
     <Compile Include="ViewModels\UserContactDetailsViewModel.cs" />
     <Compile Include="ViewModels\UserProductCategoryListViewModel.cs" />
   </ItemGroup>
@@ -413,9 +415,11 @@
     <Content Include="Areas\Admin\Views\DeliveryType\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PaymentMethod\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\_LeftPanelAdmin.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LeftPanelAdmin.cshtml" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\Admin\_LeftPanelAdmin.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\_Search.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
