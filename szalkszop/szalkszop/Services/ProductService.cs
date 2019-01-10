@@ -239,6 +239,7 @@ namespace szalkszop.Services
 
 		public bool DoesProductPhotoExist(Guid id)
 		{
+			
 			return _productRepository.PhotoExists(id);
 		}
 

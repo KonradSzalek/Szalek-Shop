@@ -27,8 +27,6 @@ namespace szalkszop.Services
 					if (file == null) return ValidationResult.Success;
 					if (file.ContentLength > _fileSize)
 					{
-                        //CR5FIXED nie lepiej tutaj dac error message, zamiast podawac ja do bazy i tutaj wyciagać ja z  validationContextu?
-						// - Fixed
 						var errorMessage = $"Maximum single file size is {_fileSize / 1000 / 1000} MB";
 						return new ValidationResult(errorMessage);
 					}
@@ -58,8 +56,6 @@ namespace szalkszop.Services
 
 					if (!_supportedFormats.Contains(ext.ToLower()))
 					{
-                        //CR5FIXED to samo tu
-						// - fixed
 						var errorMessage = "Image format is not supported";
 						return new ValidationResult(errorMessage);
 					}
@@ -104,12 +100,9 @@ namespace szalkszop.Services
 							smallerValue = image.Width;
 						}
 
-                        //CR5FIXED a co jezeli tylko np. biggerValue bedzie wieksze? Powinien to puscic?
-						// - przy przekroczeniu dowolnej z nich będzie zwracac bład
 						if (biggerValue >= _biggerDimension || smallerValue >= _smallerDimension)
 						{
-							//CR5FIXED i tu
-							// - fixed
+
 							var errorMessage = $"Maximum image format is {_biggerDimension} x {_smallerDimension}";
 							return new ValidationResult(errorMessage);
 						}
@@ -137,12 +130,8 @@ namespace szalkszop.Services
 			{
 				var files = value as IEnumerable<HttpPostedFileBase>;
 
-                //CR5Fixed to sie nigdy nie stanie bo masz przeciez jeden textbox do dodawania zdjec
-				// - miałem multiple form i poki co dalej mam
 				if (files.Count() > _maxAmountOfFiles)
 				{
-					//CR5FIXED i tu
-					// - fixed
 					var errorMessage = $"Maximum amount of images per product is {_maxAmountOfFiles}";
 					return new ValidationResult(errorMessage);
 				}

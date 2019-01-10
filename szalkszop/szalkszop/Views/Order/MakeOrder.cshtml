@@ -17,7 +17,7 @@
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.UserContactDetails.Surname)
-		@Html.TextBoxFor(m => m.UserContactDetails.Surname, new { @class = "form-control", placeholder = "Quantity" })
+		@Html.TextBoxFor(m => m.UserContactDetails.Surname, new { @class = "form-control" })
 		@Html.ValidationMessageFor(m => m.UserContactDetails.Surname)
 	</div>
 	<div class="form-group">
@@ -32,12 +32,12 @@
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.UserContactDetails.PostalCode)
-		@Html.TextBoxFor(m => m.UserContactDetails.PostalCode, new { @class = "form-control", placeholder = "Postal Code" })
+		@Html.TextBoxFor(m => m.UserContactDetails.PostalCode, new { @class = "form-control" })
 		@Html.ValidationMessageFor(m => m.UserContactDetails.PostalCode)
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.UserContactDetails.City)
-		@Html.TextBoxFor(m => m.UserContactDetails.City, new { @class = "form-control", placeholder = "City" })
+		@Html.TextBoxFor(m => m.UserContactDetails.City, new { @class = "form-control" })
 		@Html.ValidationMessageFor(m => m.UserContactDetails.City)
 	</div>
 	<div class="form-group">

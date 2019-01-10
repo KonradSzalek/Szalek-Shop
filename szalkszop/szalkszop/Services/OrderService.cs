@@ -18,6 +18,8 @@ namespace szalkszop.Services
 		private readonly IDeliveryTypeService _deliveryTypeService;
 		private readonly IUserService _userService;
 
+		public object Status { get; private set; }
+
 		public OrderService(IOrderRepository orderRepository,
 			IProductService productService,
 			IPaymentMethodService paymentMethodService,
@@ -123,12 +125,26 @@ namespace szalkszop.Services
 			mail.From = new MailAddress("szalekshop@gmail.com");
 			mail.To.Add(order.Email);
 
-			if (order.Status == 0)
+			if (order.Status == OrderStatus.Pending)
 			{
 				mail.Subject = "Order confirmation - order №" + order.Id;
 				mail.Body = "<html><body>Hello " + user.Name + "! We would like to confirm your following order: <br><br>" + full + "<br> Shipping addres for this order is: <br>" + order.ShippingAddress
 					+ "<br><br>The parcel will be delivered by " + order.DeliveryType.Name + ". <br><br>Current status of your order is: <strong>" + order.Status +
 					"</strong>. We will be informing you about any changes to your order Status.</body></html>";
+			}
+
+			else if (order.Status == OrderStatus.Canceled)
+			{
+				mail.Subject = "Order status change - order №" + order.Id + ": " + order.Status;
+				mail.Body = "<html><body>Hello " + user.Name + "! We would like to inform you that following order: <br><br>" + full + "<br> has been canceled <strong>" + order.Status +
+					"</strong>.";
+			}
+
+			else if (order.Status == OrderStatus.Delivered)
+			{
+				mail.Subject = "Order status change - order №" + order.Id + ": " + order.Status;
+				mail.Body = "<html><body>Hello " + user.Name + "! We would like to inform you that following order: <br><br>" + full + "<br> has been delivered to following address: " 
+					+ order.ShippingAddress + ".";
 			}
 
 			else

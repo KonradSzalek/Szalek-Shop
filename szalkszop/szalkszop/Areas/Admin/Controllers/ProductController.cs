@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using szalkszop.Areas.Admin.ViewModels;
+using szalkszop.Repositories;
 using szalkszop.Services;
 using szalkszop.ViewModels;
 using static szalkszop.Core.Models.ApplicationUser;
@@ -38,6 +39,8 @@ namespace szalkszop.Areas.Admin.Controllers
 
 			if (!ModelState.IsValid)
 			{
+				searchModel.ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel);
+				searchModel.ProductFiltersViewModel = _productService.GetProductSearch();
 				return View("AdminSearchResult", searchModel);
 			}
 
@@ -65,7 +68,7 @@ namespace szalkszop.Areas.Admin.Controllers
 			{
 				viewModel.Files = null;
 				viewModel.ProductCategoryList = _productCategoryService.GetProductCategoryList();
-				viewModel.Heading = "Edit a product";
+				viewModel.Heading = "Create a product";
 
 				return View("CreateProductForm", viewModel);
 			}
@@ -124,13 +127,13 @@ namespace szalkszop.Areas.Admin.Controllers
 		}
 
 		public ActionResult DeletePhoto(Guid imageId, int productId)
-		{
+		{	
 			if (!_productService.DoesProductPhotoExist(imageId))
 				return HttpNotFound();
 
 			_productService.DeletePhoto(imageId);
 
-			return RedirectToAction("Edit", "Product", new { productId });
+			return RedirectToAction("Edit", "Product", new { id = productId });
 		}
 	}
 }

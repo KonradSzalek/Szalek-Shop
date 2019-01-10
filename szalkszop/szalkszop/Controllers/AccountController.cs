@@ -161,6 +161,7 @@ namespace szalkszop.Controllers
 					Address = model.Address,
 					PostalCode = model.PostalCode,
 					City = model.City,
+					RegistrationDateTime = DateTime.Now,
 
 				};
 

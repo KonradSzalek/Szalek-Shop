@@ -41,6 +41,8 @@ namespace szalkszop.Controllers
 
 			if (!ModelState.IsValid)
 			{
+				searchModel.ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel);
+				searchModel.ProductFiltersViewModel = _productService.GetProductSearch();
 				return View("SearchResult", searchModel);
 			}
             

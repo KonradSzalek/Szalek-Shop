@@ -23,9 +23,9 @@ namespace szalkszop.Repositories
 		List<ProductSearchResultDto> SearchResultFromSqlStoredProcedure(
 			string name, 
 			int? priceFrom, 
-			int? priceTo, 
+			int? priceTo,
+			DateTime? dateTimeTo,
 			DateTime? dateTimeFrom, 
-			DateTime? dateTimeTo, 
 			int productCategoryId);
 	}
 }

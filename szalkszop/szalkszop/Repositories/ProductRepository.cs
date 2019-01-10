@@ -38,22 +38,6 @@ namespace szalkszop.Repositories
 
 		public void Delete(int id)
 		{
-			//var product = _context.Products.Include(i => i.Images).Single(p => p.Id == id);
-
-            //CR5FIXED wez to wywal i sprobuj tego w IdentityModel.cs:
-			// - fixed
-
-               // modelBuilder.Entity<Product>()
-               //.HasMany(p => p.Images)
-               //.WithRequired()
-               //.WillCascadeOnDelete(true);
-
-   //         foreach (var image in product.Images.ToList())
-			//{
-			//	var im = _context.ProductImages.Single(i => i.Id == image.Id);
-			//	_context.ProductImages.Remove(im);
-			//}
-	
 			_context.Products.Remove(_context.Products.Single(p => p.Id == id));
 		}
 
@@ -74,7 +58,8 @@ namespace szalkszop.Repositories
 
 		public bool PhotoExists(Guid id)
 		{
-			return _context.ProductImages.Any(i => i.Id == id);
+			bool exists = _context.ProductImages.Any(i => i.Id == id);
+			return exists;
 		}
 
 		public bool Exists(int id)
@@ -92,7 +77,7 @@ namespace szalkszop.Repositories
 			return _context.Products.Count();
 		}
 
-		public List<ProductSearchResultDto> SearchResultFromSqlStoredProcedure(string name, int? priceFrom, int? priceTo, DateTime? dateTimeFrom, DateTime? dateTimeTo, int productCategoryId)
+		public List<ProductSearchResultDto> SearchResultFromSqlStoredProcedure(string name, int? priceFrom, int? priceTo, DateTime? dateTimeTo, DateTime? dateTimeFrom, int productCategoryId)
 		{
 			int? categoryId;
 			if (productCategoryId == 0)
@@ -103,8 +88,8 @@ namespace szalkszop.Repositories
 
 			var products = _context.Database.SqlQuery<ProductSearchResultDto>("EXEC [dbo].[SearchProductsStoredProcedure] @Name, @PriceFrom, @PriceTo, @DateTimeFrom, @DateTimeTo, @ProductCategoryId",
 			new SqlParameter("Name", name ?? SqlString.Null),
-			new SqlParameter("PriceFrom", priceFrom ?? SqlInt32.Null),
 			new SqlParameter("PriceTo", priceTo ?? SqlInt32.Null),
+			new SqlParameter("PriceFrom", priceFrom ?? SqlInt32.Null),
 			new SqlParameter("DateTimeFrom", dateTimeFrom ?? SqlDateTime.Null),
 			new SqlParameter("DateTimeTo", dateTimeTo ?? SqlDateTime.Null),
 			new SqlParameter("ProductCategoryId", categoryId ?? SqlInt32.Null)).ToList();
