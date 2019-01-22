@@ -1,4 +1,5 @@
 ﻿@model szalkszop.Areas.Admin.ViewModels.OrderViewModel
+@using szalkszop.Core.Models;
 @{
 	ViewBag.Title = "Orders";
 	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
@@ -39,8 +40,17 @@
 						{
 							Model.OrderId = order.Id;
 							@Html.HiddenFor(m => m.OrderId)
-							<td>@Html.EnumDropDownListFor(m => m.Orders.Single(o => o.Id == order.Id).Status, new { @class = "form-control" })</td>
-							<td><button type="submit" value="Save" class="btn btn-primary">Update</button></td>
+
+							if (order.Status == Order.OrderStatus.Delivered || order.Status == Order.OrderStatus.Canceled)
+							{
+								<td><i>@order.Status</i></td>
+								<td></td>
+							}
+							else
+							{
+								<td>@Html.EnumDropDownListFor(m => m.Orders.Single(o => o.Id == order.Id).Status, new { @class = "form-control" })</td>
+								<td><button type="submit" value="Save" class="btn btn-primary">Update</button></td>
+							}
 						}
 					</tr>
 				}

@@ -4,149 +4,78 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Details - @Model.Name</h2>
 <hr />
+<head>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
 
-<div class="vert-offset-bottom-1 col-sm-9">
-	@if (Model.ProductImageList?.Any() ?? false)
-		{
-		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-		
-			<ol class="carousel-indicators">
-				@for (int i = 0; i < Model.ProductImageList.Count(); i++)
-				{
-					if (i == 0)
-					{
-						<li data-target="#myCarousel" data-slide-to="@i" class="active"></li>
-					}
+	</script>
+</head>
 
-					else
-					{
-						<li data-target="#myCarousel" data-slide-to="@i"></li>
-					}
-				}
-			</ol>
+<div class="col-sm-5">
+			@foreach (var image in Model.ProductImageList)
+			{
+				<span id="product-details-images">
+					<a href="#" id="link1" data-toggle="modal" data-target="#myModal">
+						<img src="~/Images/@image.ThumbNailName" id="img1" class="img-responsive" full-image="~/Images/@image.ImageName">
+					</a>
+				</span>
+			}
+	</div>
 
-			<div class="carousel-inner">
-				@foreach (var image in Model.ProductImageList)
-				{
-					if (image == Model.ProductImageList.First())
-					{
-						<div class="item active">
-							<img id="myImg" rel="prettyPhoto" img src="~/Images/@image.ImageName" max-height="300px" alt="@image.ImageName">
-						</div>
-					}
-
-					else
-					{
-						<div class="item">
-							<img id="myImg1" rel="prettyPhoto" img src="~/Images/@image.ImageName" alt="@image.ImageName">
-						</div>
-					}
-				}
-			</div>
-
-			<a class="left carousel-control" href="#myCarousel" data-slide="prev">
-				<span class="glyphicon glyphicon-chevron-left"></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="right carousel-control" href="#myCarousel" data-slide="next">
-				<span class="glyphicon glyphicon-chevron-right"></span>
-				<span class="sr-only">Next</span>
-			</a>
-		</div>
-		}
-
-		else
-		{
-		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-
-			<ol class="carousel-indicators">
-				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-			</ol>
-
-			<div class="carousel-inner">
-				
-				<div class="item active">
-					<img id="myImg" img src="~/Images/no-image.jpg" max-height="300px" alt="No image">
-				</div>
-					
-			</div>
-
-			<a class="left carousel-control" href="#myCarousel" data-slide="prev">
-				<span class="glyphicon glyphicon-chevron-left"></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="right carousel-control" href="#myCarousel" data-slide="next">
-				<span class="glyphicon glyphicon-chevron-right"></span>
-				<span class="sr-only">Next</span>
-			</a>
-			<div id="myModal" class="modal">
-				<span class="close">&times;</span>
-				<img class="modal-content" id="img01">
-			</div>
-		</div>
-		}
-
-	<div class="caption">
-		<h3>@Model.Name</h3>
-		<h4>Price: @Model.Price €</h4>
-		<p>Description: @Model.Description</p>
-		<p>Amount in stock: @Model.AmountInStock</p>
-		<p>Date of adding: @Model.DateOfAdding.ToString("dd/MM/yyyy")</p>
-		<p>Product ID: @Model.Id</p>
-		<p><a href="#" class="btn btn-primary" role="button">To Cart</a></p>
-	</div>	
-</div>
-
-@*<div>
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Modal title</h4>
-			</div>
-			<div class="modal-body">
-				<div class="owl-carousel owl-theme">
-					@foreach (var image in Model.ProductImageList)
-					{
-						<div class="item">
-							<a href="~/Images/@image.ImageName"><img rel="prettyPhoto" src="~/Images/@image.ThumbNailName" /></a>
-						</div>
-					}
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
-			</div>
+	<div class="col-sm-4">
+		<div class="caption">
+			<h4>Price: @Model.Price €</h4>
+			<p>Description: @Model.Description</p>
+			<p>Amount in stock: @Model.AmountInStock</p>
+			<p>Date of adding: @Model.DateOfAdding.ToString("dd/MM/yyyy")</p>
+			<p>Product ID: @Model.Id</p>
+			@if (Model.AmountInStock > 0)
+			{
+				<p><a href="@Url.Action("Buy", "Cart", new { id = Model.Id })" class="btn btn-primary" role="button">To Cart</a></p>
+			}
+			else
+			{
+				<div class="btn btn-static" role="button">Not available</div>
+			}
 		</div>
 	</div>
+
+<div class="modal" id="myModal">
+	<span class="close">&times;</span>
+		<div class="modal-content" id="showImg">
+			@*<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title"></h4>
+			</div>*@
+		</div>
+
 </div>
 
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+	<!-- The Close Button -->
+	<span class="close">&times;</span>
+
+	<!-- Modal Content (The Image) -->
+	<img class="modal-content" id="img01">
+
+	<!-- Modal Caption (Image Text) -->
+	<div id="caption"></div>
+</div>
+
+
 <script>
-$(function() {
-  $("a").prettyPhoto();
-  $('.owl-carousel').owlCarousel({
-	loop: true,
-	margin: 10,
-	responsiveClass: true,
-	responsive: {
-	  0: {
-		items: 1,
-		nav: true
-	  },
-	  600: {
-		items: 3,
-		nav: false
-	  },
-	  1000: {
-		items: 5,
-		nav: true,
-		loop: false,
-		margin: 20
-	  }
-	}
-  })
-})
-</script>*@
+$(document).ready(function () {
+		$('img').on('click', function () {
+		$("#showImg").empty();
+		var image = $(this).attr("full-image");
+		$("#showImg").append("<img class='img-responsive' src='" + image + "' />")
+	})
+});
+</script>
+
+

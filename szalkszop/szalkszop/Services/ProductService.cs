@@ -59,6 +59,22 @@ namespace szalkszop.Services
 			}
 		}
 
+		public void RemoveFromStock(int productId, int quantity)
+		{
+			var product = _productRepository.Get(productId);
+			product.AmountInStock -= quantity;
+
+			_productRepository.SaveChanges();
+		}
+
+		public void AddToStock(int productId, int quantity)
+		{
+			var product = _productRepository.Get(productId);
+			product.AmountInStock += quantity;
+
+			_productRepository.SaveChanges();
+		}
+
 		public IEnumerable<ProductDto> GetThreeNewestProducts()
 		{
 			var products = _productRepository.GetList()
@@ -71,6 +87,19 @@ namespace szalkszop.Services
 			var productsDto = ProductMapper.MapToDto(products);
 
 			return productsDto;
+		}
+
+		public List<Item> ValidateStockAmounts(List<Item> orderedItemList)
+		{
+			foreach (var item in orderedItemList)
+			{
+				var productStockAmount = _productRepository.GetStockAmount(item.Product.Id);
+				if (item.Quantity > productStockAmount)
+				{
+					item.Quantity = (int) productStockAmount;
+				}
+			}
+			return orderedItemList;
 		}
 
 		public ProductListViewModel GetProductListByCategory(int categoryId)

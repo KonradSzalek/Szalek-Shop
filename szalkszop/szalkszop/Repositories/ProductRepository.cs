@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Linq;
 using szalkszop.Core.Models;
-using szalkszop.DTO;
 using szalkszop.ViewModels;
 
 namespace szalkszop.Repositories
@@ -28,7 +27,12 @@ namespace szalkszop.Repositories
 		{
 			return _context.Products.Include(p => p.ProductCategory)
 				.Include(p => p.Images)
-				.Single(u => u.Id == id);
+				.SingleOrDefault(u => u.Id == id);
+		}
+
+		public int? GetStockAmount(int id)
+		{
+			return _context.Products.SingleOrDefault(p => p.Id == id).AmountInStock;
 		}
 
 		public void Add(Product product)
@@ -43,7 +47,7 @@ namespace szalkszop.Repositories
 
 		public void DeletePhoto(Guid id)
 		{
-			_context.ProductImages.Remove(_context.ProductImages.FirstOrDefault(i => i.Id == id));	
+			_context.ProductImages.Remove(_context.ProductImages.FirstOrDefault(i => i.Id == id));
 		}
 
 		public List<string> GetPhotosNames(Guid id)

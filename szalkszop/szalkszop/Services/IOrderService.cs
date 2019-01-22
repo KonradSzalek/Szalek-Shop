@@ -10,6 +10,8 @@ namespace szalkszop.Services
 		void CompleteOrder(CreateOrderViewModel viewModel, string userId);
 		IEnumerable<OrderDto> GetUserOrderList(string userId);
 		IEnumerable<OrderDto> GetOrderList();
+		string IsUserAuthorized(int orderId);
+		void Cancel(int id);
 		IEnumerable<OrderItemDto> GetOrderItemList(int orderId);
 		void UpdateStatus(int orderId, OrderStatus? status);
 		OrderDto GetOrder(int orderId);

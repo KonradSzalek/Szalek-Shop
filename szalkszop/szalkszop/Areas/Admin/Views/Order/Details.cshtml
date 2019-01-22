@@ -1,0 +1,48 @@
+﻿@using szalkszop.DTO;
+@model	szalkszop.ViewModels.OrderDetailsViewModel
+@using szalkszop.Core.Models;
+@{
+	ViewBag.Title = "Orders";
+	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+<h3>Order № @Model.Order.Id - Status: <strong>@Model.Order.Status</strong></h3>
+<p>You can cancel your order if it was not dispatched yet.</p>
+<hr />
+
+<p><strong>Shipping Address:</strong> @Model.Order.ShippingAddress</p>
+<br />
+
+<div class="table-responsive">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Product Name</th>
+				<th>Category Name</th>
+				<th>Quantity</th>
+				<th>Price [€]</th>
+				<th>Total price [€]</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var orderItem in Model.OrderItems)
+			{
+				<tr>
+					<td>@orderItem.Name</td>
+					<td>@orderItem.CategoryName</td>
+					<td>@orderItem.Quantity</td>
+					<td>@string.Format("{0:0.00}", orderItem.Price)</td>
+					<td>@string.Format("{0:0.00}", (orderItem.Quantity * orderItem.Price))</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<div class="toRightSide">
+	<p align="right">Payment Method: @Model.Order.PaymentMethod.Name : @string.Format("{0:0.00}", Model.Order.PaymentMethod.Cost) €</p>
+	<p align="right">Delivery Type: @Model.Order.DeliveryType.Name : @string.Format("{0:0.00}", Model.Order.DeliveryType.Cost) €</p>
+	<p align="right">Total Price: <strong>@string.Format("{0:0.00}", Model.Order.TotalPrice) €</strong></p>
+</div>
+

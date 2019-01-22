@@ -33,17 +33,58 @@ namespace szalkszop.Services
 			_userService = userService;
 		}
 
-		public void CompleteOrder(CreateOrderViewModel viewModel, string userId)
+		public double? GetOrderTotalPrice(List<Item> orderedItemList, int paymentMethodId, int deliveryTypeId)
 		{
 			double? totalPrice = 0;
-			foreach (var item in viewModel.OrderedItemList)
+			foreach (var item in orderedItemList)
 			{
 				double? itemPrice = item.Quantity * item.Product.Price;
 				totalPrice += itemPrice;
 			};
 
-			totalPrice += _paymentMethodService.GetCost(viewModel.PaymentMethod.Id);
-			totalPrice += _deliveryTypeService.GetCost(viewModel.DeliveryType.Id);
+			totalPrice += _paymentMethodService.GetCost(paymentMethodId);
+			totalPrice += _deliveryTypeService.GetCost(deliveryTypeId);
+
+			return totalPrice;
+		}
+
+		public string IsUserAuthorized(int orderId)
+		{
+			return _orderRepository.IsUserAuthorized(orderId);
+		}
+
+		public void RemoveFromStock(int id)
+		{
+			var orderItemList = GetOrderItemList(id);
+			foreach (var item in orderItemList)
+			{
+				_productService.AddToStock(item.ProductId, item.Quantity);
+			}
+		}
+
+		public void AddToStock(int id)
+		{
+			var orderItemList = GetOrderItemList(id);
+			foreach (var item in orderItemList)
+			{
+				_productService.AddToStock(item.ProductId, item.Quantity);
+			}
+		}
+
+		public void Cancel(int id)
+		{
+			_orderRepository.Cancel(id);
+
+			RemoveFromStock(id);
+			
+			_orderRepository.SaveChanges();
+		}
+
+		public void CompleteOrder(CreateOrderViewModel viewModel, string userId)
+		{
+			var validatedOrderedItemList = _productService.ValidateStockAmounts(viewModel.OrderedItemList);
+
+			double? totalPrice = GetOrderTotalPrice(validatedOrderedItemList, viewModel.PaymentMethod.Id, viewModel.DeliveryType.Id);
 
 			var order = new Order
 			{
@@ -65,7 +106,7 @@ namespace szalkszop.Services
 			_orderRepository.Add(order);
 			_orderRepository.SaveChanges();
 
-			foreach (var item in viewModel.OrderedItemList)
+			foreach (var item in validatedOrderedItemList)
 			{
 				var orderItem = new OrderItem
 				{
@@ -74,8 +115,8 @@ namespace szalkszop.Services
 					Quantity = item.Quantity,
 					Price = item.Product.Price,
 				};
-
 				_orderRepository.AddOrderItem(orderItem);
+				_productService.RemoveFromStock(orderItem.ProductId, orderItem.Quantity);
 			}
 
 			_orderRepository.SaveChanges();
@@ -128,32 +169,33 @@ namespace szalkszop.Services
 			if (order.Status == OrderStatus.Pending)
 			{
 				mail.Subject = "Order confirmation - order №" + order.Id;
-				mail.Body = "<html><body>Hello " + user.Name + "! We would like to confirm your following order: <br><br>" + full + "<br> Shipping addres for this order is: <br>" + order.ShippingAddress
-					+ "<br><br>The parcel will be delivered by " + order.DeliveryType.Name + ". <br><br>Current status of your order is: <strong>" + order.Status +
+				mail.Body = "<html><body>Hello " + user.Name + "! We would like to confirm your following order: <br><br>" + full + 
+					"<br> Shipping addres for this order is: <br>" + order.ShippingAddress + "<br><br>The parcel will be delivered by " +
+					order.DeliveryType.Name + ". <br><br>Current status of your order is: <strong>" + order.Status +
 					"</strong>. We will be informing you about any changes to your order Status.</body></html>";
 			}
 
 			else if (order.Status == OrderStatus.Canceled)
 			{
 				mail.Subject = "Order status change - order №" + order.Id + ": " + order.Status;
-				mail.Body = "<html><body>Hello " + user.Name + "! We would like to inform you that following order: <br><br>" + full + "<br> has been canceled <strong>" + order.Status +
-					"</strong>.";
+				mail.Body = "<html><body>Hello " + user.Name + "! We would like to inform you that following order: <br><br>" + full + 
+				"<br> has been canceled <strong>" + order.Status + "</strong>.";
 			}
 
 			else if (order.Status == OrderStatus.Delivered)
 			{
 				mail.Subject = "Order status change - order №" + order.Id + ": " + order.Status;
-				mail.Body = "<html><body>Hello " + user.Name + "! We would like to inform you that following order: <br><br>" + full + "<br> has been delivered to following address: " 
-					+ order.ShippingAddress + ".";
+				mail.Body = "<html><body>Hello " + user.Name + "! We would like to inform you that following order: <br><br>" + full + 
+				"<br> has been delivered to following address: " + order.ShippingAddress + ".";
 			}
 
 			else
 			{
 				mail.Subject = "Order status change - order №" + order.Id + ": " + order.Status;
-				mail.Body = "<html><body>Hello " + user.Name + "! We would like to inform you that following order: <br><br>" + full + "<br> changed status to <strong>" + order.Status +
-					"</strong>.<br><br> Shipping addres for this order is: <br>" + order.ShippingAddress
-					+ ".<br><br>The parcel will be delivered by " + order.DeliveryType.Name +
-					". <br><br>We will be informing you about any changes to your order Status.</body></html>";
+				mail.Body = "<html><body>Hello " + user.Name + "! We would like to inform you that following order: <br><br>" + full + 
+				"<br> changed status to <strong>" + order.Status + "</strong>.<br><br> Shipping addres for this order is: <br>" + 
+				order.ShippingAddress + ".<br><br>The parcel will be delivered by " + order.DeliveryType.Name +
+				". <br><br>We will be informing you about any changes to your order Status.</body></html>";
 			}
 
 			SmtpServer.Port = 587;
@@ -197,6 +239,7 @@ namespace szalkszop.Services
 					CategoryName = _productService.GetProduct(orderItem.ProductId).ProductCategory.Name,
 					Quantity = orderItem.Quantity,
 					Price = orderItem.Price,
+					ProductId = orderItem.ProductId,
 				};
 				ordersItemDtoList.Add(orderItemDto);
 			}
@@ -213,6 +256,11 @@ namespace szalkszop.Services
 		{
 			var order = _orderRepository.GetOrder(orderId);
 			order.Status = (OrderStatus) status;
+
+			if (order.Status == OrderStatus.Canceled)
+			{
+				AddToStock(orderId);
+			}
 
 			SendEmailWithOrderStatus(order.Id);
 

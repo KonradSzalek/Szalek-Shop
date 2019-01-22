@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using szalkszop.Areas.Admin.ViewModels;
+using szalkszop.Core.Models;
 using szalkszop.DTO;
 using szalkszop.ViewModels;
 
@@ -11,6 +12,7 @@ namespace szalkszop.Services
 		IEnumerable<ProductDto> GetThreeNewestProducts();
 		ProductListViewModel GetProductListByCategory(int categoryId);
 		ProductFiltersViewModel GetProductSearch();
+		List<Item> ValidateStockAmounts(List<Item> orderedItemList);
 		IEnumerable<ProductSearchResultDto> GetQueriedProductList(ProductFiltersViewModel searchModel);
 		IEnumerable<ProductDto> GetProductList();
 		ProductViewModel AddProduct();
@@ -18,6 +20,8 @@ namespace szalkszop.Services
 		ProductDetailViewModel GetProductDetail(int id);
 		ProductDto GetProduct(int id);
 		List<ProductImageDto> GetProductImages(int id);
+		void AddToStock(int productId, int quantity);
+		void RemoveFromStock(int productId, int quantity);
 		void AddProduct(ProductViewModel viewModel);
 		void EditProduct(ProductViewModel viewModel);
 		void DeleteProduct(int id);

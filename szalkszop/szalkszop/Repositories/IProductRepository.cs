@@ -12,6 +12,7 @@ namespace szalkszop.Repositories
 	{
 		Product Get(int id);
 		DbSet<Product> GetList();
+		int? GetStockAmount(int id);
 		void Add(Product product);
 		void Delete(int id);
 		void SaveChanges();

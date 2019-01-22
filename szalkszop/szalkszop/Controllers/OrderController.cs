@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
+using System.Net;
 using System.Web.Mvc;
 using szalkszop.Core.Models;
 using szalkszop.Services;
@@ -7,6 +8,7 @@ using szalkszop.ViewModels;
 
 namespace szalkszop.Controllers
 {
+	[Authorize]
 	public class OrderController : Controller
 	{
 		private readonly IUserService _userService;
@@ -61,10 +63,28 @@ namespace szalkszop.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
+		public ActionResult CancelOrder(int id)
+		{
+			if (!_orderService.DoesOrderExist(id))
+				return HttpNotFound();
+
+			if (_orderService.IsUserAuthorized(id) != User.Identity.GetUserId())
+			{
+				return new HttpUnauthorizedResult();
+			}
+
+			else
+			{
+				_orderService.Cancel(id);
+				return RedirectToAction("MyOrders");
+			}
+		}
+
 		public ActionResult MyOrders()
 		{
 			var userId = User.Identity.GetUserId();
 			var viewModel = _orderService.GetUserOrderList(User.Identity.GetUserId());
+
 			return View(viewModel);
 		}
 
@@ -72,6 +92,11 @@ namespace szalkszop.Controllers
 		{
 			if (!_orderService.DoesOrderExist(id))
 				return HttpNotFound();
+
+			if (_orderService.IsUserAuthorized(id) != User.Identity.GetUserId())
+			{
+				return new HttpUnauthorizedResult();
+			};
 
 			var viewModel = new OrderDetailsViewModel
 			{

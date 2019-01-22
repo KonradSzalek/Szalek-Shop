@@ -50,96 +50,84 @@ img.details {
 
 /* Bootstrap overrides*/
 
-
-.carousel {
-  max-width: 400px;
-  max-height: 300px;
-  overflow: hidden;
-  margin: auto;
-}
-
-/* Style the Image Used to Trigger the Modal */
-#myImg {
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
 #myImg:hover {opacity: 0.7;}
 
 /* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
 }
 
-/* Modal Content (Image) */
+/* Modal Content (image) */
 .modal-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 1000px;
 }
 
-/* Caption of Modal Image (Image Text) - Same Width as the Image */
+/* Caption of Modal Image */
 #caption {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-    text-align: center;
-    color: #ccc;
-    padding: 10px 0;
-    height: 150px;
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
 }
 
-/* Add Animation - Zoom in the Modal */
-.modal-content, #caption { 
-    animation-name: zoom;
-    animation-duration: 0.6s;
+/* Add Animation */
+.modal-content, #caption {  
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+  from {-webkit-transform:scale(0)} 
+  to {-webkit-transform:scale(1)}
 }
 
 @keyframes zoom {
-    from {transform:scale(0)} 
-    to {transform:scale(1)}
+  from {transform:scale(0)} 
+  to {transform:scale(1)}
 }
 
 /* The Close Button */
 .close {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #f1f1f1;
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
 .close:hover,
 .close:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 /* 100% Image Width on Smaller Screens */
 @media only screen and (max-width: 700px){
-    .modal-content {
-        width: 100%;
-    }
-}
-
-.modal-backdrop {
-	position: unset;
+  .modal-content {
+    width: 100%;
+  }
 }
 
 .navbar {
@@ -354,6 +342,10 @@ body>.container {
     margin: 0 0 2px;
 }
 
+.toRightSide > a {
+    margin: 0 0 2px;
+}
+
 .modal-body {
     padding-bottom: 5px;
     padding-top: 5px;
@@ -377,76 +369,107 @@ body>.container {
     margin-top: 0px;
 }
 
-		#left-column .left-nav-categories {
-			font-size: 12px;
-			line-height: normal;
-			text-align: left !important;
-		}
+.btn-static {
+  background-color: white;
+  border: 1px solid lightgrey;
+  cursor: default;
+}
 
-		#left-column div {
-			margin-bottom: 10px;
-		}
+.btn-static:active {
+  -moz-box-shadow:    inset 0 0 0px white;
+  -webkit-box-shadow: inset 0 0 0px white;
+  box-shadow:         inset 0 0 0px white;
+}
 
-		.small-box {
-			background-color: #fff;
-			border: 1px solid #d5d5d5;
-			overflow: hidden;
-			margin: 0 0 20px;
-			padding: 0;
-			border-radius: 4px;
-		}
+#left-column .left-nav-categories {
+	font-size: 12px;
+	line-height: normal;
+	text-align: left !important;
+}
 
-		.hidden-xs {
-			display: block !important;
-		}
+#left-column div {
+	margin-bottom: 10px;
+}
 
-		#left-column .left-nav-categories .inner-box {
-			padding: 0;
-			margin-bottom: 0;
-		}
+.small-box {
+	background-color: #fff;
+	border: 1px solid #d5d5d5;
+	overflow: hidden;
+	margin: 0 0 20px;
+	padding: 0;
+	border-radius: 4px;
+}
 
-		#left-column .left-nav-categories .title {
-			background-color: black;
-			font-size: 15px;
-			padding: 6px 12px !important;
-		}
+.hidden-xs {
+	display: block !important;
+}
 
-			#left-column .left-nav-categories .title a {
-				color: #999999;
-			}
+#left-column .left-nav-categories .inner-box {
+	padding: 0;
+	margin-bottom: 0;
+}
 
-				#left-column .left-nav-categories .title a:hover {
-					text-decoration: none;
-				}
+#left-column .left-nav-categories .title {
+	background-color: black;
+	font-size: 15px;
+	padding: 6px 12px !important;
+}
 
-		#left-column .left-nav-categories ul {
-			padding: 0;
-			margin: 0;
-		}
+#left-column .left-nav-categories .title a {
+	color: #999999;
+}
 
-		#left-column .left-nav-categories > .inner-box > ul > li {
-			background-color: #f1f1f1;
-			border-bottom: 1px solid #d5d5d5;
-		}
+#left-column .left-nav-categories .title a:hover {
+	text-decoration: none;
+}
 
-		#left-column .left-nav-categories ul li {
-			padding: 0;
-			list-style-type: none;
-			background-color: #fff;
-		}
+#left-column .left-nav-categories ul {
+	padding: 0;
+	margin: 0;
+}
 
-		#left-column .left-nav-categories ul li a {
-				display: block;
-				padding: 6px 2px 6px 12px;
-				color: #222;
-				border-bottom: 1px solid #f1f1f1;
-			}
+#left-column .left-nav-categories > .inner-box > ul > li {
+	background-color: #f1f1f1;
+	border-bottom: 1px solid #d5d5d5;
+}
 
-				#left-column .left-nav-categories ul li a:hover {
-					color: gray;
-					text-decoration: none;
-				}
+#left-column .left-nav-categories ul li {
+	padding: 0;
+	list-style-type: none;
+	background-color: #fff;
+}
 
-		#title {
-			color: white;
-		}
+#left-column .left-nav-categories ul li a {
+	display: block;
+	padding: 6px 2px 6px 12px;
+	color: #222;
+	border-bottom: 1px solid #f1f1f1;
+}
+
+#left-column .left-nav-categories ul li a:hover {
+	color: gray;
+	text-decoration: none;
+}
+
+#title {
+	color: white;
+}
+
+#product-details-images {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+	display:inline-block;
+	margin-bottom: 15px;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: unset;
+    background-color: #000000;
+}

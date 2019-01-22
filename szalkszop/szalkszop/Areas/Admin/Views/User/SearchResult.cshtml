@@ -27,7 +27,7 @@
 			<div class="input-group" style="width: 300px">
 				@Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Search by Email or Surname..." })
 				<span class="input-group-addon" id="myButton">
-					<button type="submit" class="btn btn-primary" id="myButton1">
+					<button class="js-get-queried-users btn btn-primary" type="submit" js-id="1"  id="myButton1">
 						<i class="glyphicon glyphicon-search"></i>
 					</button>
 				</span>
@@ -69,3 +69,28 @@
 		</tbody>
 	</table>
 </div>
+
+@section scripts
+{
+	<script>
+		$(document).ready(function () {
+
+			var button = $(e.target);
+
+			$(".js-get-queried-users".click(function () {
+				if (confirm("Działa...")) {
+					$.ajax ({
+						url: "api/user" + button.attr("js-id"),
+						method: "POST"
+					})
+					.done(function () {
+						alert("Gratki");
+					})
+					.fail(function () {
+						alert("Prawie dziala ale error");
+					});
+				}
+			})
+		)})
+	</script>
+}

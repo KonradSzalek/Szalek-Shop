@@ -20,7 +20,14 @@
 				<h3>@product.Name</h3>
 				<h4>@product.Price €</h4>
 				<p>@product.Description</p>
-				<p><a href="@Url.Action("Buy", "Cart", new { id = product.Id })" class="btn btn-primary" role="button">To Cart</a> <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn btn-default" role="button">Details</a></p>
+				@if (product.AmountInStock > 0)
+				{
+					<p><a href="@Url.Action("Buy", "Cart", new { id = product.Id })" class="btn btn-primary" role="button">To Cart</a> <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn btn-default" role="button">Details</a></p>
+				}
+				else
+				{
+					<p><div class="btn btn-static" role="button">Not available</div></p>
+				}
 			</div>
 		</div>
 	</div>

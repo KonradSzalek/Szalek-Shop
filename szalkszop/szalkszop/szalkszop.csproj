@@ -263,6 +263,7 @@
     <Compile Include="Areas\Admin\ViewModels\DeliveryTypeViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\PaymentMethodViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ProductViewModel.cs" />
+    <Compile Include="Controllers\Api\UserController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Core\Models\DeliveryType.cs" />
     <Compile Include="Core\Models\OrderItems.cs" />
@@ -420,6 +421,7 @@
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Product\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

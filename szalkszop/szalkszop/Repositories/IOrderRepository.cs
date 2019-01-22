@@ -8,8 +8,10 @@ namespace szalkszop.Repositories
 		IEnumerable<Order> GetUserOrderList(string userId);
 		IEnumerable<OrderItem> GetOrderItemList(int id);
 		IEnumerable<Order> GetList();
+		string IsUserAuthorized(int orderId);
 		void Add(Order order);
 		void AddOrderItem(OrderItem orderItem);
+		void Cancel(int id);
 		void Delete(int id);
 		void SaveChanges();
 		Order GetOrder(int Id);
