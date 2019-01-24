@@ -18,9 +18,9 @@ namespace szalkszop.Repositories
 			_context = context;
 		}
 
-		public DbSet<Product> GetList()
+		public IQueryable<Product> GetList()
 		{
-			return _context.Products;
+			return _context.Products.Where(p => p.IsActive == true);
 		}
 
 		public Product Get(int id)
@@ -42,7 +42,8 @@ namespace szalkszop.Repositories
 
 		public void Delete(int id)
 		{
-			_context.Products.Remove(_context.Products.Single(p => p.Id == id));
+			_context.Products.SingleOrDefault(p => p.Id == id).IsActive = false;
+			SaveChanges();
 		}
 
 		public void DeletePhoto(Guid id)
@@ -78,7 +79,7 @@ namespace szalkszop.Repositories
 
 		public int GetProductCount()
 		{
-			return _context.Products.Count();
+			return _context.Products.Count(p => p.IsActive == true);
 		}
 
 		public List<ProductSearchResultDto> SearchResultFromSqlStoredProcedure(string name, int? priceFrom, int? priceTo, DateTime? dateTimeTo, DateTime? dateTimeFrom, int productCategoryId)

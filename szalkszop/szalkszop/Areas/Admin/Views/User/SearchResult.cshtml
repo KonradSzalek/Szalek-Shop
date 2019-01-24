@@ -4,6 +4,10 @@
 	Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+<head>
+	<script src="/Scripts/jquery-1.10.2.js"></script>
+</head>
+
 <div id="div1">
 	<h2>Manage users</h2>
 </div>
@@ -19,15 +23,14 @@
 <br />
 <br />
 
-
 <div id="div2">
-	@using (Html.BeginForm("Search", "User", FormMethod.Post))
+	@using (Html.BeginForm("Search", "User", FormMethod.Post, new { @class = "", id = "tutajButton", atrybut = Url.Action("Search", "Api/user", new { area = string.Empty }) } ))
 	{
 		<div class="form-group">
 			<div class="input-group" style="width: 300px">
-				@Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Search by Email or Surname..." })
+				@Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Search by Email or Surname...", id = "tutajInputForm" })
 				<span class="input-group-addon" id="myButton">
-					<button class="js-get-queried-users btn btn-primary" type="submit" js-id="1"  id="myButton1">
+					<button class="btn btn-primary" type="submit" js-id="1"  id="myButton1">
 						<i class="glyphicon glyphicon-search"></i>
 					</button>
 				</span>
@@ -47,50 +50,41 @@
 				<th>Remove</th>
 			</tr>
 		</thead>
-		<tbody>
-			@foreach (var user in Model.UserSearchResultList)
-			{
-				<tr>
-					<td>@user.Email</td>
-					<td>@user.Name @user.Surname</td>
-					<td>@user.RegistrationDateTime</td>
-					<td>
-						<a href="@Url.Action("Edit", "User", new { id = user.Id } )" class="btn btn-primary">
-							<i class="glyphicon glyphicon-pencil"></i>
-						</a>
-					</td>
-					<td>
-						<a href="@Url.Action("Delete", "User", new { id = user.Id } )" class="btn btn-primary">
-							<i class="glyphicon glyphicon-remove"></i>
-						</a>
-					</td>
-				</tr>
-			}
+		<tbody id="tutajAplikujKod">
 		</tbody>
 	</table>
 </div>
 
-@section scripts
-{
-	<script>
-		$(document).ready(function () {
+<script>
+	$(document).ready(function () {
+		$("#tutajButton").submit(function (e) {
+			e.preventDefault();
+			queryUsers();
+		})
 
-			var button = $(e.target);
+		queryUsers();
+	});
 
-			$(".js-get-queried-users".click(function () {
-				if (confirm("Działa...")) {
-					$.ajax ({
-						url: "api/user" + button.attr("js-id"),
-						method: "POST"
-					})
-					.done(function () {
-						alert("Gratki");
-					})
-					.fail(function () {
-						alert("Prawie dziala ale error");
-					});
-				}
-			})
-		)})
-	</script>
-}
+	var queryUsers = function () {
+		$.ajax({
+			type: "POST",
+			url: $("#tutajButton").attr("atrybut"),
+			data: { searchTerm : $("#tutajInputForm").val() },
+			success: function (data) {
+				var trHTML = "";
+				$.each(data, function (i, user) {
+					trHTML += "<tr><td>" + user.Email + "</td><td>" + user.Name + " " + user.Surname + "</td><td>" + user.RegistrationDateTime + "</td><td>" +
+						'<a href="' + user.EditLink + '" class="btn btn-primary"><i class="glyphicon glyphicon-pencil""></i></a></td><td>' +
+						'<a href="' + user.DeleteLink + '" class="btn btn-primary"><i class="glyphicon glyphicon-remove""></i></a></td></tr>';
+				});
+
+				$('#tutajAplikujKod').html("");
+				$('#tutajAplikujKod').append(trHTML);
+			},
+			error: function () {
+				alert("error");
+			}
+		});
+	};
+
+</script>

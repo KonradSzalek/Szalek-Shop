@@ -25,6 +25,8 @@ namespace szalkszop.Core.Models
 
 		public double? Price { get; set; }
 
+		public bool IsActive { get; set; } = true;
+
 		[Required]
 		[StringLength(255)]
 		public string Description { get; set; }

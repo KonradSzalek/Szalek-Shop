@@ -16,7 +16,7 @@ namespace szalkszop.Repositories
 
 		public IEnumerable<ProductCategory> GetList()
 		{
-			return _context.ProductsCategories;
+			return _context.ProductsCategories.Where(pc => pc.IsActive == true);
 		}
 
 		public ProductCategory Get(int id)
@@ -35,15 +35,10 @@ namespace szalkszop.Repositories
 
 			foreach (var product in products.ToList())
 			{
-				foreach (var image in product.Images.ToList())
-				{
-					var im = _context.ProductImages.Single(i => i.Id == image.Id);
-					_context.ProductImages.Remove(im);
-				}
-				_context.Products.Remove(product);
+				_context.Products.SingleOrDefault(p => p.Id == product.Id).IsActive = false;
 			}
-	
-			_context.ProductsCategories.Remove(_context.ProductsCategories.Single(p => p.Id == id));
+
+			_context.ProductsCategories.SingleOrDefault(pc => pc.Id == id).IsActive = false;
 		}
 
 		public void SaveChanges()
@@ -58,7 +53,7 @@ namespace szalkszop.Repositories
 
 		public int GetProductCategoryCount()
 		{
-			return _context.ProductsCategories.Count();
+			return _context.ProductsCategories.Count(pc => pc.IsActive == true);
 		}
 	}
 }

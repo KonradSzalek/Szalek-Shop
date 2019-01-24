@@ -10,5 +10,7 @@ namespace szalkszop.Core.Models
 		[Required]
 		[StringLength(100)]
 		public string Name { get; set; }
+
+		public bool IsActive { get; set; } = true;
 	}
 }

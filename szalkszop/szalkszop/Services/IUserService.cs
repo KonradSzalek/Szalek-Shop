@@ -1,4 +1,6 @@
-﻿using szalkszop.ViewModels;
+﻿using System.Collections.Generic;
+using szalkszop.DTO;
+using szalkszop.ViewModels;
 
 namespace szalkszop.Services
 {
@@ -6,6 +8,7 @@ namespace szalkszop.Services
 	{
 		UserListViewModel GetUserList(string searchTerm);
 		UserListViewModel GetUserSearchResultList(string searchTerm);
+		List<ApiUserDto> GetUserSearchResultListApi(string searchTerm);
 		EditUserViewModel EditUser(string id);
 		void AddUser(CreateUserViewModel viewModel);
 		void DeleteUser(string id);

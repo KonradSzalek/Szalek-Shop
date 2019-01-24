@@ -244,6 +244,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\Controllers\DeliveryTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\PaymentMethodController.cs" />
@@ -269,10 +270,12 @@
     <Compile Include="Core\Models\OrderItems.cs" />
     <Compile Include="Core\Models\Order.cs" />
     <Compile Include="Core\Models\PaymentMethod.cs" />
+    <Compile Include="DTO\ApiUserDto.cs" />
     <Compile Include="DTO\DeliveryTypeDto.cs" />
     <Compile Include="DTO\OrderDto.cs" />
     <Compile Include="DTO\OrderItemDto.cs" />
     <Compile Include="DTO\PaymentMethodDto.cs" />
+    <Compile Include="DTO\SearchTermDto.cs" />
     <Compile Include="DTO\UserSearchResultDto.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
@@ -326,6 +329,14 @@
     <Compile Include="Migrations\201812281811211_ChangingPaymentMethodAndDeliveryTypeModels.cs" />
     <Compile Include="Migrations\201812281811211_ChangingPaymentMethodAndDeliveryTypeModels.Designer.cs">
       <DependentUpon>201812281811211_ChangingPaymentMethodAndDeliveryTypeModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901221914140_AddingIsActiveToProductModel.cs" />
+    <Compile Include="Migrations\201901221914140_AddingIsActiveToProductModel.Designer.cs">
+      <DependentUpon>201901221914140_AddingIsActiveToProductModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901230930439_AddingIsActiveToProductCategoryModel.cs" />
+    <Compile Include="Migrations\201901230930439_AddingIsActiveToProductCategoryModel.Designer.cs">
+      <DependentUpon>201901230930439_AddingIsActiveToProductCategoryModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repositories\DeliveryTypeRepostiory.cs" />
@@ -526,6 +537,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812281811211_ChangingPaymentMethodAndDeliveryTypeModels.resx">
       <DependentUpon>201812281811211_ChangingPaymentMethodAndDeliveryTypeModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901221914140_AddingIsActiveToProductModel.resx">
+      <DependentUpon>201901221914140_AddingIsActiveToProductModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901230930439_AddingIsActiveToProductCategoryModel.resx">
+      <DependentUpon>201901230930439_AddingIsActiveToProductCategoryModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.Linq;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
 using szalkszop.ViewModels;
@@ -11,7 +12,7 @@ namespace szalkszop.Repositories
 	public interface IProductRepository
 	{
 		Product Get(int id);
-		DbSet<Product> GetList();
+		IQueryable<Product> GetList();
 		int? GetStockAmount(int id);
 		void Add(Product product);
 		void Delete(int id);

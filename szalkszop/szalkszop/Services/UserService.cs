@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
 using szalkszop.Repositories;
@@ -43,15 +45,38 @@ namespace szalkszop.Services
 			if (!string.IsNullOrWhiteSpace(searchTerm))
 			{
 				viewModel.SearchTerm = searchTerm;
-				viewModel.UserSearchResultList = users;
+				viewModel.UserSearchResultList = users.ToList();
 				return viewModel;
 			}
 			else
 
-				viewModel.SearchTerm = null;
+			viewModel.SearchTerm = null;
 			viewModel.UserSearchResultList = _userRepository.SearchUserWithStoredProcedure(searchTerm);
 
 			return viewModel;
+		}
+
+		public List<ApiUserDto> GetUserSearchResultListApi(string searchTerm)
+		{
+			var requestContext = HttpContext.Current.Request.RequestContext;
+			new UrlHelper(requestContext).Action("MainPage", "Index");
+
+			var users = _userRepository.SearchUserWithStoredProcedure(searchTerm);
+
+			List<ApiUserDto> apiUsers = new List<ApiUserDto>();
+
+			apiUsers = users.Select(n => new ApiUserDto()
+			{
+				Id = n.Id,
+				Name = n.Name,
+				Surname = n.Surname,
+				Email = n.Email,
+				RegistrationDateTime = n.RegistrationDateTime.ToString("dd/MM/yyyy"),
+				EditLink = new UrlHelper(requestContext).Action("Edit", "User", new { id = n.Id, Area = "Admin" } ),
+				DeleteLink = new UrlHelper(requestContext).Action("Delete", "User", new { id = n.Id, Area = "Admin" }),
+			}).ToList();
+
+			return apiUsers;
 		}
 
 		public EditUserViewModel EditUser(string id)
@@ -100,7 +125,7 @@ namespace szalkszop.Services
 			user.Surname = viewModel.Surname;
 
 
-			if (!String.IsNullOrWhiteSpace(viewModel.NewPassword) && !String.IsNullOrWhiteSpace(viewModel.ConfirmPassword))
+			if (!string.IsNullOrWhiteSpace(viewModel.NewPassword) && !string.IsNullOrWhiteSpace(viewModel.ConfirmPassword))
 			{
 				user.PasswordHash = _userManager.PasswordHasher.HashPassword(viewModel.NewPassword);
 			}
