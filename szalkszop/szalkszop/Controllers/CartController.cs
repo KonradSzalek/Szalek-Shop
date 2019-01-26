@@ -71,21 +71,25 @@ namespace szalkszop.Controllers
 
 		public ActionResult RemoveSingle(int id)
 		{
-
-			// do testowania
 			var userId = User.Identity.GetUserId();
 
 			List<Item> cart = (List<Item>)System.Web.HttpContext.Current.Session["cart" + userId];
-			int index = DoesExist(id);
-			if (index >= 1)
-			{
-				cart[index].Quantity--;
-			}
-			else if (index > 0)
-			{
-				cart.Remove(new Item { Product = _productService.GetProduct(id), Quantity = 1 });
-			}
 
+			int index = DoesExist(id);
+
+			if (index != -1)
+			{
+				if (cart[index].Quantity > 1)
+				{
+					cart[index].Quantity--;
+				}
+
+				else
+				{
+					cart.RemoveAt(index);
+				}
+			}
+	
 			System.Web.HttpContext.Current.Session["cart" + userId] = cart;
 
 			return RedirectToAction("Index", "Product");

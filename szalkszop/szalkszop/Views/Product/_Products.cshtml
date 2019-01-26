@@ -3,33 +3,7 @@
 	Layout = null;
 }
 
-@foreach (var product in Model.ProductList)
-{
-	<div class="vert-offset-bottom-1 col-sm-3">
-		<div class="thumbnail" style="height:331px">
-			@if (product.Images.Any())
-			{
-				<img src="~/Images/@product.Images.FirstOrDefault().ThumbNailName" alt="Product image">
-			}
-			else
-			{
-				<img src="~/Images/no-image.jpg" alt="Product image">
-			}
+<div id="productList">
 
-			<div class="caption">
-				<h3>@product.Name</h3>
-				<h4>@product.Price €</h4>
-				<p>@product.Description</p>
-				@if (product.AmountInStock > 0)
-				{
-					<p><a href="@Url.Action("Buy", "Cart", new { id = product.Id })" class="btn btn-primary" role="button">To Cart</a> <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn btn-default" role="button">Details</a></p>
-				}
-				else
-				{
-					<p><div class="btn btn-static" role="button">Not available</div></p>
-				}
-			</div>
-		</div>
-	</div>
-}
+</div>
 

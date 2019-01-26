@@ -19,6 +19,7 @@ namespace szalkszop.Controllers
 		public IHttpActionResult Search(SearchTermDto dto)
 		{
 			var productList = _userService.GetUserSearchResultListApi(dto.SearchTerm);
+
 			return Ok(productList);
 		}
 	}

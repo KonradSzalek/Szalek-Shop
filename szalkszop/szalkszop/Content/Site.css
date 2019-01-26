@@ -183,19 +183,17 @@ img.details {
 .cart > li .details .productname {
 	font-weight: bold;
 	display: block;
+	width: 130px;
+}
+
+.cart > li .details .productname > a {
+	color: black;
 }
 
 .cart > li .details .addorremove {
     font-weight: bold;
     display: block;
 }
-
-/*.cart > li .details .btn-primary {
-    padding-left: 4px;
-    padding-right: 4px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-}*/
 
 th {
   text-align: center;
@@ -472,4 +470,8 @@ body>.container {
     left: 0;
     z-index: unset;
     background-color: #000000;
+}
+
+#cartDropDownMenu {
+	width: 270px;
 }

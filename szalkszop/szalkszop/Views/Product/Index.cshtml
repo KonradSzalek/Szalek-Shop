@@ -2,6 +2,11 @@
 	ViewBag.Title = "Products";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<head>
+	<script src="/Scripts/jquery-1.10.2.js"></script>
+</head>
+
 <h2>Products</h2>
 <hr />
 
@@ -9,6 +14,47 @@
 
 @Html.Partial("_Products")
 
+<script>
+	$(document).ready(function () {
+		$("#submitButton").submit(function (e) {
+			e.preventDefault();
+			queryUsers();
+		})
+
+		queryUsers();
+	});
+
+	var queryUsers = function () {
+		$.ajax({
+			type: "POST",
+			url: $("#submitButton").attr("urlAttr"),
+			data: {
+				Name: $("#inputNameForm").val(),
+				ProductCategory: $("#inputCategoryForm").val(),
+				DateTimeFrom: $("#inputDateFromForm").val(),
+				DateTimeTo: $("#inputDateToForm").val(),
+				PriceFrom: $("#inputPriceFromForm").val(),
+				PriceTo: $("#inputPriceToForm").val(),
+			},
+			success: function (data) {
+				var trHTML = "";
+				$.each(data, function (i, product) {
+					trHTML += '<div class="vert-offset-bottom-1 col-sm-3"><div class="thumbnail" style="height:331px">' + '<img src="Images/' +
+						product.Thumbnail + '" alt="Product image">' + '<div class="caption"><h3>' + product.Name + '</h3><h4>' +
+						product.Price + '€</h4><p>' + product.Description + '</p><p><a href="' + product.BuyLink +
+						'" class="btn btn-primary" role="button">To Cart</a> <a href="' + product.DetailsLink +
+						'" class="btn btn-default" role="button">Details</a></p></div></div></div>'		
+				});	
+				$("#productList").html("");
+				$("#productList").append(trHTML);
+			},
+			error: function () {
+				alert("Something failed. Please try again");
+			}
+		});
+	};
+
+</script>
 
 
 

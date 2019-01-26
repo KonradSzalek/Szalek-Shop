@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Hosting;
+using System.Web.Mvc;
 using szalkszop.Areas.Admin.ViewModels;
 using szalkszop.Core.Models;
 using szalkszop.DTO;
@@ -140,6 +141,57 @@ namespace szalkszop.Services
 				searchModel.DateTimeTo,
 				searchModel.DateTimeFrom,
 				searchModel.ProductCategory.Id);
+		}
+
+		public IEnumerable<ApiProductDto> GetQueriedProductListApi(ProductFiltersViewModel searchModel)
+		{
+			var products = _productRepository.SearchResultFromSqlStoredProcedure(searchModel.Name,
+				searchModel.PriceFrom,
+				searchModel.PriceTo,
+				searchModel.DateTimeTo,
+				searchModel.DateTimeFrom,
+				searchModel.ProductCategory.Id);
+
+			var requestContext = HttpContext.Current.Request.RequestContext;
+
+			var apiproducts = products.Select(p => new ApiProductDto()
+			{
+				Name = p.Name,
+				CategoryName = p.CategoryName,
+				AmountInStock = p.AmountInStock,
+				DateOfAdding = p.DateOfAdding?.ToString("dd/MM/yyyy"),
+				Price = p.Price,
+				Description = p.Description,
+				EditLink = new UrlHelper(requestContext).Action("Edit", "Product", new { id = p.Id, Area = "Admin" }),
+				DeleteLink = new UrlHelper(requestContext).Action("Delete", "Product", new { id = p.Id, Area = "Admin" }),
+			});
+
+			return apiproducts;
+		}
+
+		public IEnumerable<ApiProductUserDto> GetQueriedProductListApiUser(ProductFiltersViewModel searchModel)
+		{
+			var products = _productRepository.SearchResultFromSqlStoredProcedure(searchModel.Name,
+				searchModel.PriceFrom,
+				searchModel.PriceTo,
+				searchModel.DateTimeTo,
+				searchModel.DateTimeFrom,
+				searchModel.ProductCategory.Id);
+
+			var requestContext = HttpContext.Current.Request.RequestContext;
+
+			var apiproducts = products.Select(p => new ApiProductUserDto()
+			{
+				Name = p.Name,
+				AmountInStock = p.AmountInStock,
+				Price = p.Price,
+				Description = p.Description,
+				BuyLink = new UrlHelper(requestContext).Action("Buy", "Cart", new { id = p.Id, Area = "" }),
+				DetailsLink = new UrlHelper(requestContext).Action("Details", "Product", new { id = p.Id, Area = "" }),
+				Thumbnail = p.ThumbnailName ?? "no-image.jpg",
+			});
+
+			return apiproducts;
 		}
 
 		public IEnumerable<ProductDto> GetProductList()

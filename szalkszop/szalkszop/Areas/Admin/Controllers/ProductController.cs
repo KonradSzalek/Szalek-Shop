@@ -25,7 +25,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		{
 			var viewModel = new ProductListSearchViewModel
 			{
-				ProductList = _productService.GetProductList(),
+				//ProductList = _productService.GetProductList(),
 				ProductFiltersViewModel = _productService.GetProductSearch(),
 			};
 
@@ -35,18 +35,18 @@ namespace szalkszop.Areas.Admin.Controllers
 		[HttpPost]
 		public ActionResult Search(ProductListSearchViewModel searchModel)
 		{
-			ModelState.Remove("ProductFiltersViewModel.ProductCategory.Id");
+			//ModelState.Remove("ProductFiltersViewModel.ProductCategory.Id");
 
-			if (!ModelState.IsValid)
-			{
-				searchModel.ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel);
-				searchModel.ProductFiltersViewModel = _productService.GetProductSearch();
-				return View("AdminSearchResult", searchModel);
-			}
+			//if (!ModelState.IsValid)
+			//{
+			//	searchModel.ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel);
+			//	searchModel.ProductFiltersViewModel = _productService.GetProductSearch();
+			//	return View("AdminSearchResult", searchModel);
+			//}
 
 			var viewModel = new ProductListSearchViewModel
 			{
-				ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel),
+				//ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel),
 				ProductFiltersViewModel = _productService.GetProductSearch(),
 			};
 

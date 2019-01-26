@@ -22,7 +22,7 @@ namespace szalkszop.Controllers
 				ProductList = _productService.GetThreeNewestProducts(),
 			};
 			
-			return View("_Products", viewModel);
+			return View("_ProductTopThree", viewModel);
 		}
 
 		public ActionResult Index()

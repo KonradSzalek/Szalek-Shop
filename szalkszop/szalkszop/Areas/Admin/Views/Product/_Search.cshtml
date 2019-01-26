@@ -3,13 +3,13 @@
 	Layout = null;
 }
 
-@using (Html.BeginForm("Search", "Product", new { Area = "Admin" }))
+@using (Html.BeginForm("Search", "Product", FormMethod.Post, new { @class = "", id = "submitButton", urlAttr = Url.Action("Search", "Api/Product", new { area = string.Empty }) }))
 {
 	<div class="row">
 		<div class="vert-offset-bottom-1 col-sm-3">
 			<div class="form-control-inline">
 				@Html.LabelFor(m => m.ProductFiltersViewModel.Name)
-				@Html.TextBoxFor(m => m.ProductFiltersViewModel.Name, new { @class = "form-control", placeholder = "Name of a product" })
+				@Html.TextBoxFor(m => m.ProductFiltersViewModel.Name, new { @class = "form-control", placeholder = "Name of a product", id = "inputNameForm" })
 				@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.Name)
 			</div>
 		</div>
@@ -19,7 +19,7 @@
 				@Html.DropDownListFor(m => m.ProductFiltersViewModel.ProductCategory.Id,
 				new SelectList(Model.ProductFiltersViewModel.ProductCategories,
 				"Id", "Name", Model.ProductFiltersViewModel.ProductCategory), "Select Category",
-				new { @class = "form-control" })
+				new { @class = "form-control", id = "inputCategoryForm" })
 			</div>
 		</div>
 	</div>
@@ -36,28 +36,28 @@
 				<div class="vert-offset-bottom-1 col-sm-3">
 					<div class="form-control-inline">
 						@Html.LabelFor(m => m.ProductFiltersViewModel.DateTimeFrom)
-						@Html.TextBoxFor(m => m.ProductFiltersViewModel.DateTimeFrom, new { @class = "form-control", placeholder = "YYYY-MM-DD" })
+						@Html.TextBoxFor(m => m.ProductFiltersViewModel.DateTimeFrom, new { @class = "form-control", placeholder = "YYYY-MM-DD", id = "inputDateFromForm" })
 						@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.DateTimeFrom)
 					</div>
 				</div>
 				<div class="vert-offset-bottom-1 col-sm-3">
 					<div class="form-control-inline">
 						@Html.LabelFor(m => m.ProductFiltersViewModel.DateTimeTo)
-						@Html.TextBoxFor(m => m.ProductFiltersViewModel.DateTimeTo, new { @class = "form-control", placeholder = "YYYY-MM-DD" })
+						@Html.TextBoxFor(m => m.ProductFiltersViewModel.DateTimeTo, new { @class = "form-control", placeholder = "YYYY-MM-DD", id = "inputDateToForm" })
 						@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.DateTimeTo)
 					</div>
 				</div>
 				<div class="vert-offset-bottom-1 col-sm-3">
 					<div class="form-control-inline">
 						@Html.LabelFor(m => m.ProductFiltersViewModel.PriceFrom)
-						@Html.TextBoxFor(m => m.ProductFiltersViewModel.PriceFrom, new { @class = "form-control", placeholder = "EUR" })
+						@Html.TextBoxFor(m => m.ProductFiltersViewModel.PriceFrom, new { @class = "form-control", placeholder = "EUR", id = "inputPriceFromForm" })
 						@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.PriceFrom)
 					</div>
 				</div>
 				<div class="vert-offset-bottom-1 col-sm-3">
 					<div class="form-control-inline">
 						@Html.LabelFor(m => m.ProductFiltersViewModel.PriceTo)
-						@Html.TextBoxFor(m => m.ProductFiltersViewModel.PriceTo, new { @class = "form-control", placeholder = "EUR" })
+						@Html.TextBoxFor(m => m.ProductFiltersViewModel.PriceTo, new { @class = "form-control", placeholder = "EUR", id = "inputPriceToForm" })
 						@Html.ValidationMessageFor(m => m.ProductFiltersViewModel.PriceTo)
 					</div>
 				</div>
@@ -68,4 +68,3 @@
 	<button type="submit" value="Save" class="btn btn-primary">Search</button>
 }
 <br />
-

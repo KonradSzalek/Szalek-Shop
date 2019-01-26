@@ -14,6 +14,8 @@ namespace szalkszop.Services
 		ProductFiltersViewModel GetProductSearch();
 		List<Item> ValidateStockAmounts(List<Item> orderedItemList);
 		IEnumerable<ProductSearchResultDto> GetQueriedProductList(ProductFiltersViewModel searchModel);
+		IEnumerable<ApiProductDto> GetQueriedProductListApi(ProductFiltersViewModel searchModel);
+		IEnumerable<ApiProductUserDto> GetQueriedProductListApiUser(ProductFiltersViewModel searchModel);
 		IEnumerable<ProductDto> GetProductList();
 		ProductViewModel AddProduct();
 		ProductViewModel EditProduct(int id);

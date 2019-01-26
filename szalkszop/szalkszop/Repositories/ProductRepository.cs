@@ -91,7 +91,7 @@ namespace szalkszop.Repositories
 			}
 			else categoryId = productCategoryId;
 
-			var products = _context.Database.SqlQuery<ProductSearchResultDto>("EXEC [dbo].[SearchProductsStoredProcedure] @Name, @PriceFrom, @PriceTo, @DateTimeFrom, @DateTimeTo, @ProductCategoryId",
+			var products = _context.Database.SqlQuery<ProductSearchResultDto>("EXEC [dbo].[SearchProducts] @Name, @PriceFrom, @PriceTo, @DateTimeFrom, @DateTimeTo, @ProductCategoryId",
 			new SqlParameter("Name", name ?? SqlString.Null),
 			new SqlParameter("PriceTo", priceTo ?? SqlInt32.Null),
 			new SqlParameter("PriceFrom", priceFrom ?? SqlInt32.Null),

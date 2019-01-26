@@ -11,7 +11,7 @@
 {
 	<li class="dropdown">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cart (@(Model.ItemList.Count()))<span class="caret"></span></a>
-		<ul class="dropdown-menu">
+		<ul class="dropdown-menu" id="cartDropDownMenu">
 			<ul class="cart">
 				@foreach (var item in Model.ItemList)
 				{
@@ -29,14 +29,14 @@
 					<div class="details">
 						<span class="productname">
 							@item.Quantity x @item.Product.Name
-							<a href="@Url.Action("Remove", "Cart", new { id = item.Product.Id})"><i class="glyphicon glyphicon-remove-sign"></i></a>
+							<a href="@Url.Action("Remove", "Cart", new { id = item.Product.Id})"><i class="glyphicon glyphicon-remove-sign pull-right"></i></a>
 						</span>
 						<span class="productprice">
 							@item.Product.Price €
 						</span>
 						<span class="addorremove">
-							<a href="@Url.Action("Buy", "Cart", new { id = item.Product.Id} )" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-plus"></i></a>
-							<a href="@Url.Action("RemoveSingle", "Cart", new { id = item.Product.Id})" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-minus"></i></a>
+							<a href="@Url.Action("Buy", "Cart", new { id = item.Product.Id} )" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-plus"></i></a>
+							<a href="@Url.Action("RemoveSingle", "Cart", new { id = item.Product.Id})" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-minus"></i></a>
 						</span>
 					</div>
 					<div role="separator" class="divider"></div>

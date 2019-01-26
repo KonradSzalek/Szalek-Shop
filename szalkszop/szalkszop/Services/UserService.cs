@@ -59,7 +59,6 @@ namespace szalkszop.Services
 		public List<ApiUserDto> GetUserSearchResultListApi(string searchTerm)
 		{
 			var requestContext = HttpContext.Current.Request.RequestContext;
-			new UrlHelper(requestContext).Action("MainPage", "Index");
 
 			var users = _userRepository.SearchUserWithStoredProcedure(searchTerm);
 
