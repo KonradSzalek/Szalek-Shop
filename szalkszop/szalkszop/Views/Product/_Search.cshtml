@@ -3,7 +3,7 @@
 	Layout = null;
 }
 
-@using (Html.BeginForm("Search", "Product", FormMethod.Post, new { @class = "", id = "submitButton", urlAttr = Url.Action("Search", "Api/productuser", new { area = string.Empty }) }))
+@using (Html.BeginForm("Search", "Product", FormMethod.Post, new { @class = "", id = "submitButton", urlAttr = Url.Action("UserSearch", "Api/product", new { area = string.Empty }) }))
 {
 	<div class="row">
 		<div class="vert-offset-bottom-1 col-sm-3">

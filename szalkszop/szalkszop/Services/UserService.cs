@@ -29,34 +29,7 @@ namespace szalkszop.Services
 			return UserMapper.MapToDto(users);
 		}
 
-		public UserListViewModel GetUserList(string searchTerm)
-		{
-			var viewModel = new UserListViewModel();
-			viewModel.UserList = GetUsersWithUserRole().OrderByDescending(d => d.RegistrationDateTime);
-
-			return viewModel;
-		}
-
-		public UserListViewModel GetUserSearchResultList(string searchTerm)
-		{
-			var users = _userRepository.SearchUserWithStoredProcedure(searchTerm);
-
-			var viewModel = new UserListViewModel();
-			if (!string.IsNullOrWhiteSpace(searchTerm))
-			{
-				viewModel.SearchTerm = searchTerm;
-				viewModel.UserSearchResultList = users.ToList();
-				return viewModel;
-			}
-			else
-
-			viewModel.SearchTerm = null;
-			viewModel.UserSearchResultList = _userRepository.SearchUserWithStoredProcedure(searchTerm);
-
-			return viewModel;
-		}
-
-		public List<ApiUserDto> GetUserSearchResultListApi(string searchTerm)
+		public List<ApiUserDto> GetUserSearchResultList(string searchTerm)
 		{
 			var requestContext = HttpContext.Current.Request.RequestContext;
 

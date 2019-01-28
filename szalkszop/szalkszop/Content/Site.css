@@ -475,3 +475,8 @@ body>.container {
 #cartDropDownMenu {
 	width: 270px;
 }
+
+.btn > * {
+  pointer-events: none;
+}
+

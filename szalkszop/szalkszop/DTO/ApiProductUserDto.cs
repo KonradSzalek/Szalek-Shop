@@ -20,5 +20,7 @@ namespace szalkszop.DTO
 		public string BuyLink { get; set; }
 
 		public string DetailsLink { get; set; }
+
+		public int Id { get; set; }
 	}
 }

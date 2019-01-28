@@ -131,26 +131,14 @@ namespace szalkszop.Services
 			return viewModel;
 		}
 
-		public IEnumerable<ProductSearchResultDto> GetQueriedProductList(ProductFiltersViewModel searchModel)
-		{
-			IEnumerable<ProductSearchResultDto> products;
-
-			return products = _productRepository.SearchResultFromSqlStoredProcedure(searchModel.Name,
-				searchModel.PriceFrom,
-				searchModel.PriceTo,
-				searchModel.DateTimeTo,
-				searchModel.DateTimeFrom,
-				searchModel.ProductCategory.Id);
-		}
-
-		public IEnumerable<ApiProductDto> GetQueriedProductListApi(ProductFiltersViewModel searchModel)
+		public IEnumerable<ApiProductDto> GetAdminQueriedProductList(ProductFiltersViewModel searchModel)
 		{
 			var products = _productRepository.SearchResultFromSqlStoredProcedure(searchModel.Name,
 				searchModel.PriceFrom,
 				searchModel.PriceTo,
 				searchModel.DateTimeTo,
 				searchModel.DateTimeFrom,
-				searchModel.ProductCategory.Id);
+				searchModel.ProductCategoryId);
 
 			var requestContext = HttpContext.Current.Request.RequestContext;
 
@@ -169,20 +157,21 @@ namespace szalkszop.Services
 			return apiproducts;
 		}
 
-		public IEnumerable<ApiProductUserDto> GetQueriedProductListApiUser(ProductFiltersViewModel searchModel)
+		public IEnumerable<ApiProductUserDto> GetUserQueriedProductList(ProductFiltersViewModel searchModel)
 		{
 			var products = _productRepository.SearchResultFromSqlStoredProcedure(searchModel.Name,
 				searchModel.PriceFrom,
 				searchModel.PriceTo,
 				searchModel.DateTimeTo,
 				searchModel.DateTimeFrom,
-				searchModel.ProductCategory.Id);
+				searchModel.ProductCategoryId);
 
 			var requestContext = HttpContext.Current.Request.RequestContext;
 
 			var apiproducts = products.Select(p => new ApiProductUserDto()
 			{
 				Name = p.Name,
+				Id = p.Id,
 				AmountInStock = p.AmountInStock,
 				Price = p.Price,
 				Description = p.Description,
@@ -192,6 +181,33 @@ namespace szalkszop.Services
 			});
 
 			return apiproducts;
+		}
+
+		public ApiCartDto GetCartDropDownList(List<Item> itemList)
+		{
+			var requestContext = HttpContext.Current.Request.RequestContext;
+
+			var cartProductsDto = itemList.Select(i => new ApiCartProductDto()
+			{
+				Name = i.Product.Name,
+				Price = (double)i.Product.Price,
+				ProductId = i.Product.Id,
+				Quantity = i.Quantity,
+				Thumbnail = new UrlHelper(requestContext).Content(i.Product.Images.FirstOrDefault().ThumbNailName ?? "no-image.jpg"), // tutaj ladowanie obrazka gdy pusty
+				BuyLink = new UrlHelper(requestContext).Action("Buy", "Cart", new { id = i.Product.Id, Area = "" }),
+				RemoveLink = new UrlHelper(requestContext).Action("Buy", "Cart", new { id = i.Product.Id, Area = "" }),
+				RemoveSingleLink = new UrlHelper(requestContext).Action("Buy", "Cart", new { id = i.Product.Id, Area = "" }),
+			});
+			var viewModel = new ApiCartDto
+			{
+				MakeOrderLink = new UrlHelper(requestContext).Action("MakeOrder", "Order", new { Area = "" }),
+				ItemCount = cartProductsDto.Count(),
+				TotalPrice = cartProductsDto.Sum(item => item.Price * item.Quantity),
+				Products = cartProductsDto.ToList(),
+			};
+
+
+			return viewModel;
 		}
 
 		public IEnumerable<ProductDto> GetProductList()

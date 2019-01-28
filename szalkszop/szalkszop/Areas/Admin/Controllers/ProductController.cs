@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using szalkszop.Areas.Admin.ViewModels;
-using szalkszop.Repositories;
 using szalkszop.Services;
 using szalkszop.ViewModels;
 using static szalkszop.Core.Models.ApplicationUser;
@@ -25,32 +24,10 @@ namespace szalkszop.Areas.Admin.Controllers
 		{
 			var viewModel = new ProductListSearchViewModel
 			{
-				//ProductList = _productService.GetProductList(),
 				ProductFiltersViewModel = _productService.GetProductSearch(),
 			};
 
 			return View(viewModel);
-		}
-
-		[HttpPost]
-		public ActionResult Search(ProductListSearchViewModel searchModel)
-		{
-			//ModelState.Remove("ProductFiltersViewModel.ProductCategory.Id");
-
-			//if (!ModelState.IsValid)
-			//{
-			//	searchModel.ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel);
-			//	searchModel.ProductFiltersViewModel = _productService.GetProductSearch();
-			//	return View("AdminSearchResult", searchModel);
-			//}
-
-			var viewModel = new ProductListSearchViewModel
-			{
-				//ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel),
-				ProductFiltersViewModel = _productService.GetProductSearch(),
-			};
-
-			return View("AdminSearchResult", viewModel);
 		}
 
 		public ActionResult Create()
@@ -127,7 +104,7 @@ namespace szalkszop.Areas.Admin.Controllers
 		}
 
 		public ActionResult DeletePhoto(Guid imageId, int productId)
-		{	
+		{
 			if (!_productService.DoesProductPhotoExist(imageId))
 				return HttpNotFound();
 

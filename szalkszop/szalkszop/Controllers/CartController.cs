@@ -89,7 +89,7 @@ namespace szalkszop.Controllers
 					cart.RemoveAt(index);
 				}
 			}
-	
+
 			System.Web.HttpContext.Current.Session["cart" + userId] = cart;
 
 			return RedirectToAction("Index", "Product");

@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using szalkszop.Services;
 using szalkszop.ViewModels;
+using static szalkszop.Core.Models.ApplicationUser;
 
 namespace szalkszop.Controllers.Api
 {
@@ -13,10 +14,20 @@ namespace szalkszop.Controllers.Api
 			_productService = productService;
 		}
 
+		[AuthorizeRedirectToHomePage(Roles = "Admin")]
 		[HttpPost]
-		public IHttpActionResult Search(ProductFiltersViewModel dto)
+		public IHttpActionResult AdminSearch(ProductFiltersViewModel dto)
 		{
-			var productList = _productService.GetQueriedProductListApi(dto);
+			var productList = _productService.GetAdminQueriedProductList(dto);
+
+			return Ok(productList);
+		}
+
+		[Authorize]
+		[HttpPost]
+		public IHttpActionResult UserSearch(ProductFiltersViewModel dto)
+		{
+			var productList = _productService.GetUserQueriedProductList(dto);
 
 			return Ok(productList);
 		}

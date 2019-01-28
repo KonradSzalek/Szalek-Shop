@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using szalkszop.Services;
 using szalkszop.ViewModels;
 
@@ -21,7 +19,7 @@ namespace szalkszop.Controllers
 			{
 				ProductList = _productService.GetThreeNewestProducts(),
 			};
-			
+
 			return View("_ProductTopThree", viewModel);
 		}
 
@@ -32,29 +30,8 @@ namespace szalkszop.Controllers
 				ProductList = _productService.GetProductList(),
 				ProductFiltersViewModel = _productService.GetProductSearch(),
 			};
-			
+
 			return View(viewModel);
-		}
-
-		[HttpPost]
-		public ActionResult Search(ProductListSearchViewModel searchModel)
-		{
-			ModelState.Remove("ProductFiltersViewModel.ProductCategory.Id");
-
-			if (!ModelState.IsValid)
-			{
-				searchModel.ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel);
-				searchModel.ProductFiltersViewModel = _productService.GetProductSearch();
-				return View("SearchResult", searchModel);
-			}
-            
-			var viewModel = new ProductListSearchViewModel
-			{
-				ProductSearchResultList = _productService.GetQueriedProductList(searchModel.ProductFiltersViewModel),
-				ProductFiltersViewModel = _productService.GetProductSearch(),
-			};
-
-			return View("SearchResult", viewModel);
 		}
 
 		public ActionResult Details(int id)

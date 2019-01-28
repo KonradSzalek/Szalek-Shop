@@ -265,16 +265,18 @@
     <Compile Include="Areas\Admin\ViewModels\PaymentMethodViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\ProductViewModel.cs" />
     <Compile Include="Controllers\Api\ProductController.cs" />
-    <Compile Include="Controllers\Api\ProductUserController.cs" />
     <Compile Include="Controllers\Api\UserController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Core\Models\DeliveryType.cs" />
     <Compile Include="Core\Models\OrderItems.cs" />
     <Compile Include="Core\Models\Order.cs" />
     <Compile Include="Core\Models\PaymentMethod.cs" />
+    <Compile Include="DTO\ApiCartDto.cs" />
+    <Compile Include="DTO\ApiCartProductDto.cs" />
     <Compile Include="DTO\ApiProductDto.cs" />
     <Compile Include="DTO\ApiProductUserDto.cs" />
     <Compile Include="DTO\ApiUserDto.cs" />
+    <Compile Include="DTO\CartDto.cs" />
     <Compile Include="DTO\DeliveryTypeDto.cs" />
     <Compile Include="DTO\OrderDto.cs" />
     <Compile Include="DTO\OrderItemDto.cs" />
@@ -389,7 +391,6 @@
     <Compile Include="CustomAttributes\CustomValidations.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Areas\Admin\ViewModels\ProductCategoryViewModel.cs" />
-    <Compile Include="Areas\Admin\ViewModels\ProductCategoryListViewModel.cs" />
     <Compile Include="DTO\ProductSearchResultDto.cs" />
     <Compile Include="ViewModels\OrderDetailsViewModel.cs" />
     <Compile Include="ViewModels\OrderListViewModel.cs" />
@@ -427,20 +428,15 @@
     <Content Include="Areas\Admin\Views\ProductCategory\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Product\_Products.cshtml" />
-    <Content Include="Areas\Admin\Views\User\SearchResult.cshtml" />
     <Content Include="Areas\Admin\Views\User\EditUserForm.cshtml" />
-    <Content Include="Areas\Admin\Views\Product\AdminSearchResult.cshtml" />
-    <Content Include="Areas\Admin\Views\Product\_AdminProductSearchResult.cshtml" />
     <Content Include="Areas\Admin\Views\Product\CreateProductForm.cshtml" />
     <Content Include="Areas\Admin\Views\DeliveryType\DeliveryTypeForm.cshtml" />
     <Content Include="Areas\Admin\Views\PaymentMethod\PaymentMethodForm.cshtml" />
     <Content Include="Areas\Admin\Views\DeliveryType\Index.cshtml" />
     <Content Include="Areas\Admin\Views\PaymentMethod\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Admin\_LeftPanelAdmin.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_LeftPanelAdmin.cshtml" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Product\_Search.cshtml" />
     <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -498,16 +494,15 @@
     <Content Include="Views\ProductCategory\_PartialCategories.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Product\_Products.cshtml" />
-    <Content Include="Views\Product\Products.cshtml" />
     <Content Include="Views\Product\Details.cshtml" />
     <Content Include="Views\Product\_ProductTopThree.cshtml" />
-    <Content Include="Views\Product\SearchResult.cshtml" />
-    <Content Include="Views\Cart\CartDropdownList.cshtml" />
     <Content Include="Views\Order\MakeOrder.cshtml" />
     <Content Include="Views\Order\MyOrders.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
     <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Views\Manage\UserContactForm.cshtml" />
+    <Content Include="Views\Product\Products.cshtml" />
+    <Content Include="Views\Cart\CartDropdownList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

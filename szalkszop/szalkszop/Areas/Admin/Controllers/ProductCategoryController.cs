@@ -17,9 +17,9 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Index()
 		{
-			var viewModel = _productCategoryService.GetProductCategoryWithProductCountList();
+			var productCategoryList = _productCategoryService.GetProductCategoryWithProductCountList();
 
-			return View(viewModel);
+			return View(productCategoryList);
 		}
 
 		public ActionResult Create()

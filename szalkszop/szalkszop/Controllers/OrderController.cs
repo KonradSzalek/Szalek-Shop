@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
-using System.Net;
 using System.Web.Mvc;
 using szalkszop.Core.Models;
 using szalkszop.Services;
@@ -17,9 +16,9 @@ namespace szalkszop.Controllers
 		private readonly IDeliveryTypeService _deliveryTypeService;
 
 		public OrderController(
-			UserService userService, 
-			OrderService orderService, 
-			PaymentMethodService paymentMethodService, 
+			UserService userService,
+			OrderService orderService,
+			PaymentMethodService paymentMethodService,
 			DeliveryTypeService deliveryTypeService)
 		{
 			_userService = userService;

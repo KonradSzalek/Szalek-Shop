@@ -18,7 +18,7 @@ namespace szalkszop.Controllers
 		[HttpPost]
 		public IHttpActionResult Search(SearchTermDto dto)
 		{
-			var productList = _userService.GetUserSearchResultListApi(dto.SearchTerm);
+			var productList = _userService.GetUserSearchResultList(dto.SearchTerm);
 
 			return Ok(productList);
 		}

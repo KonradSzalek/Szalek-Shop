@@ -17,22 +17,7 @@ namespace szalkszop.Areas.Admin.Controllers
 
 		public ActionResult Index(UserListViewModel searchResultViewModel)
 		{
-			var viewModel = _userService.GetUserList(searchResultViewModel.SearchTerm);
-
-			return View(viewModel);
-		}
-
-		[HttpPost]
-		public ActionResult Search(UserListViewModel viewModel)
-		{
-			if (!ModelState.IsValid)
-			{
-				return View("SearchResul", viewModel);
-			}
-
-			var searchResultViewModel = _userService.GetUserSearchResultList(viewModel.SearchTerm);
-
-			return View("SearchResult", searchResultViewModel);
+			return View();
 		}
 
 		public ActionResult Create()

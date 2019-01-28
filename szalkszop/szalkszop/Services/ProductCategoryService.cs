@@ -25,17 +25,14 @@ namespace szalkszop.Services
 			return ProductCategoryMapper.MapToDto(productCategories);
 		}
 
-		public ProductCategoryListViewModel GetProductCategoryWithProductCountList()
+		public IEnumerable<ProductCategoryWithProductCountDto> GetProductCategoryWithProductCountList()
 		{
 			var products = _productRepository.GetList();
 			var categories = _productCategoryRepository.GetList();
 
-			var viewModel = new ProductCategoryListViewModel
-			{
-				ProductCategoryWithProductCountList = ProductCategoryMapper.MapToDtoWithProductCount(products, categories),
-			};
+			var productCategoryList = ProductCategoryMapper.MapToDtoWithProductCount(products, categories);	
 
-			return viewModel;
+			return productCategoryList;
 		}
 
 		public UserProductCategoryListViewModel GetPopulatedOnlyProductCategoryList()

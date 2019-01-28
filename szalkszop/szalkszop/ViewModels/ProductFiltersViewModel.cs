@@ -30,6 +30,8 @@ namespace szalkszop.ViewModels
 		[DisplayName("Product Category")]
 		public ProductCategoryDto ProductCategory { get; set; }
 
+		public int ProductCategoryId { get; set; }
+
 		public IEnumerable<ProductCategoryDto> ProductCategories { get; set; }
 	}
 }
