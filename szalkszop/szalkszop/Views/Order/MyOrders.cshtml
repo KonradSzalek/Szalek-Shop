@@ -1,5 +1,4 @@
-﻿@using szalkszop.DTO;
-@model	IEnumerable<OrderDto>
+﻿@model szalkszop.ViewModels.MyOrdersViewModel
 @{
 	ViewBag.Title = "Orders";
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,6 +6,13 @@
 
 <h2>My orders</h2>
 <hr />
+
+@if (Model.OrderMade == true)
+{
+	<div class="alert alert-success" role="alert">
+		<strong>Order placed.</strong> Confirmation was sent to your e-mail address.
+	</div>
+}
 
 <div class="table-responsive">
 	<table class="table table-bordered">
@@ -22,7 +28,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var order in Model)
+			@foreach (var order in Model.Orders)
 			{
 				<tr>
 					<td><a href="@Url.Action("Details", "Order", new { area = string.Empty, id = order.Id })">@order.Id</a></td>

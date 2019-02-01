@@ -16,19 +16,7 @@ namespace szalkszop.Controllers
 			_productService = productService;
 		}
 
-		public ActionResult Index()
-		{
-			var userId = User.Identity.GetUserId();
-
-			var viewModel = new CartViewModel
-			{
-				ItemList = (List<Item>)Session["cart" + userId],
-				UserId = userId,
-			};
-
-			return View(viewModel);
-		}
-
+		[Authorize]
 		public ActionResult CartDropdownList()
 		{
 			var userId = User.Identity.GetUserId();
@@ -42,6 +30,7 @@ namespace szalkszop.Controllers
 			return View(viewModel);
 		}
 
+		[Authorize]
 		public ActionResult Buy(int id)
 		{
 			var userId = User.Identity.GetUserId();
@@ -69,6 +58,7 @@ namespace szalkszop.Controllers
 			return RedirectToAction("Index", "Product");
 		}
 
+		[Authorize]
 		public ActionResult RemoveSingle(int id)
 		{
 			var userId = User.Identity.GetUserId();
@@ -95,6 +85,7 @@ namespace szalkszop.Controllers
 			return RedirectToAction("Index", "Product");
 		}
 
+		[Authorize]
 		public ActionResult Remove(int id)
 		{
 			var userId = User.Identity.GetUserId();

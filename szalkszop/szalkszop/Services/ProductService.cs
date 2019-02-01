@@ -177,37 +177,11 @@ namespace szalkszop.Services
 				Description = p.Description,
 				BuyLink = new UrlHelper(requestContext).Action("Buy", "Cart", new { id = p.Id, Area = "" }),
 				DetailsLink = new UrlHelper(requestContext).Action("Details", "Product", new { id = p.Id, Area = "" }),
-				Thumbnail = p.ThumbnailName ?? "no-image.jpg",
+				Thumbnail = new UrlHelper(requestContext).Content("~/Images/" + p.ThumbnailName ?? "no-image.jpg"),
 			});
+
 
 			return apiproducts;
-		}
-
-		public ApiCartDto GetCartDropDownList(List<Item> itemList)
-		{
-			var requestContext = HttpContext.Current.Request.RequestContext;
-
-			var cartProductsDto = itemList.Select(i => new ApiCartProductDto()
-			{
-				Name = i.Product.Name,
-				Price = (double)i.Product.Price,
-				ProductId = i.Product.Id,
-				Quantity = i.Quantity,
-				Thumbnail = new UrlHelper(requestContext).Content(i.Product.Images.FirstOrDefault().ThumbNailName ?? "no-image.jpg"), // tutaj ladowanie obrazka gdy pusty
-				BuyLink = new UrlHelper(requestContext).Action("Buy", "Cart", new { id = i.Product.Id, Area = "" }),
-				RemoveLink = new UrlHelper(requestContext).Action("Buy", "Cart", new { id = i.Product.Id, Area = "" }),
-				RemoveSingleLink = new UrlHelper(requestContext).Action("Buy", "Cart", new { id = i.Product.Id, Area = "" }),
-			});
-			var viewModel = new ApiCartDto
-			{
-				MakeOrderLink = new UrlHelper(requestContext).Action("MakeOrder", "Order", new { Area = "" }),
-				ItemCount = cartProductsDto.Count(),
-				TotalPrice = cartProductsDto.Sum(item => item.Price * item.Quantity),
-				Products = cartProductsDto.ToList(),
-			};
-
-
-			return viewModel;
 		}
 
 		public IEnumerable<ProductDto> GetProductList()

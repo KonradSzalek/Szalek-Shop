@@ -38,11 +38,18 @@
 			success: function (data) {
 				var trHTML = "";
 				$.each(data, function (i, product) {
-					trHTML += '<div class="vert-offset-bottom-1 col-sm-3"><div class="thumbnail" style="height:331px">' + '<img src="Images/' +
+					trHTML += '<div class="vert-offset-bottom-1 col-sm-3"><div class="thumbnail" style="height:380px ; position:relative;">' + '<img src="' +
 						product.Thumbnail + '" alt="Product image">' + '<div class="caption"><h3>' + product.Name + '</h3><h4>' +
-						product.Price + '€</h4><p>' + product.Description + '</p><p><a href="' + product.BuyLink +
+						product.Price + ' €</h4><p>' + product.Description + '</p>';
+					if (product.AmountInStock > 0) {
+						trHTML += '<p style="height:10%; position:absolute; bottom:3px; margin: 0 10px;"><a href="' + product.BuyLink +
 						'" class="btn btn-primary buyProduct" productId="' + product.Id + '" productId role="button">To Cart</a> <a href="' + product.DetailsLink +
 						'" class="btn btn-default" role="button">Details</a></p></div></div></div>'
+					}
+					else {
+						trHTML += '<p style="height:10%; position:absolute; bottom:3px; margin: 0 10px;"><a style="color:#333333;" href="#" class="btn btn-static" role="button">Not available</a></p></div></div></div>'
+					}
+						
 				});
 				$("#productList").html("");
 				$("#productList").append(trHTML);

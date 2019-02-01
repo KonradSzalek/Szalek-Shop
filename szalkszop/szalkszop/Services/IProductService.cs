@@ -13,7 +13,6 @@ namespace szalkszop.Services
 		ProductListViewModel GetProductListByCategory(int categoryId);
 		ProductFiltersViewModel GetProductSearch();
 		List<Item> ValidateStockAmounts(List<Item> orderedItemList);
-		ApiCartDto GetCartDropDownList(List<Item> itemList);
 		IEnumerable<ApiProductDto> GetAdminQueriedProductList(ProductFiltersViewModel searchModel);
 		IEnumerable<ApiProductUserDto> GetUserQueriedProductList(ProductFiltersViewModel searchModel);
 		IEnumerable<ProductDto> GetProductList();

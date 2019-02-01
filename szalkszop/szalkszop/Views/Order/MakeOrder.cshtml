@@ -43,10 +43,12 @@
 	<div class="form-group">
 		@Html.LabelFor(m => m.DeliveryType)
 		@Html.DropDownListFor(m => m.DeliveryType.Id, new SelectList(Model.DeliveryTypes, "Id", "ListDisplayName", Model.DeliveryType), "Select delivery type", new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.DeliveryType.Id)
 	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.PaymentMethod)
 		@Html.DropDownListFor(m => m.PaymentMethod.Id, new SelectList(Model.PaymentMethods, "Id", "ListDisplayName", Model.PaymentMethod), "Select payment method", new { @class = "form-control" })
+		@Html.ValidationMessageFor(m => m.PaymentMethod.Id)
 	</div>
 
 	<br />

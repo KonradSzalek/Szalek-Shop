@@ -23,7 +23,6 @@ namespace szalkszop.Controllers.Api
 			return Ok(productList);
 		}
 
-		[Authorize]
 		[HttpPost]
 		public IHttpActionResult UserSearch(ProductFiltersViewModel dto)
 		{

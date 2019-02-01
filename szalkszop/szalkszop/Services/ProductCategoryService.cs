@@ -95,7 +95,7 @@ namespace szalkszop.Services
 
 		public int GetProductCategoryCount()
 		{
-			return _productRepository.GetProductCount();
+			return _productCategoryRepository.GetProductCategoryCount();
 		}
 	}
 }

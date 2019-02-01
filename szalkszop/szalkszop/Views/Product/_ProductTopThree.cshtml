@@ -6,7 +6,7 @@
 @foreach (var product in Model.ProductList)
 {
 	<div class="vert-offset-bottom-1 col-sm-3">
-		<div class="thumbnail" style="height:331px">
+		<div class="thumbnail" style="height:380px ; position:relative;">
 			@if (product.Images.Any())
 				{
 				<img src="~/Images/@product.Images.FirstOrDefault().ThumbNailName" alt="Product image">
@@ -22,11 +22,16 @@
 				<p>@product.Description</p>
 				@if (product.AmountInStock > 0)
 				{
-					<p><a href="@Url.Action("Buy", "Cart", new { id = product.Id })" class="btn btn-primary" role="button">To Cart</a> <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn btn-default" role="button">Details</a></p>
+					<p style="height:10%; position:absolute; bottom:3px; margin: 0 10px;">
+						<a href="@Url.Action("Buy", "Cart", new { id = product.Id })" class="btn btn-primary" role="button">To Cart</a>
+						<a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn btn-default" role="button">Details</a>
+					</p>
 				}
 				else
 				{
-					<p><div class="btn btn-static" role="button">Not available</div></p>
+					<p style="height:10%; position:absolute; bottom:3px; margin: 0 10px;">
+						<a style="color:#333333;" href="#" class="btn btn-static" role="button">Not available</a>
+					</p>
 				}
 			</div>
 		</div>

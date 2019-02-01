@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using szalkszop.Core.Models;
 using szalkszop.Services;
@@ -45,6 +46,7 @@ namespace szalkszop.Controllers
 		public ActionResult MakeOrder(CreateOrderViewModel viewModel)
 		{
 			var userId = User.Identity.GetUserId();
+			bool orderMade = false;
 
 			if (!ModelState.IsValid)
 			{
@@ -55,11 +57,15 @@ namespace szalkszop.Controllers
 
 			viewModel.OrderedItemList = (List<Item>)System.Web.HttpContext.Current.Session["cart" + userId];
 
-			_orderService.CompleteOrder(viewModel, userId);
+			if (viewModel.OrderedItemList?.Any() ?? false)
+			{
+				_orderService.CompleteOrder(viewModel, userId);
+				orderMade = true;
+				Session.Remove("cart" + userId);
+				System.Web.HttpContext.Current.Session["orderMade" + userId] = orderMade;
+			}
 
-			Session.Remove("cart" + userId);
-
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("MyOrders", "Order");
 		}
 
 		public ActionResult CancelOrder(int id)
@@ -82,7 +88,20 @@ namespace szalkszop.Controllers
 		public ActionResult MyOrders()
 		{
 			var userId = User.Identity.GetUserId();
-			var viewModel = _orderService.GetUserOrderList(User.Identity.GetUserId());
+			bool orderMade = false;
+
+			if (System.Web.HttpContext.Current.Session["orderMade" + userId] != null)
+			{
+				orderMade = (bool)System.Web.HttpContext.Current.Session["orderMade" + userId];
+			}
+
+			var viewModel = new MyOrdersViewModel
+			{
+				Orders = _orderService.GetUserOrderList(User.Identity.GetUserId()),
+				OrderMade = orderMade,
+			};
+
+			Session.Remove("orderMade" + userId);
 
 			return View(viewModel);
 		}
